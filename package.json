@@ -1,0 +1,38 @@
+{
+  "name": "am_forms_web_gui",
+  "version": "0.0.1",
+  "description": "Artificial mind forms web gui",
+  "main": "am.js",
+  "engines": {
+    "node": ">=6"
+  },
+  "author": "Piotr Rydwański",
+  "dependencies": {
+    "mineflayer": "^2.9.5",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-google": "^0.13.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.2",
+    "supertest": "^4.0.2"
+  },
+  "directories": {
+    "lib": "lib",
+    "web": "web",
+    "module": "module"
+  },
+  "scripts": {
+    "test": "mocha lib/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pioryd/am_forms_web_gui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pioryd/am_forms_web_gui/issues"
+  },
+  "homepage": "https://github.com/Pioryd/am_forms_web_gui#readme"
+}
