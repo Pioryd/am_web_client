@@ -1,38 +1,35 @@
 {
-  "name": "am_forms_web_gui",
-  "version": "0.0.1",
-  "description": "Artificial mind forms web gui",
-  "main": "am.js",
-  "engines": {
-    "node": ">=6"
-  },
-  "author": "Piotr Rydwański",
+  "name": "am_web_gui",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "mineflayer": "^2.9.5",
-    "socket.io": "^2.2.0"
-  },
-  "devDependencies": {
-    "eslint": "^6.3.0",
-    "eslint-config-google": "^0.13.0",
-    "chai": "^4.2.0",
-    "mocha": "^6.2.0",
-    "nodemon": "^1.19.2",
-    "supertest": "^4.0.2"
-  },
-  "directories": {
-    "lib": "lib",
-    "web": "web",
-    "module": "module"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.2.0",
+    "react-json-view": "^1.19.1",
+    "golden-layout": "^1.5.9",
+    "jquery": "^3.4.1",
+    "socket.io": "^2.3.0"
   },
   "scripts": {
-    "test": "mocha lib/**/*.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Pioryd/am_forms_web_gui.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "bugs": {
-    "url": "https://github.com/Pioryd/am_forms_web_gui/issues"
-  },
-  "homepage": "https://github.com/Pioryd/am_forms_web_gui#readme"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

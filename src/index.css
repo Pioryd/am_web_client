@@ -1,0 +1,242 @@
+body {
+  padding: 0px;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: red;
+}
+
+/* 
+ * Main window
+ */
+.main-window-bar {
+  height: 15px;
+  font-size: 12px;
+  text-align: left;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background-color: #7e7e7e;
+  color: #fff;
+  position: relative;
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index: 10000;
+}
+
+.main-window-bar .barbtn {
+  height: 15px;
+  background-color: #c0c4c1;
+  color: white;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  position: flex;
+  float: left;
+}
+
+.main-window-bar .barinput {
+  height: 15px;
+  background-color: #3498db;
+  color: white;
+  font-size: 12px;
+  border: none;
+  position: flex;
+  float: left;
+  padding: 0px;
+  margin-left: 1px;
+}
+
+.main-window-bar .dropbtn {
+  height: 15px;
+  background-color: #3498db;
+  color: white;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  position: flex;
+  float: right;
+  margin-right: 0px;
+}
+
+.main-window-bar .dropdown-list {
+  height: 100%;
+  top: 15px;
+  margin-right: 0px;
+  display: block;
+  color: black;
+  cursor: pointer;
+  z-index: 2000000;
+  background-color: #77ee7e;
+  position: flex;
+  float: right;
+}
+
+.main-window-bar .droplistelmbtn {
+  box-shadow: inset 0px 1px 0px 0px #54a3f7;
+  background: linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+  background-color: #007dc1;
+  border-radius: 3px;
+  border: 1px solid #124d77;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 12px;
+  padding: 0px 26px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #154682;
+}
+/* 
+ * Main window content
+ */
+.main-window-content {
+  background-color: black;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* 
+ * Editable window
+ */
+.topbar {
+  height: 15px;
+  font-size: 12px;
+  text-align: left;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  cursor: move;
+  background-color: #2196f3;
+  color: #fff;
+  display: block;
+  position: relative;
+  width: 100%; /* Full width */
+}
+
+.contentbody {
+  height: calc(100% - 20px);
+  margin-bottom: 5px;
+  width: 100%;
+  overflow: auto;
+}
+
+.contentbody .bar {
+  height: 15px;
+  font-size: 12px;
+  text-align: left;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  cursor: move;
+  background-color: #d0d1d1;
+  color: #fff;
+  position: sticky;
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index: 1000000;
+}
+
+.contentbody .bar input[type="button"] {
+  box-shadow: inset 0px 1px 0px 0px #515252;
+  background: linear-gradient(to bottom, #606161 5%, #383838 100%);
+  background-color: #606161;
+  border-radius: 1px;
+  border: 1px solid #000000;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 12px;
+  padding: 0px 6px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #000000;
+}
+
+.contentbody .bar input[type="text"] {
+  font-size: 11px;
+  float: left;
+  padding: 0px;
+  margin: 0px;
+  margin-left: 1px;
+}
+
+.contentbody .bar input[type="checkbox"] {
+  font-size: 11px;
+  float: left;
+  padding: 0px;
+  margin: 0px;
+  margin-left: 1px;
+}
+
+.contentbody .bar div {
+  font-size: 11px;
+  float: left;
+  padding: 0px;
+  margin: 0px;
+  margin-left: 1px;
+  color: #000000;
+}
+
+/* 
+ * Radar map
+ */
+.radar-map {
+  background-color: #fff;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  position: relative;
+}
+
+.radar-map .point {
+  position: absolute;
+  border-width: 1px;
+  border-color: rgb(175, 175, 175);
+  border-style: solid;
+  border-radius: 50%;
+}
+
+.radar-map .point .info {
+  display: inline-block;
+  color: #fff;
+  text-shadow: 0 0 10px hsla(0, 0%, 0%, 1), 0 0 10px hsla(0, 0%, 0%, 1),
+    0 0 10px hsla(0, 0%, 0%, 1), 0 0 5px hsla(0, 0%, 0%, 1),
+    0 0 5px hsla(0, 0%, 0%, 1), 0 0 5px hsla(0, 0%, 0%, 1);
+  white-space: nowrap;
+  position: absolute;
+  font-size: 12px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
+
+/* 
+ * Radar edit form
+ */
+.radar-edit-form {
+  position: relative;
+  width: 100%;
+}
+
+.radar-edit-form .form-field {
+  position: relative;
+  border: 1px solid rgb(124, 124, 124);
+  height: 20px;
+  width: 100%;
+}
+
+.radar-edit-form .form-field .form-label {
+  position: relative;
+  width: 45%;
+  float: left;
+}
+
+.radar-edit-form .form-field .form-edit {
+  width: 50%;
+  float: left;
+}
+
+pre {
+  text-align: left;
+}
