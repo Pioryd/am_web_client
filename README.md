@@ -1,19 +1,17 @@
-# AM web client in Java script
+# Web application client in react with golden layout
 
 ## Description
 
-This is a client side of AM client-server application.
+This is a client side of web client-server application.
 To run server side, you need to run server projects:
 
-- am_web_server_node
+- [web_app_server_node](https://github.com/Pioryd/web_app_server_node)
 
 ## How to run
 
-> 1. Run:
->  - > npm start  
-> 2. Go to (http://127.0.0.1:3000/)
-> 3. Click **Restart sync** in left up corner.
-> 4. From the **Windows Manager** in right up corner, select windows that you want to.
+From project directory:
+
+> npm start
 
 ## Windows description
 
@@ -28,7 +26,7 @@ To run server side, you need to run server projects:
 
 ### Edit forms
 
-- Toy can:
+- You can:
   - add, remove forms
   - change form data.
 
