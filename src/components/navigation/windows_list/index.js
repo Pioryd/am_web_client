@@ -6,17 +6,16 @@ function WindowsList(props) {
   const hook_dropdown_list = useDropdownListHook({ enabled: false });
   return (
     <React.Fragment>
-      <div className="dropdown-list" {...hook_dropdown_list.attr}>
-        <ButtonsList />
-      </div>
-      <div
-        className="dropbtn"
+      <button
         onClick={e => {
           e.preventDefault();
           hook_dropdown_list.toggle();
         }}
       >
         Windows manager
+      </button>
+      <div className="dropdown-buttons-list" {...hook_dropdown_list.attr}>
+        <ButtonsList />
       </div>
     </React.Fragment>
   );

@@ -7,9 +7,9 @@ import IntervalInput from "./interval_input";
 function Navigation(props) {
   return (
     <div id="main-window-bar_1" className="main-window-bar">
+      <WindowsList />
       <SyncButton />
       <IntervalInput />
-      <WindowsList />
     </div>
   );
 }

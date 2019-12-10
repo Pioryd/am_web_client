@@ -16,7 +16,6 @@ function IntervalInput(props) {
 
   return (
     <input
-      className="barinput"
       type="number"
       min={input_config.min}
       max={input_config.max}

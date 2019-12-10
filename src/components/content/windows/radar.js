@@ -115,29 +115,27 @@ function Radar(props) {
     <React.Fragment>
       <div className="contentbody">
         <div className="bar">
-          <input
-            type="button"
-            value="zoom-in"
+          <button
             onClick={e => {
               set_state_options({
                 ...state_options,
                 zoom: state_options.zoom + 1
               });
             }}
-          ></input>
-          <input
-            type="button"
-            value="zoom-out"
+          >
+            {"zoom-in"}
+          </button>
+          <button
             onClick={e => {
               set_state_options({
                 ...state_options,
                 zoom: state_options.zoom - 1
               });
             }}
-          ></input>
-          <input
-            type="button"
-            value="enlarge"
+          >
+            {"zoom-out"}
+          </button>
+          <button
             onClick={e => {
               let width = parseInt(
                 state_options.map_style.width.replace("px", "")
@@ -153,10 +151,10 @@ function Radar(props) {
                 map_style: { width: `${width}px`, height: `${height}px` }
               });
             }}
-          ></input>
-          <input
-            type="button"
-            value="reduce"
+          >
+            {"enlarge"}
+          </button>
+          <button
             onClick={e => {
               let width = parseInt(
                 state_options.map_style.width.replace("px", "")
@@ -173,10 +171,10 @@ function Radar(props) {
                 map_style: { width: `${width}px`, height: `${height}px` }
               });
             }}
-          ></input>
-          <input
-            type="button"
-            value="reset"
+          >
+            {"reduce"}
+          </button>
+          <button
             onClick={e => {
               set_state_options({
                 ...state_options,
@@ -187,27 +185,29 @@ function Radar(props) {
                 zoom: 1
               });
             }}
-          ></input>
-          <input
-            type="button"
-            value={state_options.show_info ? "hide info" : "show info"}
+          >
+            {"reset"}
+          </button>
+          <button
             onClick={e => {
               set_state_options({
                 ...state_options,
                 show_info: !state_options.show_info
               });
             }}
-          ></input>
-          <input
-            type="button"
-            value={state_options.show_position ? "hide pos" : "show pos"}
+          >
+            {state_options.show_info ? "hide info" : "show info"}
+          </button>
+          <button
             onClick={e => {
               set_state_options({
                 ...state_options,
                 show_position: !state_options.show_position
               });
             }}
-          ></input>
+          >
+            {state_options.show_position ? "hide pos" : "show pos"}
+          </button>
           <div>{state_options.label_mouse_position_text}</div>
         </div>
         <div

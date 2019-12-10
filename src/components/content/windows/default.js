@@ -3,7 +3,9 @@ import ReactJson from "react-json-view";
 import { AppContext } from "../../../context/app_context";
 
 function Default() {
+  const theme = { light: "summerfruit:inverted", dark: "summerfruit" };
   const { context_source } = React.useContext(AppContext);
+  const [state_theme, set_state_theme] = React.useState(theme.dark);
   const [state_source, set_state_source] = React.useState({});
 
   React.useEffect(() => {
@@ -14,9 +16,9 @@ function Default() {
   return (
     <React.Fragment>
       <div className="contentbody">
-        <div className="bar"></div>
+        <div className="bar">{"Theme: " + state_theme}</div>
         <pre>
-          <ReactJson src={state_source} />
+          <ReactJson src={state_source} theme={state_theme} />
         </pre>
       </div>
     </React.Fragment>

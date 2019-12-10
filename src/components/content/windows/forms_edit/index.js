@@ -172,57 +172,57 @@ function FormsEdit(props) {
               search_and_set_table_by_name(e.target.value);
             }}
           ></input>
-          <input
-            type="button"
-            value="find by name"
+          <button
             onClick={e => {
               search_and_set_table_by_name(e.target.value);
             }}
-          ></input>
-          <input
-            type="button"
-            value="prev"
+          >
+            {"find by name"}
+          </button>
+          <button
             onClick={e => {
               search_and_set_table_by_step("prev");
             }}
-          ></input>
-          <input
-            type="button"
-            value="next"
+          >
+            {"prev"}
+          </button>
+          <button
             onClick={e => {
               search_and_set_table_by_step("next");
             }}
-          ></input>
-          <input
-            type="button"
-            value="refresh"
+          >
+            {"next"}
+          </button>
+          <button
             onClick={e => {
               search_and_set_table_by_name(state_current_form.name);
             }}
-          ></input>
-          <input
-            type="button"
-            value="new"
+          >
+            {"refresh"}
+          </button>
+          <button
             onClick={() => {
               set_empty_current_form();
             }}
-          ></input>
-          <input
-            type="button"
-            value="save"
+          >
+            {"new"}
+          </button>
+          <button
             onClick={() => {
               save_form();
             }}
-          ></input>
-          <input
-            type="button"
-            value="remove"
+          >
+            {"save"}
+          </button>
+          <button
             onClick={e => {
               remove_form();
             }}
-          ></input>
-          <div className="radar-edit-form">{state_content}</div>
+          >
+            {"remove"}
+          </button>
         </div>
+        <div className="radar-edit-form">{state_content}</div>
       </div>
     </React.Fragment>
   );

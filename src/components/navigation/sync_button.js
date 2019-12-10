@@ -25,8 +25,7 @@ function SyncButton(props) {
   };
 
   return (
-    <div
-      className="barbtn"
+    <button
       style={state.style}
       onClick={e => {
         e.preventDefault();
@@ -34,7 +33,7 @@ function SyncButton(props) {
       }}
     >
       {state.text}
-    </div>
+    </button>
   );
 }
 

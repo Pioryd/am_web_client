@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./goldenLayout-dependencies";
 import GoldenLayout from "golden-layout";
 import "golden-layout/src/css/goldenlayout-base.css";
-import "golden-layout/src/css/goldenlayout-light-theme.css";
+import "golden-layout/src/css/goldenlayout-dark-theme.css";
 import "./disable_controls.css";
 import $ from "jquery";
 

@@ -56,7 +56,7 @@ function Row(props) {
         {state_key}
       </div>
       <input
-        className="form-edit"
+        className="input form-edit"
         key={state_key + "_value"}
         name={state_key}
         type="text"
