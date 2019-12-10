@@ -47,16 +47,16 @@ function Row(props) {
   }, [props]);
 
   return (
-    <div className="form-field">
+    <div className="row">
       <div
-        className="form-label"
+        className="name"
         key={state_key + "_key"}
         style={{ color: "#ff0000" }}
       >
         {state_key}
       </div>
       <input
-        className="input form-edit"
+        className="value"
         key={state_key + "_value"}
         name={state_key}
         type="text"
