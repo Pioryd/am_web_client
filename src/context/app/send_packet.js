@@ -19,6 +19,14 @@ class SendPacket {
       land_id: land_id
     });
   }
+
+  static add_friend(state_client, character_id, friend_name) {
+    state_client.send("world", {
+      command: "add_friend",
+      character_id: character_id,
+      friend_name: friend_name
+    });
+  }
 }
 
 export default SendPacket;

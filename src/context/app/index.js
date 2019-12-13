@@ -45,6 +45,9 @@ const AppProvider = ({ children }) => {
     context_change_land: (...args) => {
       SendPacket.change_land(state_client, ...args);
     },
+    context_add_friend: (...args) => {
+      SendPacket.add_friend(state_client, ...args);
+    },
     context_source: state_packet,
     contextValue: "default value"
   };

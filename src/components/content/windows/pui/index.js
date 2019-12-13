@@ -6,15 +6,19 @@ function PUI() {
   const {
     context_source,
     context_change_position,
-    context_change_land
+    context_change_land,
+    context_add_friend
   } = React.useContext(AppContext);
   const [state_source, set_state_source] = React.useState("");
 
-  const onDeltaUpdate = ({ key, newValue }) => {
-    console.log(key, ":", newValue);
+  const onDeltaUpdate = delta => {
+    const { type, keyPath, deep, key, newValue } = delta;
+    console.log(delta);
     const character_id = 0; // const for testing needs only
     if (key === "x") context_change_position(character_id, newValue);
     if (key === "land_id") context_change_land(character_id, newValue);
+    if (keyPath.includes("friends_list"))
+      context_add_friend(character_id, newValue);
   };
 
   React.useEffect(() => {
