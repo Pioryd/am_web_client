@@ -1,5 +1,5 @@
 import React from "react";
-import { JSONViewer, JSONEditor } from "react-json-editor-viewer";
+import { JSONEditor } from "react-json-editor-viewer";
 import { AppContext } from "../../../../context/app";
 
 function PUI() {
@@ -12,7 +12,8 @@ function PUI() {
 
   const onJsonChange = (key, value, parent, data) => {
     if (key === "x") context_change_position(value);
-    if (key === "land_id") context_change_land(value);
+    const character_id = 0; // const for testing needs only
+    if (key === "land_id") context_change_land(character_id, value);
   };
 
   React.useEffect(() => {
@@ -25,7 +26,6 @@ function PUI() {
     <React.Fragment>
       <div className="contentbody">
         <div className="bar"></div>
-        <JSONViewer data={state_source} collapsible view="dual" />
         <JSONEditor
           data={state_source}
           collapsible

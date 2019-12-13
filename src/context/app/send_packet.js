@@ -10,10 +10,11 @@ class SendPacket {
     });
   }
 
-  static change_land(state_client, land_id) {
+  static change_land(state_client, character_id, land_id) {
     state_client.send("world", {
       command: "change_land",
-      id: land_id
+      character_id: character_id,
+      land_id: land_id
     });
   }
 }
