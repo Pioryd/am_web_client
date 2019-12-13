@@ -27,6 +27,20 @@ class SendPacket {
       friend_name: friend_name
     });
   }
+
+  static send_message(
+    state_client,
+    from_character_id,
+    to_character_id,
+    message
+  ) {
+    state_client.send("world", {
+      command: "chat_message",
+      from_character_id: from_character_id,
+      to_character_id: to_character_id,
+      message: message
+    });
+  }
 }
 
 export default SendPacket;

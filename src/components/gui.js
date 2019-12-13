@@ -3,13 +3,15 @@ import { GoldenLayoutComponent } from "./layout/goldenLayoutComponent";
 
 import GuiProvider from "./gui_context";
 import Navigation from "./navigation";
-import PUI from "./content/windows/pui";
+import Statistics from "./content/windows/pui/statistics";
+import Chat from "./content/windows/pui/chat";
 
 function Gui() {
   let ref_gl = React.createRef();
 
   const windows_titles_map = {
-    pui: { title: "pui" }
+    statistics: { title: "Statistics" },
+    chat: { title: "Chat" }
   };
 
   const helper = {
@@ -91,7 +93,8 @@ function Gui() {
               ]
             }}
             registerComponents={myLayout => {
-              myLayout.registerComponent("pui", PUI);
+              myLayout.registerComponent("statistics", Statistics);
+              myLayout.registerComponent("chat", Chat);
             }}
           />
         </div>

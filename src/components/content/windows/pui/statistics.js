@@ -2,7 +2,7 @@ import React from "react";
 import { JsonTree } from "react-editable-json-tree";
 import { AppContext } from "../../../../context/app";
 
-function PUI() {
+function Statistics() {
   const {
     context_source,
     context_change_position,
@@ -13,7 +13,6 @@ function PUI() {
 
   const onDeltaUpdate = delta => {
     const { type, keyPath, deep, key, newValue } = delta;
-    console.log(delta);
     const character_id = 0; // const for testing needs only
     if (key === "x") context_change_position(character_id, newValue);
     if (key === "land_id") context_change_land(character_id, newValue);
@@ -41,4 +40,4 @@ function PUI() {
   );
 }
 
-export default PUI;
+export default Statistics;
