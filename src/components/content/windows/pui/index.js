@@ -1,5 +1,5 @@
 import React from "react";
-import { JSONEditor } from "react-json-editor-viewer";
+import { JsonTree } from "react-editable-json-tree";
 import { AppContext } from "../../../../context/app";
 
 function PUI() {
@@ -10,10 +10,11 @@ function PUI() {
   } = React.useContext(AppContext);
   const [state_source, set_state_source] = React.useState("");
 
-  const onJsonChange = (key, value, parent, data) => {
+  const onDeltaUpdate = ({ key, newValue }) => {
+    console.log(key, ":", newValue);
     const character_id = 0; // const for testing needs only
-    if (key === "x") context_change_position(character_id, value);
-    if (key === "land_id") context_change_land(character_id, value);
+    if (key === "x") context_change_position(character_id, newValue);
+    if (key === "land_id") context_change_land(character_id, newValue);
   };
 
   React.useEffect(() => {
@@ -26,11 +27,10 @@ function PUI() {
     <React.Fragment>
       <div className="contentbody">
         <div className="bar"></div>
-        <JSONEditor
+        <JsonTree
           data={state_source}
-          collapsible
-          onChange={onJsonChange}
-          view="dual"
+          rootName={"hello"}
+          onDeltaUpdate={onDeltaUpdate}
         />
       </div>
     </React.Fragment>
