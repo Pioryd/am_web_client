@@ -3,17 +3,13 @@ import { GoldenLayoutComponent } from "./layout/goldenLayoutComponent";
 
 import GuiProvider from "./gui_context";
 import Navigation from "./navigation";
-import Default from "./content/windows/default";
-import Radar from "./content/windows/radar";
-import FormsEdit from "./content/windows/forms_edit";
+import PUI from "./content/windows/pui";
 
 function Gui() {
   let ref_gl = React.createRef();
 
   const windows_titles_map = {
-    radar: { title: "Radar" },
-    source_preview: { title: "Source preview" },
-    forms_edit: { title: "Edit form" }
+    pui: { title: "pui" }
   };
 
   const helper = {
@@ -95,9 +91,7 @@ function Gui() {
               ]
             }}
             registerComponents={myLayout => {
-              myLayout.registerComponent("radar", Radar);
-              myLayout.registerComponent("source_preview", Default);
-              myLayout.registerComponent("forms_edit", FormsEdit);
+              myLayout.registerComponent("pui", PUI);
             }}
           />
         </div>

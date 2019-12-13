@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContext } from "../../context/app_context";
+import { AppContext } from "../../context/app";
 
 function IntervalInput(props) {
   const { context_on_change_sync_interval } = React.useContext(AppContext);

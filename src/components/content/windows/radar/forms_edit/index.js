@@ -1,6 +1,6 @@
 import React from "react";
 import Row from "./row";
-import { AppContext } from "../../../../context/app_context";
+import { AppContext } from "../../../../context/app";
 import { GuiContext } from "../../../gui_context";
 
 function FormsEdit(props) {

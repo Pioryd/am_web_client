@@ -1,16 +1,16 @@
 import React from "react";
 import ReactJson from "react-json-view";
-import { AppContext } from "../../../context/app_context";
+import { AppContext } from "../../../../context/app";
 
-function Default() {
+function JsonView() {
   const theme = { light: "summerfruit:inverted", dark: "summerfruit" };
   const { context_source } = React.useContext(AppContext);
   const [state_theme, set_state_theme] = React.useState(theme.dark);
   const [state_source, set_state_source] = React.useState({});
 
   React.useEffect(() => {
-    if (context_source !== undefined && "points" in context_source)
-      set_state_source(context_source.points);
+    if (context_source !== undefined && "command" in context_source)
+      set_state_source(context_source);
   }, [context_source]);
 
   return (
@@ -25,4 +25,4 @@ function Default() {
   );
 }
 
-export default Default;
+export default JsonView;
