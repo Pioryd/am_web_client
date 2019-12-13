@@ -9,6 +9,13 @@ class SendPacket {
       position: position
     });
   }
+
+  static change_land(state_client, land_id) {
+    state_client.send("world", {
+      command: "change_land",
+      id: land_id
+    });
+  }
 }
 
 export default SendPacket;

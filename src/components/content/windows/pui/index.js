@@ -3,16 +3,16 @@ import { JSONViewer, JSONEditor } from "react-json-editor-viewer";
 import { AppContext } from "../../../../context/app";
 
 function PUI() {
-  const { context_source, context_change_position } = React.useContext(
-    AppContext
-  );
+  const {
+    context_source,
+    context_change_position,
+    context_change_land
+  } = React.useContext(AppContext);
   const [state_source, set_state_source] = React.useState("");
 
   const onJsonChange = (key, value, parent, data) => {
-    if (key === "position") {
-      console.log(value);
-      context_change_position(value);
-    }
+    if (key === "position") context_change_position(value);
+    if (key === "land_id") context_change_land(value);
   };
 
   React.useEffect(() => {

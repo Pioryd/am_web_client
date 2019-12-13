@@ -42,6 +42,9 @@ const AppProvider = ({ children }) => {
     context_change_position: position => {
       SendPacket.change_position(state_client, position);
     },
+    context_change_land: land_id => {
+      SendPacket.change_land(state_client, land_id);
+    },
     context_source: state_packet,
     contextValue: "default value"
   };
