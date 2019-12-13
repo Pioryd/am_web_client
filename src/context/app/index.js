@@ -39,11 +39,11 @@ const AppProvider = ({ children }) => {
   const value = {
     context_on_toggle_sync: value => toggle_sync(value),
     context_on_change_sync_interval: change_sync_interval,
-    context_change_position: position => {
-      SendPacket.change_position(state_client, position);
+    context_change_position: (...args) => {
+      SendPacket.change_position(state_client, ...args);
     },
-    context_change_land: land_id => {
-      SendPacket.change_land(state_client, land_id);
+    context_change_land: (...args) => {
+      SendPacket.change_land(state_client, ...args);
     },
     context_source: state_packet,
     contextValue: "default value"

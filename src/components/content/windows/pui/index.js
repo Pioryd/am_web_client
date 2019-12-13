@@ -11,8 +11,8 @@ function PUI() {
   const [state_source, set_state_source] = React.useState("");
 
   const onJsonChange = (key, value, parent, data) => {
-    if (key === "x") context_change_position(value);
     const character_id = 0; // const for testing needs only
+    if (key === "x") context_change_position(character_id, value);
     if (key === "land_id") context_change_land(character_id, value);
   };
 

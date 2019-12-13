@@ -3,9 +3,11 @@ class SendPacket {
     state_client.send("world", { command: "update" });
   }
 
-  static change_position(state_client, position) {
+  static change_position(state_client, character_id, position) {
     state_client.send("world", {
       command: "change_position",
+      character_id: character_id,
+      het: "hello",
       position: position
     });
   }
