@@ -82,10 +82,6 @@ const AppProvider = ({ children }) => {
     set_state_connection_enabled(value);
   };
 
-  const change_sync_interval = interval => {
-    state_client.sync_interval = interval;
-  };
-
   React.useEffect(() => {
     try {
       const client = new Client({ url: "http://localhost:3000" });
@@ -98,7 +94,6 @@ const AppProvider = ({ children }) => {
 
   const value = {
     context_on_toggle_sync: value => toggle_sync(value),
-    context_on_change_sync_interval: change_sync_interval,
     context_change_position: (...args) => {
       SendPacket.change_position(state_client, ...args);
     },
