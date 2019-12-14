@@ -4,13 +4,30 @@
 import io from "socket.io-client";
 
 export default class Client {
-  constructor(url, on_parse_dict) {
-    this.on_parse_dict = on_parse_dict;
+  constructor({ url = "", check_interval = 1000 }) {
     this.url = url;
+    this.check_interval = check_interval;
 
-    this.socket = {};
-    // Time between send packets
-    this.sync_interval = 2000;
+    this.parse_packet_dict = {};
+    this.socket = undefined;
+  }
+
+  send(packet_id, data) {
+    // console.log(
+    //   "send",
+    //   packet_id,
+    //   this.socket !== undefined,
+    //   this.is_connected()
+    // );
+    if (this.socket !== undefined && this.is_connected())
+      this.socket.emit(packet_id, data);
+  }
+
+  add_parse_packet_dict(parse_packet_dict) {
+    this.parse_packet_dict = {
+      ...this.parse_packet_dict,
+      ...parse_packet_dict
+    };
   }
 
   /**
@@ -18,26 +35,27 @@ export default class Client {
    *  to connected.
    */
   is_connected() {
-    return this.socket.connected === true;
-  }
-
-  send(packet_id, data) {
-    if (Object.entries(this.socket).length !== 0)
-      this.socket.emit(packet_id, data);
+    return this.socket !== undefined && this.socket.connected;
   }
 
   connect() {
     this.socket = io(this.url);
 
-    for (const [packet_id] of Object.entries(this.on_parse_dict)) {
+    for (const [packet_id] of Object.entries(this.parse_packet_dict)) {
       this.socket.on(packet_id, data => {
         try {
-          if (packet_id in this.on_parse_dict) {
-            let response = this.on_parse_dict[packet_id](data);
-            if (response !== null && response !== undefined)
+          // Parse packet
+          if (!(packet_id in this.parse_packet_dict)) {
+            console.log("Unable to parse packet id: " + packet_id);
+            return;
+          }
+          let send_packet = this.parse_packet_dict[packet_id](data);
+          if (send_packet !== undefined && send_packet !== null) {
+            if (send_packet.delay !== undefined) {
               setTimeout(() => {
-                this.send(packet_id, response);
-              }, this.sync_interval);
+                this.send(send_packet.id, send_packet.data);
+              }, send_packet.delay);
+            } else this.send(send_packet.id, send_packet.data);
           }
         } catch (error) {
           console.log("Exception: " + error + error.stack);
@@ -47,7 +65,7 @@ export default class Client {
   }
 
   disconnect() {
-    if (Object.entries(this.socket).length !== 0) {
+    if (this.is_connected()) {
       this.socket.close();
       this.socket = {};
     }

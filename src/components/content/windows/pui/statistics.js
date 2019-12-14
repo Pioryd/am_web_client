@@ -21,7 +21,7 @@ function Statistics() {
   };
 
   React.useEffect(() => {
-    if (context_source !== undefined && "command" in context_source) {
+    if (context_source !== undefined) {
       set_state_source(context_source);
     }
   }, [context_source]);

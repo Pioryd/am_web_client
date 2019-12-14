@@ -29,7 +29,7 @@ function ButtonsList(props) {
 
   React.useEffect(() => {
     let elements = [];
-    for (const key of Object.keys(state_buttons)) {
+    for (const [key] of Object.entries(state_buttons)) {
       elements.push(
         <button
           className="button"

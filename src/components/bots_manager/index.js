@@ -1,5 +1,6 @@
 import React from "react";
 import { AppContext } from "../../context/app";
+
 function BotsManager(props) {
   const {
     context_chat_received_message,
@@ -12,7 +13,7 @@ function BotsManager(props) {
   };
 
   React.useEffect(() => {
-    setInterval(main_loop, 1000);
+    // setInterval(main_loop, 1000);
   });
 
   return null;
