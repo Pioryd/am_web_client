@@ -13,12 +13,6 @@ export default class Client {
   }
 
   send(packet_id, data) {
-    // console.log(
-    //   "send",
-    //   packet_id,
-    //   this.socket !== undefined,
-    //   this.is_connected()
-    // );
     if (this.socket !== undefined && this.is_connected())
       this.socket.emit(packet_id, data);
   }
@@ -65,9 +59,8 @@ export default class Client {
   }
 
   disconnect() {
-    if (this.is_connected()) {
-      this.socket.close();
-      this.socket = {};
-    }
+    if (this.is_connected()) this.socket.close();
+
+    this.socket = {};
   }
 }
