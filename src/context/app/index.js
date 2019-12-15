@@ -83,6 +83,18 @@ const AppProvider = ({ children }) => {
     set_state_connection_enabled(value);
   };
 
+  const get_connection_id = () => {
+    if (
+      state_client !== undefined &&
+      state_client != null &&
+      state_client.is_connected()
+    ) {
+      return state_client.socket.id;
+    } else {
+      return "not set";
+    }
+  };
+
   React.useEffect(() => {
     try {
       const client = new Client({ url: "http://localhost:3000" });
@@ -112,6 +124,7 @@ const AppProvider = ({ children }) => {
     context_source: hook_state_packet,
     context_connection_enabled: state_connection_enabled,
     context_connection_status: state_connection_status,
+    context_connection_id: `Connection ID: ${get_connection_id()}`,
     contextValue: "default value"
   };
 

@@ -1,10 +1,14 @@
 import React from "react";
 import { AppContext } from "../../context/app";
+import Tooltip from "rc-tooltip";
+import "rc-tooltip/assets/bootstrap.css";
+
 function SyncButton(props) {
   const {
     context_on_toggle_sync,
     context_connection_status,
-    context_connection_enabled
+    context_connection_enabled,
+    context_connection_id
   } = React.useContext(AppContext);
   const state_form = {
     enabled: {
@@ -29,15 +33,23 @@ function SyncButton(props) {
   };
 
   return (
-    <button
-      style={state.style}
-      onClick={e => {
-        e.preventDefault();
-        toggle_sync();
-      }}
-    >
-      {context_connection_status}
-    </button>
+    <React.Fragment>
+      <Tooltip
+        placement="bottom"
+        trigger={["hover"]}
+        overlay={<span>{context_connection_id}</span>}
+      >
+        <button
+          style={state.style}
+          onClick={e => {
+            e.preventDefault();
+            toggle_sync();
+          }}
+        >
+          {context_connection_status}
+        </button>
+      </Tooltip>
+    </React.Fragment>
   );
 }
 
