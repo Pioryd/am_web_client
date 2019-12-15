@@ -6,10 +6,10 @@ function useParsePacketHook(props) {
     state_chat_received_message,
     set_state_chat_received_message
   ] = React.useState();
-  const [state_logged_in, set_state_logged_in] = React.useState(false);
+  const [state_logged_as, set_state_logged_as] = React.useState("");
 
   const login = packet => {
-    set_state_logged_in(true);
+    set_state_logged_as(packet.character_name);
     return { id: "update", data: {} };
   };
 
@@ -28,11 +28,14 @@ function useParsePacketHook(props) {
       update: update,
       chat_message: chat_message
     },
-    hook_logged_in: state_logged_in,
+    hook_logged_as: state_logged_as,
     hook_state_packet: state_packet,
     hook_chat_received_message: state_chat_received_message,
     hook_clear_chat_received_message: () => {
       set_state_chat_received_message("");
+    },
+    hook_clear_logged_as: () => {
+      set_state_logged_as("");
     }
   };
 }

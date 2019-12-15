@@ -22,10 +22,11 @@ const AppProvider = ({ children }) => {
 
   const {
     hook_parse_packet,
-    hook_logged_in,
+    hook_logged_as,
     hook_state_packet,
     hook_chat_received_message,
-    hook_clear_chat_received_message
+    hook_clear_chat_received_message,
+    hook_clear_logged_as
   } = useParsePacketHook();
 
   const create_parse_dict = () => {
@@ -50,16 +51,16 @@ const AppProvider = ({ children }) => {
       set_state_connection_status("Disconnected");
     } else if (!state_client.is_connected()) {
       // Client set abut not connected
+      hook_clear_logged_as();
       state_client.connect();
       reconnect_attempts = state_reconnect_attempts + 1;
       set_state_connection_status(
         `Try to  connect... ${reconnect_attempts} times.`
       );
-    } else if (!hook_logged_in) {
+    } else if (hook_logged_as === "") {
       // Client connected and try to log in
       if (state_reconnect_attempts < 10) {
         // Reconnecting until max attempts
-
         SendPacket.login(state_client);
         reconnect_attempts = state_reconnect_attempts + 1;
         set_state_connection_status(
@@ -72,7 +73,7 @@ const AppProvider = ({ children }) => {
       }
     } else {
       // Client connected
-      set_state_connection_status("Connected");
+      set_state_connection_status("Connected as " + hook_logged_as);
     }
 
     set_state_reconnect_attempts(reconnect_attempts);

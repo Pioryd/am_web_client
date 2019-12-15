@@ -1,6 +1,6 @@
 class SendPacket {
   static login(state_client) {
-    state_client.send("login");
+    state_client.send("login", { character_id: -1 });
   }
 
   static update(state_client) {
