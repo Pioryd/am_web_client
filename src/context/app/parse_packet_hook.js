@@ -10,12 +10,12 @@ function useParsePacketHook(props) {
 
   const login = packet => {
     set_state_logged_as(packet.character_name);
-    return { id: "update", data: {} };
+    return { packet_id: "update", data: {} };
   };
 
   const update = packet => {
     set_state_packet(packet);
-    return { id: "update", data: {}, delay: 2000 };
+    return { packet_id: "update", data: {} }; // , delay: 2000
   };
 
   const chat_message = data => {
