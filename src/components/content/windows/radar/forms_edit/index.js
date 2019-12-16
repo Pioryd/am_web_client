@@ -1,7 +1,7 @@
 import React from "react";
 import Row from "./row";
 import { AppContext } from "../../../../context/app";
-import { GuiContext } from "../../../gui_context";
+import { GuiContext } from "../../../../context/gui";
 
 function FormsEdit(props) {
   const {

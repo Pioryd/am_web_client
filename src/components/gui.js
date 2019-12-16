@@ -1,10 +1,10 @@
 import React from "react";
-import { GoldenLayoutComponent } from "./layout/goldenLayoutComponent";
+import { GoldenLayoutComponent } from "../components/layout/goldenLayoutComponent";
 
-import GuiProvider from "./gui_context";
-import Navigation from "./navigation";
-import Statistics from "./content/windows/pui/statistics";
-import Chat from "./content/windows/pui/chat";
+import GuiProvider from "../context/gui";
+import Navigation from "../components/navigation";
+import Statistics from "../components/content/windows/pui/statistics";
+import Chat from "../components/content/windows/pui/chat";
 
 function Gui() {
   let ref_gl = React.createRef();

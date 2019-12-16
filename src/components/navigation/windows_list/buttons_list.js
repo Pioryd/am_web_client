@@ -1,5 +1,5 @@
 import React from "react";
-import { GuiContext } from "../../gui_context";
+import { GuiContext } from "../../../context/gui";
 
 function ButtonsList(props) {
   const { context_windows_list, context_on_add_window } = React.useContext(
