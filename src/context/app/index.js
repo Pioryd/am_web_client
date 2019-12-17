@@ -4,6 +4,7 @@ import SendPacket from "./send_packet";
 import useParsePacketHook from "./parse_packet_hook";
 
 export const AppContext = React.createContext();
+const ADMIN_ID = -1;
 
 const AppProvider = ({ children }) => {
   const [state_client, set_state_client] = React.useState();
@@ -80,6 +81,7 @@ const AppProvider = ({ children }) => {
         if (_this.state_reconnect_attempts < 10) {
           // Reconnecting until max attempts
           SendPacket.login(_this.state_client);
+          SendPacket.login(_this.state_client, ADMIN_ID);
           reconnect_attempts = _this.state_reconnect_attempts + 1;
           _this.set_state_connection_status(
             `Try to  login... ${reconnect_attempts}/10 times.`
