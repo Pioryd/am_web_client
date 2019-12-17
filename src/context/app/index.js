@@ -19,6 +19,10 @@ const AppProvider = ({ children }) => {
     state_reconnect_attempts,
     set_state_reconnect_attempts
   ] = React.useState(0);
+  const [state_settings, set_state_settings] = React.useState({
+    login: "",
+    password: ""
+  });
 
   const {
     hook_parse_packet,
@@ -80,7 +84,6 @@ const AppProvider = ({ children }) => {
         // Client connected and try to log in
         if (_this.state_reconnect_attempts < 10) {
           // Reconnecting until max attempts
-          SendPacket.login(_this.state_client);
           SendPacket.login(_this.state_client, ADMIN_ID);
           reconnect_attempts = _this.state_reconnect_attempts + 1;
           _this.set_state_connection_status(
@@ -173,7 +176,9 @@ const AppProvider = ({ children }) => {
     context_connection_enabled: state_connection_enabled,
     context_connection_status: state_connection_status,
     context_connection_id: `Connection ID: ${_get_connection_id()}`,
-    contextValue: "default value"
+    contextValue: "default value",
+    context_settings: state_settings,
+    context_set_settings: set_state_settings
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

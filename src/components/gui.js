@@ -4,14 +4,16 @@ import { GoldenLayoutComponent } from "../components/layout/goldenLayoutComponen
 import GuiProvider from "../context/gui";
 import Navigation from "../components/navigation";
 import Statistics from "../components/content/windows/pui/statistics";
+import Settings from "../components/content/windows/settings";
 import Chat from "../components/content/windows/pui/chat";
 
 function Gui() {
   let ref_gl = React.createRef();
 
-  const windows_titles_map = {
-    statistics: { title: "Statistics" },
-    chat: { title: "Chat" }
+  const windows_map = {
+    settings: { class: Settings, title: "Settings" },
+    statistics: { class: Statistics, title: "Statistics" },
+    chat: { class: Chat, title: "Chat" }
   };
 
   const helper = {
@@ -47,7 +49,7 @@ function Gui() {
       props: {
         id: { window_name },
         key: window_name,
-        title: windows_titles_map[window_name].title
+        title: windows_map[window_name].title
       }
     });
   };
@@ -67,7 +69,7 @@ function Gui() {
   return (
     <React.Fragment>
       <GuiProvider
-        windows_list={windows_titles_map}
+        windows_list={windows_map}
         on_add_window={name => add_window(name)}
       >
         <Navigation> </Navigation>
@@ -88,13 +90,24 @@ function Gui() {
                 {
                   type: "row",
                   isClosable: false,
-                  content: []
+                  content: [
+                    {
+                      title: "A react component",
+                      type: "react-component",
+                      component: "settings",
+                      props: {
+                        id: "settings",
+                        key: "Settings",
+                        title: "Settings"
+                      }
+                    }
+                  ]
                 }
               ]
             }}
             registerComponents={myLayout => {
-              myLayout.registerComponent("statistics", Statistics);
-              myLayout.registerComponent("chat", Chat);
+              for (const [window_name, values] of Object.entries(windows_map))
+                myLayout.registerComponent(window_name, values.class);
             }}
           />
         </div>
