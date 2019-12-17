@@ -3,7 +3,7 @@
  */
 import io from "socket.io-client";
 
-export default class Client {
+class Client {
   constructor({ url = "", send_delay = 0, timeout = 3 * 1000 }) {
     this.url = url;
     this.send_delay = send_delay;
@@ -117,3 +117,5 @@ export default class Client {
     }
   }
 }
+
+export default Client;
