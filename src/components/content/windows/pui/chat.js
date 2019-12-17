@@ -44,7 +44,6 @@ function Chat() {
     <React.Fragment>
       <div className="contentbody">
         <div className="bar">
-          {" "}
           <input
             type="text"
             value={state_input_value}
