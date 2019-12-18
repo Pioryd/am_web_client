@@ -43,7 +43,7 @@ function Gui() {
     if (root == null) return;
 
     root.contentItems[0].addChild({
-      title: "A react component",
+      title: windows_map[window_name].title,
       type: "react-component",
       component: window_name,
       props: {
@@ -92,7 +92,7 @@ function Gui() {
                   isClosable: false,
                   content: [
                     {
-                      title: "A react component",
+                      title: "Settings",
                       type: "react-component",
                       component: "settings",
                       props: {
