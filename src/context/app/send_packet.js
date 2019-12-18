@@ -3,8 +3,8 @@ class SendPacket {
     if (state_client != null) state_client.send(packet_id, data);
   }
 
-  static login(state_client, character_id) {
-    this._send(state_client, "login", { character_id: character_id });
+  static login(state_client, login, password) {
+    this._send(state_client, "login", { login: login, password: password });
   }
 
   static update(state_client) {
