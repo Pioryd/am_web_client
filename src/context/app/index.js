@@ -102,6 +102,8 @@ const AppProvider = ({ children }) => {
             _this.state_client,
             state_settings.login,
             state_settings.password
+            _this.state_settings.login,
+            _this.state_settings.password
           );
           reconnect_attempts = _this.state_reconnect_attempts + 1;
           _this.set_state_connection_status(

@@ -11,15 +11,11 @@ function Settings() {
   const [state_settings, set_state_settings] = React.useState({});
 
   const onEdit = e => {
-    console.log("e.updated_src", e.updated_src);
     context_set_settings(e.updated_src);
   };
 
   React.useEffect(() => {
-    if (context_settings != null) {
-      console.log("context_settings", context_settings);
-      set_state_settings(context_settings);
-    }
+    if (context_settings != null) set_state_settings(context_settings);
   }, [context_settings]);
 
   return (
