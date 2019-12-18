@@ -21,7 +21,8 @@ const AppProvider = ({ children }) => {
   ] = React.useState(0);
   const [state_settings, set_state_settings] = React.useState({
     login: "admin",
-    password: "123"
+    password: "123",
+    reconnect_attempts_interval: 1000
   });
 
   const {
@@ -60,7 +61,8 @@ const AppProvider = ({ children }) => {
       set_state_reconnect_attempts,
       hook_logged_as,
       hook_clear_logged_as,
-      stop_watch
+      stop_watch,
+      state_settings
     };
   };
 
@@ -80,7 +82,11 @@ const AppProvider = ({ children }) => {
       } else if (!_this.state_client.is_connected()) {
         // Client set but not connected
 
-        if (_this.stop_watch.get_elapsed_milliseconds() < 500) return;
+        if (
+          _this.stop_watch.get_elapsed_milliseconds() <
+          _this.state_settings.reconnect_attempts_interval
+        )
+          return;
         _this.stop_watch.reset();
 
         _this.hook_clear_logged_as();
@@ -95,13 +101,15 @@ const AppProvider = ({ children }) => {
         if (_this.state_reconnect_attempts < 10) {
           // Reconnecting until max attempts
 
-          if (_this.stop_watch.get_elapsed_milliseconds() < 500) return;
+          if (
+            _this.stop_watch.get_elapsed_milliseconds() <
+            _this.state_settings.reconnect_attempts_interval
+          )
+            return;
           _this.stop_watch.reset();
 
           SendPacket.login(
             _this.state_client,
-            state_settings.login,
-            state_settings.password
             _this.state_settings.login,
             _this.state_settings.password
           );
@@ -174,7 +182,8 @@ const AppProvider = ({ children }) => {
     set_state_reconnect_attempts,
     hook_logged_as,
     hook_clear_logged_as,
-    stop_watch
+    stop_watch,
+    state_settings
   ]);
 
   const value = {
