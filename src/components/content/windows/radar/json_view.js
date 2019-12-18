@@ -9,7 +9,7 @@ function JsonView() {
   const [state_source, set_state_source] = React.useState({});
 
   React.useEffect(() => {
-    if (context_source !== undefined && "command" in context_source)
+    if (context_source != null && "command" in context_source)
       set_state_source(context_source);
   }, [context_source]);
 

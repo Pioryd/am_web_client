@@ -41,7 +41,7 @@ function Radar(props) {
         let center_left = 0;
 
         // Set position of point
-        if (point.center !== undefined && point.center === true) {
+        if (point.center != null && point.center === true) {
           // Center point
           style.top = center_top + "px";
           style.left = center_left + "px";
@@ -54,7 +54,7 @@ function Radar(props) {
         }
 
         style.backgroundColor =
-          point.color !== undefined ? `${point.color}` : "white";
+          point.color != null ? `${point.color}` : "white";
 
         return (
           <div
@@ -76,14 +76,14 @@ function Radar(props) {
         );
       };
 
-      if (source !== undefined) set_state_source(source);
+      if (source != null) set_state_source(source);
       else source = [...state_source];
 
       let options = { ...state_options };
 
-      if (map_size !== undefined) options.map_size = map_size;
+      if (map_size != null) options.map_size = map_size;
 
-      if (options.center_data.name !== undefined) {
+      if (options.center_data.name != null) {
         for (let i = 0; i < source.length; i++) {
           if (options.center_data.name === source[i].name) {
             options.center_data.x = options.source[i].x;
@@ -101,8 +101,8 @@ function Radar(props) {
       set_state_options(options);
     };
 
-    if (context_source === undefined) return;
-    // if (context_source !== undefined) set_state_source(context_source);
+    if (context_source == null) return;
+    // if (context_source != null) set_state_source(context_source);
     update(context_source.points);
   }, [
     context_source,

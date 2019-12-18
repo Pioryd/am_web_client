@@ -20,12 +20,12 @@ function FormsEdit(props) {
 
   const set_not_found_ = name => {
     set_state_content(<p>{`Not found: "${state_search_value}"`}</p>);
-    if (name === undefined) name = "";
+    if (name == null) name = "";
     set_state_search_value(name);
   };
 
   const search_and_set_table_by_name = value => {
-    if (state_source === undefined) return;
+    if (state_source == null) return;
 
     for (let i = 0; i < state_source.length; i++) {
       if (state_source[i].name === value) {
@@ -38,7 +38,7 @@ function FormsEdit(props) {
   };
 
   const search_and_set_table_by_step = step_name => {
-    if (state_source === undefined) return;
+    if (state_source == null) return;
 
     let current_form = { ...state_current_form };
 
@@ -75,7 +75,7 @@ function FormsEdit(props) {
   };
 
   const set_empty_current_form = () => {
-    if (state_source === undefined) return;
+    if (state_source == null) return;
 
     if (
       (Object.entries(state_source).length === 0 &&
@@ -156,7 +156,7 @@ function FormsEdit(props) {
 
       set_state_content(fields);
     };
-    if (context_source !== undefined && "points" in context_source)
+    if (context_source != null && "points" in context_source)
       set_state_source(context_source.points);
 
     if ("name" in state_current_form) add_table(state_current_form);

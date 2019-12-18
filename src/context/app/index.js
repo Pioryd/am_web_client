@@ -38,7 +38,7 @@ const AppProvider = ({ children }) => {
 
   const _get_connection_id = () => {
     if (
-      state_client !== undefined &&
+      state_client != null &&
       state_client != null &&
       state_client.is_connected()
     ) {
@@ -65,7 +65,7 @@ const AppProvider = ({ children }) => {
     const check_connection = _this => {
       let reconnect_attempts = 0;
 
-      if (_this.state_client === undefined || _this.state_client == null) {
+      if (_this.state_client == null || _this.state_client == null) {
         // Client not set
         _this.set_state_connection_status("Disconnected");
       } else if (!_this.state_connection_enabled) {
@@ -107,7 +107,7 @@ const AppProvider = ({ children }) => {
     const main_loop = () => {
       const _this = ref_check_connection.current;
       check_connection(_this);
-      if (_this.state_client !== undefined) _this.state_client.poll();
+      if (_this.state_client != null) _this.state_client.poll();
       ref_main_loop.current = setTimeout(() => {
         main_loop();
       }, 10);

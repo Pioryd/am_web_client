@@ -1,6 +1,6 @@
 class SendPacket {
   static _send(state_client, packet_id, data) {
-    if (state_client !== undefined) state_client.send(packet_id, data);
+    if (state_client != null) state_client.send(packet_id, data);
   }
 
   static login(state_client, character_id) {

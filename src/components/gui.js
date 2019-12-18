@@ -21,7 +21,7 @@ function Gui() {
       if (
         ref_gl !== null &&
         ref_gl.current !== null &&
-        ref_gl.current.goldenLayoutInstance !== undefined &&
+        ref_gl.current.goldenLayoutInstance != null &&
         ref_gl.current.goldenLayoutInstance.root !== null
       )
         return ref_gl.current.goldenLayoutInstance.root;
@@ -31,7 +31,7 @@ function Gui() {
       if (
         ref_gl !== null &&
         ref_gl.current !== null &&
-        ref_gl.current.goldenLayoutInstance !== undefined
+        ref_gl.current.goldenLayoutInstance != null
       )
         return ref_gl.current.goldenLayoutInstance;
       else return null;

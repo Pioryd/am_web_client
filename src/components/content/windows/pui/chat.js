@@ -27,7 +27,7 @@ function Chat() {
 
   React.useEffect(() => {
     if (
-      context_chat_received_message === undefined ||
+      context_chat_received_message == null ||
       context_chat_received_message === ""
     )
       return;

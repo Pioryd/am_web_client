@@ -34,7 +34,7 @@ function Row(props) {
       input_color = "#008000";
     else if (typeof value === "boolean" || value instanceof Boolean)
       input_color = "#0000ff";
-    else if (value === null || typeof value === undefined)
+    else if (value === null || typeof value == null)
       input_color = "#ff00ff";
 
     set_state_input_color(input_color);
