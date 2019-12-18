@@ -22,7 +22,9 @@ const AppProvider = ({ children }) => {
   const [state_settings, set_state_settings] = React.useState({
     login: "admin",
     password: "123",
-    reconnect_attempts_interval: 1000
+    reconnect_attempts_interval: 1000,
+    client_send_delay: 0,
+    client_timeout: 3 * 1000
   });
 
   const {
@@ -142,7 +144,11 @@ const AppProvider = ({ children }) => {
     };
 
     try {
-      const client = new Client({ url: "http://localhost:3000" });
+      const client = new Client({
+        url: "http://localhost:3000",
+        send_delay: state_settings.client_send_delay,
+        timeout: state_settings.timeout
+      });
       client.add_parse_packet_dict(create_parse_dict());
       set_state_client(client);
       _update_hook_check_connections();
@@ -170,6 +176,13 @@ const AppProvider = ({ children }) => {
   React.useEffect(() => {
     _start_client();
   }, []);
+
+  React.useEffect(() => {
+    if (state_client == null) return;
+
+    state_client.set_send_delay(state_settings.client_send_delay);
+    state_client.set_timeout(state_settings.client_timeout);
+  }, [state_settings]);
 
   React.useEffect(() => {
     _update_hook_check_connections();

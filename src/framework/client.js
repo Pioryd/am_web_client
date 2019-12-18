@@ -17,6 +17,14 @@ class Client {
     this.pending_send_packets_queue = [];
   }
 
+  set_send_delay(delay) {
+    this.send_delay = delay;
+  }
+
+  set_timeout(timeout) {
+    this.timeout = timeout;
+  }
+
   send(packet_id, data) {
     if (this.socket == null || !this.is_connected()) return;
 
