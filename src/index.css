@@ -54,6 +54,19 @@ input {
   padding: 0px 10px 0px 10px;
 }
 
+select {
+  height: 14px;
+  background-color: rgb(224, 222, 222);
+  color: black;
+  font-size: 12px;
+  border: none;
+  position: flex;
+  float: left;
+  padding: 0px;
+  margin-left: 1px;
+  padding: 0px 10px 0px 10px;
+}
+
 /* 
  * Main window
  */
@@ -190,4 +203,17 @@ input {
 .radar-edit-form .row .value {
   width: 50%;
   float: right;
+}
+
+.chat {
+}
+
+.chat .receiver {
+  background-color: gainsboro;
+  color: black;
+}
+
+.chat .sender {
+  background-color: dodgerblue;
+  color: white;
 }

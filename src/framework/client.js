@@ -48,12 +48,23 @@ class Client {
         return;
       }
 
-      let send_packet = this.parse_packet_dict[packet_id](data);
-      if (send_packet != null && send_packet !== null)
-        this.pending_send_packets_queue.push({
-          packet_id: send_packet.packet_id,
-          data: send_packet.data
-        });
+      let send_packets = this.parse_packet_dict[packet_id](data);
+      if (send_packets != null)
+        if (Array.isArray(send_packets)) {
+          for (const send_packet of send_packets) {
+            this.pending_send_packets_queue.push({
+              packet_id: send_packet.packet_id,
+              data: send_packet.data
+            });
+          }
+        } else {
+          const send_packet = send_packets;
+
+          this.pending_send_packets_queue.push({
+            packet_id: send_packet.packet_id,
+            data: send_packet.data
+          });
+        }
     } catch (error) {
       console.log("Exception: " + error + error.stack);
     }

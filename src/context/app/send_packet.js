@@ -3,46 +3,54 @@ class SendPacket {
     if (state_client != null) state_client.send(packet_id, data);
   }
 
-  static login(state_client, login, password) {
-    this._send(state_client, "login", { login: login, password: password });
+  static login(state_client, { login, password }) {
+    this._send(state_client, "accept_connection", { login, password });
   }
 
-  static update(state_client) {
-    this._send(state_client, "update");
+  static data_full(state_client) {
+    this._send(state_client, "data_full");
   }
 
-  static change_position(state_client, character_id, position) {
-    this._send(state_client, "change_position", {
-      character_id: character_id,
-      position: position
+  static data_character(state_client) {
+    this._send(state_client, "data_character");
+  }
+
+  static data_world(state_client) {
+    this._send(state_client, "data_world");
+  }
+
+  static data_character_change_position(state_client, { position_x }) {
+    this._send(state_client, "data_character_change_position", {
+      position_x: position_x
     });
   }
 
-  static change_land(state_client, character_id, land_id) {
-    this._send(state_client, "change_land", {
-      character_id: character_id,
-      land_id: land_id
-    });
+  static data_character_change_land(state_client, { land_id }) {
+    this._send(state_client, "data_character_change_land");
   }
 
-  static add_friend(state_client, character_id, friend_name) {
-    this._send(state_client, "add_friend", {
-      character_id: character_id,
-      friend_name: friend_name
-    });
+  static data_character_add_friend(state_client, { name }) {
+    this._send(state_client, "data_character_add_friend", { name });
   }
 
-  static send_message(
-    state_client,
-    from_character_id,
-    to_character_id,
-    message
-  ) {
-    this._send(state_client, "chat_message", {
-      from_character_id: from_character_id,
-      to_character_id: to_character_id,
-      message: message
-    });
+  static data_character_remove_friend(state_client, { name }) {
+    this._send(state_client, "data_character_remove_friend", { name });
+  }
+
+  static data_character_change_state(state_client, { name }) {
+    this._send(state_client, "data_character_change_state", { name });
+  }
+
+  static data_character_change_action(state_client, { name }) {
+    this._send(state_client, "data_character_change_action", { name });
+  }
+
+  static data_character_change_activity(state_client, { name }) {
+    this._send(state_client, "data_character_change_activity", { name });
+  }
+
+  static action_message(state_client, { character_name, message }) {
+    this._send(state_client, "chat_message", { character_name, message });
   }
 }
 

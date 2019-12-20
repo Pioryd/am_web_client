@@ -11,26 +11,26 @@ function Gui() {
   let ref_gl = React.createRef();
 
   const windows_map = {
-    settings: { class: Settings, title: "Settings" },
-    statistics: { class: Statistics, title: "Statistics" },
-    chat: { class: Chat, title: "Chat" }
+    settings: { class: Settings, title: "[All] Settings" },
+    statistics: { class: Statistics, title: "[All] Statistics" },
+    chat: { class: Chat, title: "[User] Chat" }
   };
 
   const helper = {
     get_layout_root: () => {
       if (
-        ref_gl !== null &&
-        ref_gl.current !== null &&
+        ref_gl != null &&
+        ref_gl.current != null &&
         ref_gl.current.goldenLayoutInstance != null &&
-        ref_gl.current.goldenLayoutInstance.root !== null
+        ref_gl.current.goldenLayoutInstance.root != null
       )
         return ref_gl.current.goldenLayoutInstance.root;
       else return null;
     },
     get_layout_instance: () => {
       if (
-        ref_gl !== null &&
-        ref_gl.current !== null &&
+        ref_gl != null &&
+        ref_gl.current != null &&
         ref_gl.current.goldenLayoutInstance != null
       )
         return ref_gl.current.goldenLayoutInstance;
@@ -92,13 +92,13 @@ function Gui() {
                   isClosable: false,
                   content: [
                     {
-                      title: "Settings",
+                      title: "chat",
                       type: "react-component",
-                      component: "settings",
+                      component: "chat",
                       props: {
-                        id: "settings",
-                        key: "Settings",
-                        title: "Settings"
+                        id: "chat",
+                        key: "chat",
+                        title: "chat"
                       }
                     }
                   ]

@@ -30,9 +30,12 @@ const AppProvider = ({ children }) => {
   const {
     hook_parse_packet,
     hook_logged_as,
-    hook_state_packet,
-    hook_chat_received_message,
-    hook_clear_chat_received_message,
+    hook_admin,
+    hook_data_full,
+    hook_data_character,
+    hook_data_world,
+    hook_received_messages,
+    hook_clear_messages,
     hook_clear_logged_as
   } = useParsePacketHook();
 
@@ -53,6 +56,8 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  // If you add new object here, you need to add it too in useEffect
+  // bellow with same list.
   const _update_hook_check_connections = () => {
     ref_check_connection.current = {
       state_client,
@@ -110,11 +115,10 @@ const AppProvider = ({ children }) => {
             return;
           _this.stop_watch.reset();
 
-          SendPacket.login(
-            _this.state_client,
-            _this.state_settings.login,
-            _this.state_settings.password
-          );
+          SendPacket.login(_this.state_client, {
+            login: _this.state_settings.login,
+            password: _this.state_settings.password
+          });
           reconnect_attempts = _this.state_reconnect_attempts + 1;
           _this.set_state_connection_status(
             `Try to  login... ${reconnect_attempts}/10 times.`
@@ -184,6 +188,8 @@ const AppProvider = ({ children }) => {
     state_client.set_timeout(state_settings.client_timeout);
   }, [state_settings]);
 
+  // If you add new object here, you need to add it too in function
+  // {_update_hook_check_connections} with same list.
   React.useEffect(() => {
     _update_hook_check_connections();
   }, [
@@ -202,20 +208,36 @@ const AppProvider = ({ children }) => {
   const value = {
     context_on_toggle_sync: value => toggle_sync(value),
     context_change_position: (...args) => {
-      SendPacket.change_position(state_client, ...args);
+      SendPacket.data_character_change_position(state_client, ...args);
     },
     context_change_land: (...args) => {
-      SendPacket.change_land(state_client, ...args);
+      SendPacket.data_character_change_land(state_client, ...args);
     },
     context_add_friend: (...args) => {
-      SendPacket.add_friend(state_client, ...args);
+      SendPacket.data_character_add_friend(state_client, ...args);
+    },
+    context_remove_friend: (...args) => {
+      SendPacket.data_character_add_friend(state_client, ...args);
+    },
+    context_change_state: (...args) => {
+      SendPacket.data_character_change_state(state_client, ...args);
+    },
+    context_change_action: (...args) => {
+      SendPacket.data_character_change_state(state_client, ...args);
+    },
+    context_change_activity: (...args) => {
+      SendPacket.data_character_change_state(state_client, ...args);
     },
     context_send_message: (...args) => {
-      SendPacket.send_message(state_client, ...args);
+      SendPacket.action_message(state_client, ...args);
     },
-    context_chat_received_message: hook_chat_received_message,
-    context_clear_chat_received_message: hook_clear_chat_received_message,
-    context_source: hook_state_packet,
+    context_logged_as: hook_logged_as,
+    context_admin: hook_admin,
+    context_data_full: hook_data_full,
+    context_data_character: hook_data_character,
+    context_data_world: hook_data_world,
+    context_received_messages: hook_received_messages,
+    context_clear_received_messages: hook_clear_messages,
     context_connection_enabled: state_connection_enabled,
     context_connection_status: state_connection_status,
     context_connection_id: `Connection ID: ${_get_connection_id()}`,
