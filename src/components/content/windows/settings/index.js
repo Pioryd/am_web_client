@@ -1,8 +1,6 @@
 import React from "react";
-import ReactJson from "react-json-view";
+import { JsonTree } from "react-editable-json-tree";
 import { AppContext } from "../../../../context/app";
-
-const theme = { light: "summerfruit:inverted", dark: "summerfruit" };
 
 function Settings() {
   const { context_settings, context_set_settings } = React.useContext(
@@ -10,8 +8,9 @@ function Settings() {
   );
   const [state_settings, set_state_settings] = React.useState({});
 
-  const onEdit = e => {
-    context_set_settings(e.updated_src);
+  const on_edit = data => {
+    console.log(...data);
+    context_set_settings(data);
   };
 
   React.useEffect(() => {
@@ -22,11 +21,18 @@ function Settings() {
     <React.Fragment>
       <div className="contentbody">
         <div className="bar"></div>
-        <ReactJson
-          src={state_settings}
-          theme={theme.dark}
-          indentWidth={2}
-          onEdit={onEdit}
+        <JsonTree
+          rootName="context_data_character"
+          data={state_settings}
+          onDeltaUpdate={on_edit}
+          isCollapsed={() => {
+            return false;
+          }}
+          cancelButtonElement={<button>X</button>}
+          editButtonElement={<button>OK</button>}
+          addButtonElement={<button>Add</button>}
+          plusMenuElement={<span>Add</span>}
+          minusMenuElement={<span>Remove</span>}
         />
       </div>
     </React.Fragment>

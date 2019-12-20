@@ -20,11 +20,12 @@ const AppProvider = ({ children }) => {
     set_state_reconnect_attempts
   ] = React.useState(0);
   const [state_settings, set_state_settings] = React.useState({
-    login: "admin",
+    login: "AM_1",
     password: "123",
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
-    client_timeout: 3 * 1000
+    client_timeout: 3 * 1000,
+    main_loop_sleep: 10
   });
 
   const {
@@ -144,7 +145,7 @@ const AppProvider = ({ children }) => {
       if (_this.state_client != null) _this.state_client.poll();
       ref_main_loop.current = setTimeout(() => {
         main_loop();
-      }, 10);
+      }, _this.state_settings.main_loop_sleep);
     };
 
     try {
@@ -217,16 +218,16 @@ const AppProvider = ({ children }) => {
       SendPacket.data_character_add_friend(state_client, ...args);
     },
     context_remove_friend: (...args) => {
-      SendPacket.data_character_add_friend(state_client, ...args);
+      SendPacket.data_character_remove_friend(state_client, ...args);
     },
     context_change_state: (...args) => {
       SendPacket.data_character_change_state(state_client, ...args);
     },
     context_change_action: (...args) => {
-      SendPacket.data_character_change_state(state_client, ...args);
+      SendPacket.data_character_change_action(state_client, ...args);
     },
     context_change_activity: (...args) => {
-      SendPacket.data_character_change_state(state_client, ...args);
+      SendPacket.data_character_change_activity(state_client, ...args);
     },
     context_send_message: (...args) => {
       SendPacket.action_message(state_client, ...args);

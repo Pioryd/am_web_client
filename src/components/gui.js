@@ -94,7 +94,7 @@ function Gui() {
                     {
                       title: "chat",
                       type: "react-component",
-                      component: "chat",
+                      component: "statistics",
                       props: {
                         id: "chat",
                         key: "chat",

@@ -21,12 +21,12 @@ class SendPacket {
 
   static data_character_change_position(state_client, { position_x }) {
     this._send(state_client, "data_character_change_position", {
-      position_x: position_x
+      position_x
     });
   }
 
   static data_character_change_land(state_client, { land_id }) {
-    this._send(state_client, "data_character_change_land");
+    this._send(state_client, "data_character_change_land", { land_id });
   }
 
   static data_character_add_friend(state_client, { name }) {

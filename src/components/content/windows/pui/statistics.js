@@ -1,37 +1,92 @@
 import React from "react";
-import ReactJson from "react-json-view";
+import { JsonTree } from "react-editable-json-tree";
 import { AppContext } from "../../../../context/app";
-
-const theme = { light: "summerfruit:inverted", dark: "summerfruit" };
 
 function Statistics() {
   const {
     context_admin,
     context_data_full,
     context_data_character,
-    context_data_world
+    context_data_world,
+    context_change_position,
+    context_change_land,
+    context_add_friend,
+    context_remove_friend,
+    context_change_state,
+    context_change_action,
+    context_change_activity
   } = React.useContext(AppContext);
 
-  const [state_data_full, set_state_data_full] = new React.useState();
+  //const [state_character_data, set_state_character_data] = React.useState();
 
-  const on_edit = ({
-    updated_src,
-    name,
-    namespace,
-    new_value,
-    existing_value
-  }) => {
-    console.log(updated_src, name, namespace, new_value, existing_value);
+  const on_edit = ({ type, keyPath, deep, key, newValue, oldValue }) => {
+    if (context_admin === true) return;
+
+    console.log({
+      type,
+      keyPath,
+      deep,
+      key,
+      newValue,
+      oldValue
+    });
+
+    if (
+      type === "UPDATE_DELTA_TYPE" &&
+      key === "x" &&
+      keyPath.length === 2 &&
+      keyPath[0] === "character" &&
+      keyPath[1] === "position"
+    ) {
+      if (newValue !== oldValue)
+        context_change_position({ position_x: newValue });
+    } else if (
+      type === "UPDATE_DELTA_TYPE" &&
+      key === "land_id" &&
+      keyPath.length === 2 &&
+      keyPath[0] === "character" &&
+      keyPath[1] === "position"
+    ) {
+      if (newValue !== oldValue) context_change_land({ land_id: newValue });
+    } else if (
+      type === "ADD_DELTA_TYPE" &&
+      keyPath.length === 2 &&
+      keyPath[0] === "character" &&
+      keyPath[1] === "friends_list"
+    ) {
+      if (oldValue == null && newValue != null)
+        context_add_friend({ name: newValue });
+    } else if (
+      type === "REMOVE_DELTA_TYPE" &&
+      keyPath.length === 2 &&
+      keyPath[0] === "character" &&
+      keyPath[1] === "friends_list"
+    ) {
+      if (oldValue != null && newValue == null)
+        context_remove_friend({ name: oldValue });
+    } else if (
+      type === "UPDATE_DELTA_TYPE" &&
+      key === "state" &&
+      keyPath.length === 1 &&
+      keyPath[0] === "character"
+    ) {
+      if (newValue !== oldValue) context_change_state({ name: newValue });
+    } else if (
+      type === "UPDATE_DELTA_TYPE" &&
+      key === "action" &&
+      keyPath.length === 1 &&
+      keyPath[0] === "character"
+    ) {
+      if (newValue !== oldValue) context_change_action({ name: newValue });
+    } else if (
+      type === "UPDATE_DELTA_TYPE" &&
+      key === "activity" &&
+      keyPath.length === 1 &&
+      keyPath[0] === "character"
+    ) {
+      if (newValue !== oldValue) context_change_activity({ name: newValue });
+    }
   };
-
-  React.useEffect(() => {
-    set_state_data_full(context_data_full);
-  }, [
-    context_admin,
-    context_data_full,
-    context_data_character,
-    context_data_world
-  ]);
 
   return (
     <React.Fragment>
@@ -39,29 +94,39 @@ function Statistics() {
         <div className="bar"></div>
         {context_admin ? (
           <React.Fragment>
-            <p>Full data</p>
-            <ReactJson
-              src={state_data_full}
-              theme={theme.dark}
-              indentWidth={2}
-              onEdit={on_edit}
+            <JsonTree
+              rootName="context_data_full"
+              data={context_data_full}
+              isCollapsed={() => {
+                return false;
+              }}
+              cancelButtonElement={<button>Cancel</button>}
+              editButtonElement={<button>Accept</button>}
+              addButtonElement={<button>Add</button>}
             />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <p>Character data</p>
-            <ReactJson
-              src={context_data_character}
-              theme={theme.dark}
-              indentWidth={2}
-              onEdit={on_edit}
+            <JsonTree
+              rootName="context_data_character"
+              data={context_data_character}
+              onDeltaUpdate={on_edit}
+              isCollapsed={() => {
+                return false;
+              }}
+              cancelButtonElement={<button>Cancel</button>}
+              editButtonElement={<button>Accept</button>}
+              addButtonElement={<button>Add</button>}
             />
-            <p>World data</p>
-            <ReactJson
-              src={context_data_world}
-              theme={theme.dark}
-              indentWidth={2}
-              onEdit={on_edit}
+            <JsonTree
+              rootName="context_data_world"
+              data={context_data_world}
+              isCollapsed={() => {
+                return false;
+              }}
+              cancelButtonElement={<button>Cancel</button>}
+              editButtonElement={<button>Accept</button>}
+              addButtonElement={<button>Add</button>}
             />
           </React.Fragment>
         )}
