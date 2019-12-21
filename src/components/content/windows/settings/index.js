@@ -9,7 +9,6 @@ function Settings() {
   const [state_settings, set_state_settings] = React.useState({});
 
   const on_edit = data => {
-    console.log(...data);
     context_set_settings(data);
   };
 
@@ -22,17 +21,15 @@ function Settings() {
       <div className="content_body">
         <div className="bar"></div>
         <JsonTree
-          rootName="context_data_character"
+          rootName="state_settings"
           data={state_settings}
           onDeltaUpdate={on_edit}
           isCollapsed={() => {
             return false;
           }}
-          cancelButtonElement={<button>X</button>}
-          editButtonElement={<button>OK</button>}
+          cancelButtonElement={<button>Cancel</button>}
+          editButtonElement={<button>Accept</button>}
           addButtonElement={<button>Add</button>}
-          plusMenuElement={<span>Add</span>}
-          minusMenuElement={<span>Remove</span>}
         />
       </div>
     </React.Fragment>

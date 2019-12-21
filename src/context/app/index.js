@@ -7,11 +7,21 @@ import useStopWatch from "../../hooks/stop_watch.js";
 export const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
+  const [state_settings, set_state_settings] = React.useState({
+    login: "AM_1",
+    password: "123",
+    main_loop_sleep: 10,
+    reconnect_attempts_interval: 1000,
+    client_send_delay: 0,
+    client_timeout: 3 * 1000,
+    client_server_url: "http://localhost:3000",
+    start_as_connection_enabled: false
+  });
   const [state_client, set_state_client] = React.useState();
   const [
     state_connection_enabled,
     set_state_connection_enabled
-  ] = React.useState(true);
+  ] = React.useState(state_settings.start_as_connection_enabled);
   const [state_connection_status, set_state_connection_status] = React.useState(
     "Disconnected"
   );
@@ -19,14 +29,6 @@ const AppProvider = ({ children }) => {
     state_reconnect_attempts,
     set_state_reconnect_attempts
   ] = React.useState(0);
-  const [state_settings, set_state_settings] = React.useState({
-    login: "AM_1",
-    password: "123",
-    reconnect_attempts_interval: 1000,
-    client_send_delay: 0,
-    client_timeout: 3 * 1000,
-    main_loop_sleep: 10
-  });
 
   const {
     hook_parse_packet,
@@ -150,7 +152,7 @@ const AppProvider = ({ children }) => {
 
     try {
       const client = new Client({
-        url: "http://localhost:3000",
+        url: state_settings.client_server_url,
         send_delay: state_settings.client_send_delay,
         timeout: state_settings.timeout
       });
