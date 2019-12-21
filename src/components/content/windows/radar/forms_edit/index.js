@@ -2,6 +2,7 @@ import React from "react";
 import Row from "./row";
 import { AppContext } from "../../../../context/app";
 import { GuiContext } from "../../../../context/gui";
+import "./index.css";
 
 function FormsEdit(props) {
   const {
@@ -164,7 +165,7 @@ function FormsEdit(props) {
 
   return (
     <React.Fragment>
-      <div className="contentbody">
+      <div className="content_body">
         <div className="bar">
           <input
             type="text"
