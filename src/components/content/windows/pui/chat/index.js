@@ -1,5 +1,6 @@
 import React from "react";
-import { AppContext } from "../../../../context/app";
+import { AppContext } from "../../../../../context/app";
+import "./index.css";
 
 function Chat() {
   const {
@@ -9,7 +10,7 @@ function Chat() {
     context_send_message
   } = React.useContext(AppContext);
 
-  const [state_room, set_state_room] = React.useState({});
+  const [state_room, set_state_room] = React.useState([{ user: "" }]);
   const [state_send_messages, set_state_send_messages] = React.useState([]);
   const [state_display_messages, set_state_display_messages] = React.useState(
     []
@@ -68,19 +69,11 @@ function Chat() {
 
   return (
     <React.Fragment>
-      <div className="contentbody">
+      <div className="content_body">
         <div className="bar">
-          <select
-            value={state_input_value}
-            onChange={e => {
-              set_state_input_value(e.target.value);
-            }}
-          >
-            <option value="grejpfrutowy">Grejpfrutowy</option>
-            <option value="limonkowy">Limonkowy</option>
-            <option value="kokosowy">Kokosowy</option>
-            <option value="mango">Mango</option>
-          </select>
+          <div style={{ width: "80px" }} className="label">
+            User
+          </div>
           <input
             type="text"
             value={state_input_value}
@@ -91,7 +84,12 @@ function Chat() {
           <button onClick={send_message}>send</button>
           <button onClick={clear_messages}>clear</button>
         </div>
-        <div className="chat">{state_display_messages}</div>
+        <div className="chat">
+          <div className="content">
+            <div className="column_left"></div>
+            <div className="column_right"></div>
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );

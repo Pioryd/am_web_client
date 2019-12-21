@@ -1,0 +1,45 @@
+.chat {
+  position: relative;
+  height: calc(100% - 20px);
+}
+
+.chat .content {
+  position: relative;
+  display: flex;
+  float: left;
+  height: 100%;
+  background-color: blue;
+}
+.chat .content .column_left {
+  position: relative;
+  min-width: 100px;
+  max-width: 100px;
+  width: 100px;
+  height: 100%;
+  border: 1px solid red;
+  overflow: auto;
+}
+
+.chat .content .column_right {
+  position: relative;
+  min-width: 300px;
+  max-width: calc(100% - 2px);
+  width: calc(100% - 2px);
+  height: 100%;
+  border: 1px solid red;
+  overflow: auto;
+}
+
+.chat .receiver {
+  border: 1px solid gray;
+  background-color: gainsboro;
+  color: black;
+  width: calc(100% - 2px);
+}
+
+.chat .sender {
+  border: 1px solid blue;
+  background-color: dodgerblue;
+  color: white;
+  width: calc(100% - 2px);
+}

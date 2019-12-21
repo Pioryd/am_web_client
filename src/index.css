@@ -67,6 +67,19 @@ select {
   padding: 0px 10px 0px 10px;
 }
 
+.label {
+  height: 14px;
+  color: green;
+  background-color: black;
+  font-size: 12px;
+  border: none;
+  position: flex;
+  float: left;
+  padding: 0px;
+  margin-left: 1px;
+  padding: 0px 10px 0px 10px;
+}
+
 /* 
  * Main window
  */
@@ -134,17 +147,4 @@ select {
   top: 0; /* Position the navbar at the top of the page */
   width: 100%; /* Full width */
   z-index: 1000000;
-}
-
-.chat {
-}
-
-.chat .receiver {
-  background-color: gainsboro;
-  color: black;
-}
-
-.chat .sender {
-  background-color: dodgerblue;
-  color: white;
 }
