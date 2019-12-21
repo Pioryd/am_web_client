@@ -1,6 +1,7 @@
 import React from "react";
 import { AppContext } from "../../../context/app";
 import { GuiContext } from "../../../gui_context";
+import "./index.css";
 
 function Radar(props) {
   const { context_source } = React.useContext(AppContext);
@@ -113,7 +114,7 @@ function Radar(props) {
 
   return (
     <React.Fragment>
-      <div className="contentbody">
+      <div className="content_body">
         <div className="bar">
           <button
             onClick={e => {
