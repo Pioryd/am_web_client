@@ -15,7 +15,7 @@ function JsonView() {
 
   return (
     <React.Fragment>
-      <div className="contentbody">
+      <div className="content_body">
         <div className="bar">{"Theme: " + state_theme}</div>
         <pre>
           <ReactJson src={state_source} theme={state_theme} />

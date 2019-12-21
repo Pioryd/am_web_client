@@ -90,7 +90,7 @@ function Statistics() {
 
   return (
     <React.Fragment>
-      <div className="contentbody">
+      <div className="content_body">
         <div className="bar"></div>
         {context_admin ? (
           <React.Fragment>

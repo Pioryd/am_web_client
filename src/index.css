@@ -115,14 +115,14 @@ select {
 /* 
  * Windows
  */
-.contentbody {
+.content_body {
   height: calc(100% - 20px);
   margin-bottom: 5px;
   width: 100%;
   overflow: auto;
 }
 
-.contentbody .bar {
+.content_body .bar {
   height: 15px;
   font-size: 12px;
   text-align: left;

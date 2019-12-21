@@ -19,7 +19,7 @@ function Settings() {
 
   return (
     <React.Fragment>
-      <div className="contentbody">
+      <div className="content_body">
         <div className="bar"></div>
         <JsonTree
           rootName="context_data_character"
