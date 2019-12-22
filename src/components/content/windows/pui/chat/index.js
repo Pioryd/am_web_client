@@ -2,7 +2,6 @@ import React from "react";
 import Util from "../../../../../framework/util";
 import { AppContext } from "../../../../../context/app";
 import useRooms from "./rooms_hook";
-import EnterMessage from "./enter_message";
 import "./index.css";
 /*
 Friends list
