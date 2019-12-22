@@ -39,9 +39,13 @@ function useRooms(props) {
   };
 
   const set_current_room = name => {
-    if (!(name in state_rooms_list)) return;
+    const rooms_list = { ...state_rooms_list };
 
-    set_state_current_room(state_rooms_list[name]);
+    if (!(name in rooms_list)) return;
+
+    rooms_list[name].unread = false;
+    set_state_current_room(rooms_list[name]);
+    set_state_rooms_list(rooms_list);
   };
 
   const add_message = ({ name, text, date, received }) => {
@@ -54,6 +58,8 @@ function useRooms(props) {
     room.messages.sort(function(a, b) {
       return b.date - a.date;
     });
+
+    if (state_current_room.name !== room.name) room.unread = true;
 
     set_state_rooms_list(rooms_list);
   };

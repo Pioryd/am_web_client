@@ -66,7 +66,7 @@ function Chat(props) {
 
     const display_rooms = [];
 
-    for (const [room_name] of Object.entries(rooms))
+    for (const [room_name, room] of Object.entries(rooms))
       display_rooms.push(
         <button
           key={room_name}
@@ -75,7 +75,7 @@ function Chat(props) {
             set_current_room(room_name);
           }}
         >
-          {room_name}
+          {room_name} {room.unread === true ? "(!)" : ""}
         </button>
       );
 
@@ -83,6 +83,8 @@ function Chat(props) {
   };
 
   const send_message = () => {
+    if (current_room.name === "") return;
+
     const text = state_input_value;
     const date = new Date();
     const name = current_room.name;
@@ -105,8 +107,9 @@ function Chat(props) {
   };
 
   const clear_messages = () => {
-    clear_room_messages();
+    if (current_room.name === "") return;
 
+    clear_room_messages();
     update_displayed_message();
   };
 
@@ -123,12 +126,12 @@ function Chat(props) {
   React.useEffect(() => {
     update_displayed_rooms();
     update_displayed_message();
-  }, [rooms_list]);
+  }, [rooms_list, current_room]);
 
   React.useEffect(() => {
     if (!("character" in context_data_character)) return;
 
-    update_rooms([...context_data_character.character.friends_list, "local"]);
+    update_rooms([...context_data_character.character.friends_list]);
   }, [context_data_character]);
 
   return (
@@ -137,6 +140,7 @@ function Chat(props) {
         <div className="bar">
           <div style={{ width: "80px" }} className="label">
             {current_room.name}
+            {current_room.unread === true ? "(!)" : ""}
           </div>
           <input
             key="chat_input"
@@ -145,9 +149,9 @@ function Chat(props) {
             onChange={e => {
               set_state_input_value(e.currentTarget.value);
             }}
-          ></input>
-          <button onClick={props.send_message}>send</button>
-          <button onClick={props.clear_messages}>clear</button>
+          />
+          <button onClick={send_message}>send</button>
+          <button onClick={clear_messages}>clear</button>
         </div>
         <div className="chat">
           <div className="content">
