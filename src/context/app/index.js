@@ -1,5 +1,6 @@
 import React from "react";
 import Client from "../../framework/client";
+import Util from "../../framework/util";
 import SendPacket from "./send_packet";
 import useParsePacketHook from "./parse_packet_hook";
 import useStopWatch from "../../hooks/stop_watch.js";
@@ -8,7 +9,7 @@ export const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [state_settings, set_state_settings] = React.useState({
-    login: "AM_1",
+    login: Util.get_url_path(),
     password: "123",
     main_loop_sleep: 1000,
     reconnect_attempts_interval: 1000,

@@ -8,6 +8,13 @@ class Util {
       second: "numeric"
     });
   }
+
+  static get_url_path() {
+    let url_path = window.location.pathname;
+    if (url_path.charAt(0) === "/" || url_path.charAt(0) === "\\")
+      url_path = url_path.substring(1);
+    return url_path;
+  }
 }
 
 export default Util;
