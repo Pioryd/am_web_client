@@ -49,8 +49,8 @@ class SendPacket {
     this._send(state_client, "data_character_change_activity", { name });
   }
 
-  static action_message(state_client, { character_name, message }) {
-    this._send(state_client, "chat_message", { character_name, message });
+  static action_message(state_client, { name, text }) {
+    this._send(state_client, "action_message", { name, text });
   }
 }
 

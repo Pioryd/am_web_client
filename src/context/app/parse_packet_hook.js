@@ -43,6 +43,14 @@ function useParsePacketHook(props) {
     set_state_received_messages([...state_received_messages, { ...data }]);
   };
 
+  const pop_received_messages = () => {
+    if (state_received_messages.length <= 0) return;
+
+    const received_messages = [...state_received_messages];
+    set_state_received_messages([]);
+    return received_messages;
+  };
+
   return {
     hook_parse_packet: {
       login: login,
@@ -58,6 +66,8 @@ function useParsePacketHook(props) {
     hook_data_character: state_data_character,
     hook_data_world: state_data_world,
     hook_received_messages: state_received_messages,
+    hook_pop_received_messages: pop_received_messages,
+
     hook_clear_logged_as: () => {
       set_state_logged_as("");
     },

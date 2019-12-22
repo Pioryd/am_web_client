@@ -1,93 +1,159 @@
 import React from "react";
+import Util from "../../../../../framework/util";
 import { AppContext } from "../../../../../context/app";
+import useRooms from "./rooms_hook";
+import EnterMessage from "./enter_message";
 import "./index.css";
+/*
+Friends list
 
-function Chat() {
+*/
+function Chat(props) {
   const {
-    context_logged_as,
+    context_data_character,
     context_received_messages,
-    context_clear_received_messages,
+    context_pop_received_messages,
     context_send_message
   } = React.useContext(AppContext);
 
-  const [state_room, set_state_room] = React.useState([{ user: "" }]);
-  const [state_send_messages, set_state_send_messages] = React.useState([]);
+  const {
+    current_room,
+    rooms_list,
+    update_rooms,
+    set_current_room,
+    add_message,
+    clear_room_messages
+  } = useRooms();
+
+  const [state_display_rooms, set_state_display_rooms] = React.useState([]);
   const [state_display_messages, set_state_display_messages] = React.useState(
     []
   );
   const [state_input_value, set_state_input_value] = React.useState("");
 
-  const create_room = (from_user, to_user) => {
-    set_state_room({ from_user: from_user, to_user: to_user });
-  };
-
   const update_displayed_message = () => {
-    const messages = [...state_send_messages, ...context_received_messages];
-    messages.sort((a, b) => {
-      if (a.date > b.data) return 1;
-      if (a.date < b.data) return -1;
-      return 0;
-    });
+    const messages = [...current_room.messages];
 
     const display_messages = [];
 
-    for (const message of messages) {
-      if (message.from_user === context_logged_as)
-        display_messages.push(<div className="sender">message.message</div>);
+    for (let i = 0; i < messages.length; i++) {
+      const message = messages[i];
+
+      if (message.received === true)
+        display_messages.push(
+          <div key={`received_${i}`} className="received">
+            <div className="info">{`[${Util.get_time_hms(message.date)}] ${
+              message.name
+            }:`}</div>
+            {message.text}
+          </div>
+        );
       else
-        display_messages.push(<div className="receiver">message.message</div>);
+        display_messages.push(
+          <div key={`sended_${i}`} className="sended">
+            <div className="info">{`[${Util.get_time_hms(
+              message.date
+            )}] You:`}</div>
+            {message.text}
+          </div>
+        );
     }
 
     set_state_display_messages(display_messages);
   };
 
-  const send_message = () => {
-    let messages = [...state_send_messages];
-    messages.push({
-      date: new Date(),
-      from_user: context_logged_as,
-      message: state_input_value
-    });
-    set_state_send_messages(messages);
+  const update_displayed_rooms = () => {
+    const rooms = { ...rooms_list };
 
-    context_send_message(0, 0, state_input_value);
+    const display_rooms = [];
+
+    for (const [room_name] of Object.entries(rooms))
+      display_rooms.push(
+        <button
+          key={room_name}
+          className="button"
+          onClick={() => {
+            set_current_room(room_name);
+          }}
+        >
+          {room_name}
+        </button>
+      );
+
+    set_state_display_rooms(display_rooms);
+  };
+
+  const send_message = () => {
+    const text = state_input_value;
+    const date = new Date();
+    const name = current_room.name;
+
+    add_message({
+      name: name,
+      date: date,
+      text: text,
+      received: false
+    });
+
+    context_send_message({
+      name: name,
+      text: text
+    });
+
+    set_state_input_value("");
 
     update_displayed_message();
   };
 
   const clear_messages = () => {
-    set_state_send_messages([]);
-    set_state_display_messages([]);
-    context_clear_received_messages();
+    clear_room_messages();
 
     update_displayed_message();
   };
 
   React.useEffect(() => {
+    const received_messages = context_pop_received_messages();
+    if (received_messages == null) return;
+
+    for (const message of received_messages)
+      add_message({ ...message, date: new Date(), received: true });
+
     update_displayed_message();
   }, [context_received_messages]);
+
+  React.useEffect(() => {
+    update_displayed_rooms();
+    update_displayed_message();
+  }, [rooms_list]);
+
+  React.useEffect(() => {
+    if (!("character" in context_data_character)) return;
+
+    update_rooms([...context_data_character.character.friends_list, "local"]);
+  }, [context_data_character]);
 
   return (
     <React.Fragment>
       <div className="content_body">
         <div className="bar">
           <div style={{ width: "80px" }} className="label">
-            User
+            {current_room.name}
           </div>
           <input
+            key="chat_input"
             type="text"
             value={state_input_value}
             onChange={e => {
-              set_state_input_value(e.target.value);
+              set_state_input_value(e.currentTarget.value);
             }}
           ></input>
-          <button onClick={send_message}>send</button>
-          <button onClick={clear_messages}>clear</button>
+          <button onClick={props.send_message}>send</button>
+          <button onClick={props.clear_messages}>clear</button>
         </div>
         <div className="chat">
           <div className="content">
-            <div className="column_left"></div>
-            <div className="column_right"></div>
+            <div className="column_left">{state_display_rooms}</div>
+            <div className="column_right">{state_display_messages}</div>
           </div>
         </div>
       </div>

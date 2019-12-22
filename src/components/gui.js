@@ -100,6 +100,16 @@ function Gui() {
                         key: "chat",
                         title: "chat"
                       }
+                    },
+                    {
+                      title: "statistics",
+                      type: "react-component",
+                      component: "statistics",
+                      props: {
+                        id: "statistics",
+                        key: "statistics",
+                        title: "statistics"
+                      }
                     }
                   ]
                 }

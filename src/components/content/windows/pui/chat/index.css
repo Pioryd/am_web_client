@@ -20,6 +20,10 @@
   overflow: auto;
 }
 
+.chat .content .column_left .button {
+  width: 100px;
+}
+
 .chat .content .column_right {
   position: relative;
   min-width: 300px;
@@ -30,16 +34,32 @@
   overflow: auto;
 }
 
-.chat .receiver {
+.chat .received {
   border: 1px solid gray;
   background-color: gainsboro;
   color: black;
   width: calc(100% - 2px);
 }
 
-.chat .sender {
+.chat .received .info {
+  font-size: 12px;
+  border: 1px solid gainsboro;
+  background-color: lavender;
+  color: black;
+  width: calc(100% - 2px);
+}
+
+.chat .sended {
   border: 1px solid blue;
   background-color: dodgerblue;
+  color: white;
+  width: calc(100% - 2px);
+}
+
+.chat .sended .info {
+  font-size: 12px;
+  border: 1px solid dodgerblue;
+  background-color: rgb(57, 182, 224);
   color: white;
   width: calc(100% - 2px);
 }

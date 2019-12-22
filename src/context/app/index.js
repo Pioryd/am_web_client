@@ -10,12 +10,12 @@ const AppProvider = ({ children }) => {
   const [state_settings, set_state_settings] = React.useState({
     login: "AM_1",
     password: "123",
-    main_loop_sleep: 10,
+    main_loop_sleep: 1000,
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
     client_timeout: 3 * 1000,
     client_server_url: "http://localhost:3000",
-    start_as_connection_enabled: false
+    start_as_connection_enabled: true
   });
   const [state_client, set_state_client] = React.useState();
   const [
@@ -38,6 +38,7 @@ const AppProvider = ({ children }) => {
     hook_data_character,
     hook_data_world,
     hook_received_messages,
+    hook_pop_received_messages,
     hook_clear_messages,
     hook_clear_logged_as
   } = useParsePacketHook();
@@ -240,6 +241,7 @@ const AppProvider = ({ children }) => {
     context_data_character: hook_data_character,
     context_data_world: hook_data_world,
     context_received_messages: hook_received_messages,
+    context_pop_received_messages: hook_pop_received_messages,
     context_clear_received_messages: hook_clear_messages,
     context_connection_enabled: state_connection_enabled,
     context_connection_status: state_connection_status,
