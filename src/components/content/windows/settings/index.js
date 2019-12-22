@@ -23,7 +23,7 @@ function Settings() {
         <JsonTree
           rootName="state_settings"
           data={state_settings}
-          onDeltaUpdate={on_edit}
+          onFullyUpdate={on_edit}
           isCollapsed={() => {
             return false;
           }}
