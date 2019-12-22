@@ -149,6 +149,9 @@ function Chat(props) {
             onChange={e => {
               set_state_input_value(e.currentTarget.value);
             }}
+            onKeyDown={e => {
+              if (e.key === "Enter") send_message();
+            }}
           />
           <button onClick={send_message}>send</button>
           <button onClick={clear_messages}>clear</button>
