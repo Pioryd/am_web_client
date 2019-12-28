@@ -19,8 +19,8 @@ function useParsePacketHook(props) {
       return { packet_id: "data_full", data: {} };
     else
       return [
-        { packet_id: "data_full", data: {} },
-        { packet_id: "data_character", data: {} }
+        { packet_id: "data_character", data: {} },
+        { packet_id: "data_world", data: {} }
       ];
   };
 
