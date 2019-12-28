@@ -6,6 +6,7 @@ import Navigation from "../components/navigation";
 import Statistics from "../components/content/windows/pui/statistics";
 import Settings from "../components/content/windows/settings";
 import Chat from "../components/content/windows/pui/chat";
+import EditData from "../components/content/windows/pui/edit_data";
 
 function Gui() {
   let ref_gl = React.createRef();
@@ -13,7 +14,8 @@ function Gui() {
   const windows_map = {
     settings: { class: Settings, title: "[All] Settings" },
     statistics: { class: Statistics, title: "[All] Statistics" },
-    chat: { class: Chat, title: "[User] Chat" }
+    chat: { class: Chat, title: "[User] Chat" },
+    edit_data: { class: EditData, title: "[User] Edit data" }
   };
 
   const helper = {
@@ -92,13 +94,13 @@ function Gui() {
                   isClosable: false,
                   content: [
                     {
-                      title: "chat",
+                      title: "edit_data",
                       type: "react-component",
-                      component: "chat",
+                      component: "edit_data",
                       props: {
-                        id: "chat",
-                        key: "chat",
-                        title: "chat"
+                        id: "edit_data",
+                        key: "edit_data",
+                        title: "edit_data"
                       }
                     },
                     {

@@ -17,8 +17,6 @@ function Statistics() {
     context_change_activity
   } = React.useContext(AppContext);
 
-  //const [state_character_data, set_state_character_data] = React.useState();
-
   const on_edit = ({ type, keyPath, deep, key, newValue, oldValue }) => {
     if (context_admin === true) return;
 

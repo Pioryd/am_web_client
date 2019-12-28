@@ -1,0 +1,32 @@
+.edit-form {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+}
+
+.edit-form .row {
+  position: relative;
+  border: 1px solid rgb(124, 124, 124);
+  height: 20px;
+  width: 500px;
+  min-width: 500px;
+}
+
+.edit-form .row .name {
+  position: relative;
+  width: 150px;
+  float: left;
+}
+
+.edit-form .row .value {
+  position: relative;
+  min-width: 200px;
+  width: auto;
+  float: left;
+}
+
+.edit-form .row .process {
+  position: relative;
+  width: 100px;
+  float: left;
+}
