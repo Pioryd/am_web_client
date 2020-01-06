@@ -1,15 +1,14 @@
 .edit-form {
   position: relative;
   width: 100%;
-  overflow: auto;
+  height: auto;
 }
 
 .edit-form .row {
   position: relative;
   border: 1px solid rgb(124, 124, 124);
-  height: 20px;
+  height: 40px;
   width: 500px;
-  min-width: 500px;
 }
 
 .edit-form .row .name {
@@ -18,11 +17,24 @@
   float: left;
 }
 
-.edit-form .row .value {
+.edit-form .row .input_value {
   position: relative;
-  min-width: 200px;
-  width: auto;
+  width: 180px;
   float: left;
+  margin: 0px;
+}
+
+.edit-form .row .select_value {
+  position: relative;
+  width: 100px;
+  float: left;
+}
+
+.edit-form .row .select_value_selected {
+  position: relative;
+  width: 100px;
+  float: left;
+  text-align: center;
 }
 
 .edit-form .row .process {

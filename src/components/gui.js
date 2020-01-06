@@ -6,7 +6,7 @@ import Navigation from "../components/navigation";
 import Statistics from "../components/content/windows/pui/statistics";
 import Settings from "../components/content/windows/settings";
 import Chat from "../components/content/windows/pui/chat";
-import EditData from "../components/content/windows/pui/edit_data";
+import UserInterface from "../components/content/windows/pui/user_interface";
 
 function Gui() {
   let ref_gl = React.createRef();
@@ -15,7 +15,7 @@ function Gui() {
     settings: { class: Settings, title: "[All] Settings" },
     statistics: { class: Statistics, title: "[All] Statistics" },
     chat: { class: Chat, title: "[User] Chat" },
-    edit_data: { class: EditData, title: "[User] Edit data" }
+    user_interface: { class: UserInterface, title: "[User] Edit data" }
   };
 
   const helper = {
@@ -94,23 +94,13 @@ function Gui() {
                   isClosable: false,
                   content: [
                     {
-                      title: "edit_data",
+                      title: "user_interface",
                       type: "react-component",
-                      component: "edit_data",
+                      component: "user_interface",
                       props: {
-                        id: "edit_data",
-                        key: "edit_data",
-                        title: "edit_data"
-                      }
-                    },
-                    {
-                      title: "statistics",
-                      type: "react-component",
-                      component: "statistics",
-                      props: {
-                        id: "statistics",
-                        key: "statistics",
-                        title: "statistics"
+                        id: "user_interface",
+                        key: "user_interface",
+                        title: "user_interface"
                       }
                     }
                   ]

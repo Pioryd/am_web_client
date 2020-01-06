@@ -38,6 +38,7 @@ const AppProvider = ({ children }) => {
     hook_data_full,
     hook_data_character,
     hook_data_world,
+    hook_data_land,
     hook_received_messages,
     hook_pop_received_messages,
     hook_clear_messages,
@@ -143,10 +144,12 @@ const AppProvider = ({ children }) => {
       _this.set_state_reconnect_attempts(reconnect_attempts);
     };
 
-    const main_loop = () => {
+    const main_loop = async () => {
       const _this = ref_check_connection.current;
       check_connection(_this);
+
       if (_this.state_client != null) _this.state_client.poll();
+
       ref_main_loop.current = setTimeout(() => {
         main_loop();
       }, _this.state_settings.main_loop_sleep);
@@ -240,6 +243,7 @@ const AppProvider = ({ children }) => {
     context_admin: hook_admin,
     context_data_full: hook_data_full,
     context_data_character: hook_data_character,
+    context_data_land: hook_data_land,
     context_data_world: hook_data_world,
     context_received_messages: hook_received_messages,
     context_pop_received_messages: hook_pop_received_messages,
