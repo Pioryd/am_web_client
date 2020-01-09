@@ -7,7 +7,18 @@
 .edit-form .row {
   position: relative;
   border: 1px solid rgb(124, 124, 124);
-  height: 40px;
+  min-height: 40;
+  width: 500px;
+}
+
+.edit-form .row .main {
+  position: relative;
+  min-height: 40px;
+  width: 500px;
+}
+
+.edit-form .row .children {
+  position: relative;
   width: 500px;
 }
 

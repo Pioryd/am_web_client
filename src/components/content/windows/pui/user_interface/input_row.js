@@ -12,29 +12,32 @@ function InputRow(props) {
 
   return (
     <div className="row">
-      <div className="name" key={state_key + "_key"}>
-        {state_key}
+      <div className="main">
+        <div className="name" key={state_key + "_key"}>
+          {state_key}
+        </div>
+        <input
+          ref={ref_text_input}
+          className="input_value"
+          key={state_key + "_value"}
+          name={state_key}
+          type="text"
+          onChange={e => {
+            set_state_value(e.target.value);
+          }}
+        ></input>
+        <button
+          className="process"
+          onClick={e => {
+            props.on_process(state_value);
+            set_state_value("");
+            ref_text_input.current.value = "";
+          }}
+        >
+          process
+        </button>
       </div>
-      <input
-        ref={ref_text_input}
-        className="input_value"
-        key={state_key + "_value"}
-        name={state_key}
-        type="text"
-        onChange={e => {
-          set_state_value(e.target.value);
-        }}
-      ></input>
-      <button
-        className="process"
-        onClick={e => {
-          props.on_process(state_value);
-          set_state_value("");
-          ref_text_input.current.value = "";
-        }}
-      >
-        process
-      </button>
+      <div className="children">{props.children}</div>
     </div>
   );
 }

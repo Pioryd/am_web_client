@@ -25,50 +25,37 @@ function SelectRow(props) {
     if (props.row_options != null) set_state_options(props.row_options);
   }, [props]);
 
-  React.useEffect(() => {
-    let selected_name = state_selected_name;
-    const selected_value = state_selected_value;
-    const options = state_options;
-    if (
-      Array.isArray(selected_value) &&
-      Array.isArray(options) &&
-      options.length > 0
-    ) {
-      selected_name = "-";
-    } else {
-      for (const option of state_options) {
-        if (String(option.value) === String(selected_value))
-          selected_name = option.label;
-      }
-    }
-    set_state_selected_name(selected_name);
-  }, [state_selected_value]);
-
   return (
     <div className="row">
-      <div className="name" key={state_key + "_key"}>
-        {state_key}
+      <div className="main">
+        <div className="name" key={state_key + "_key"}>
+          {state_key}
+        </div>
+        <Select
+          styles={styles}
+          value={state_value}
+          onChange={option => {
+            set_state_selected_value(option.value);
+            set_state_selected_name(option.label);
+          }}
+          options={state_options}
+        />
+        <div className="select_value_selected">{state_selected_name}</div>
+        <button
+          className="process"
+          onClick={e => {
+            if (!Array.isArray(state_selected_value)) {
+              props.on_process(state_selected_value);
+
+              set_state_selected_value([]);
+              set_state_selected_name("-");
+            }
+          }}
+        >
+          process
+        </button>
       </div>
-      <Select
-        styles={styles}
-        value={state_value}
-        onChange={option => {
-          set_state_selected_value(option.value);
-        }}
-        options={state_options}
-      />
-      <div className="select_value_selected">{state_selected_name}</div>
-      <button
-        className="process"
-        onClick={e => {
-          if (!Array.isArray(state_selected_value)) {
-            props.on_process(state_selected_value);
-            set_state_selected_value([]);
-          }
-        }}
-      >
-        process
-      </button>
+      <div className="children">{props.children}</div>
     </div>
   );
 }
