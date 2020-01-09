@@ -1,5 +1,5 @@
 import React from "react";
-import { JsonTree } from "react-editable-json-tree";
+import ReactJson from "react-json-view";
 import InputRow from "./input_row";
 import SelectRow from "./select_row";
 import { AppContext } from "../../../../../context/app";
@@ -297,26 +297,26 @@ function UserInterface(props) {
             }}
           />
         </div>
-        <JsonTree
-          rootName="CharacterData"
-          data={state_formated_data_character}
-          isCollapsed={() => {
-            return false;
-          }}
+        <ReactJson
+          name="CharacterData"
+          src={state_formated_data_character}
+          theme="monokai"
+          indentWidth={2}
+          collapsed={true}
         />
-        <JsonTree
-          rootName="WorldLand"
-          data={state_formated_data_land}
-          isCollapsed={() => {
-            return false;
-          }}
+        <ReactJson
+          name="WorldLand"
+          src={state_formated_data_land}
+          theme="monokai"
+          indentWidth={2}
+          collapsed={true}
         />
-        <JsonTree
-          rootName="WorldData"
-          data={state_formated_data_world}
-          isCollapsed={() => {
-            return true;
-          }}
+        <ReactJson
+          name="WorldData"
+          src={state_formated_data_world}
+          theme="monokai"
+          indentWidth={2}
+          collapsed={true}
         />
       </div>
     </React.Fragment>
