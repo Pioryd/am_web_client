@@ -215,6 +215,9 @@ const AppProvider = ({ children }) => {
 
   const value = {
     context_on_toggle_sync: value => toggle_sync(value),
+    context_process_script_action: (...args) => {
+      SendPacket.process_script_action(state_client, ...args);
+    },
     context_change_position: (...args) => {
       SendPacket.data_character_change_position(state_client, ...args);
     },

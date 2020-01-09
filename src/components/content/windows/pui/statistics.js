@@ -8,6 +8,7 @@ function Statistics() {
     context_data_full,
     context_data_character,
     context_data_world,
+    context_process_script_action,
     context_change_position,
     context_change_land,
     context_add_friend,

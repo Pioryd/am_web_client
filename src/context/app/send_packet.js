@@ -52,6 +52,17 @@ class SendPacket {
   static action_message(state_client, { name, text }) {
     this._send(state_client, "action_message", { name, text });
   }
+
+  static process_script_action(
+    state_client,
+    { object_id, action_id, dynamic_args }
+  ) {
+    this._send(state_client, "process_script_action", {
+      object_id,
+      action_id,
+      dynamic_args
+    });
+  }
 }
 
 export default SendPacket;

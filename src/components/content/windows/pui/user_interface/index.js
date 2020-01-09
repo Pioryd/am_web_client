@@ -12,6 +12,7 @@ function UserInterface(props) {
     context_data_character,
     context_data_land,
     context_data_world,
+    context_process_script_action,
     context_change_position,
     context_change_land,
     context_add_friend,
@@ -35,13 +36,17 @@ function UserInterface(props) {
   ] = React.useState({});
 
   const [
-    state_input_row_position,
-    set_state_input_row_position
+    state_select_row_actions,
+    set_state_select_row_actions
+  ] = React.useState({});
+  const [
+    state_select_row_position,
+    set_state_select_row_position
   ] = React.useState({});
   const [state_select_row_land, set_state_select_row_land] = React.useState({});
   const [
-    state_input_row_friends_list,
-    set_state_input_row_friends_list
+    state_select_row_friends_list,
+    set_state_select_row_friends_list
   ] = React.useState({});
   const [
     state_select_row_characters,
@@ -50,6 +55,11 @@ function UserInterface(props) {
   React.useEffect(() => {
     set_state_formated_data_character(context_data_character);
   }, [context_data_character]);
+
+  const [
+    state_actions_dynamic_args,
+    set_state_actions_dynamic_args
+  ] = React.useState({});
 
   React.useEffect(() => {
     // Format land data
@@ -104,7 +114,29 @@ function UserInterface(props) {
   }, [context_data_world]);
 
   React.useEffect(() => {
-    // set_state_input_row_position
+    // set_state_select_row_actions
+    let world = state_formated_data_world;
+    let select_row_actions = { row_value: "", row_options: [] };
+    if ("environment_objects_map" in world) {
+      for (const [object_id, object_data] of Object.entries(
+        world.environment_objects_map
+      )) {
+        const object_name = object_data.name;
+        for (const action_id of object_data.actions_list) {
+          select_row_actions.row_options.push({
+            label: `${object_name}\n${action_id}`,
+            value: { object_id, action_id }
+          });
+        }
+      }
+
+      if (select_row_actions.row_options.length > 0)
+        select_row_actions.row_value = select_row_actions.row_options[0];
+
+      set_state_select_row_actions(select_row_actions);
+    }
+
+    // set_state_select_row_position
     const character = state_formated_data_character;
     let input_row_position = { row_value: 0, row_options: [] };
     if ("id" in character && "id" in context_data_land) {
@@ -116,10 +148,10 @@ function UserInterface(props) {
         input_row_position.row_options.push({ label: i, value: i });
       }
     }
-    set_state_input_row_position(input_row_position);
+    set_state_select_row_position(input_row_position);
 
     // set_state_select_row_land
-    const world = state_formated_data_world;
+    world = state_formated_data_world;
     let select_row_land = { row_value: "", row_options: [] };
     if ("lands_map" in world) {
       for (const [land_id, land_data] of Object.entries(world.lands_map)) {
@@ -135,7 +167,7 @@ function UserInterface(props) {
       set_state_select_row_land(select_row_land);
     }
 
-    // set_state_input_row_friends_list
+    // set_state_select_row_friends_list
     let select_row_friends_list = { row_value: "", row_options: [] };
     if ("id" in character) {
       for (const friend_name of character.friends_list)
@@ -148,7 +180,7 @@ function UserInterface(props) {
         select_row_friends_list.row_value =
           select_row_friends_list.row_options[0];
 
-      set_state_input_row_friends_list(select_row_friends_list);
+      set_state_select_row_friends_list(select_row_friends_list);
     }
 
     // set_state_input_row_characters
@@ -182,10 +214,35 @@ function UserInterface(props) {
         <div className="bar"></div>
         <div className="edit-form">
           <SelectRow
+            key="change_script_action"
+            row_key="actions"
+            row_value={state_select_row_actions.row_value}
+            row_options={state_select_row_actions.row_options}
+            on_process={value => {
+              context_process_script_action({
+                object_id: value.object_id,
+                action_id: value.action_id,
+                dynamic_args: JSON.parse(state_actions_dynamic_args)
+              });
+            }}
+          >
+            <div style={{ height: "20px" }}>Additional args (JSON)</div>
+            <div style={{ height: "20px" }}>
+              <input
+                className="input_value"
+                key={"actions_additional_args"}
+                type="text"
+                onChange={e => {
+                  set_state_actions_dynamic_args(e.target.value);
+                }}
+              ></input>
+            </div>
+          </SelectRow>
+          <SelectRow
             key="change_position"
             row_key="position"
-            row_value={state_input_row_position.row_value}
-            row_options={state_input_row_position.row_options}
+            row_value={state_select_row_position.row_value}
+            row_options={state_select_row_position.row_options}
             on_process={value => {
               context_change_position({ position_x: value });
             }}
@@ -212,8 +269,8 @@ function UserInterface(props) {
           <SelectRow
             key="context_remove_friend"
             row_key="remove friend"
-            row_value={state_input_row_friends_list.row_value}
-            row_options={state_input_row_friends_list.row_options}
+            row_value={state_select_row_friends_list.row_value}
+            row_options={state_select_row_friends_list.row_options}
             on_process={value => {
               context_remove_friend({ name: value });
             }}
