@@ -1,6 +1,7 @@
 import React from "react";
 import Client from "../../framework/client";
 import Util from "../../framework/util";
+import LoadingDots from "../../framework/loading_dots";
 import SendPacket from "./send_packet";
 import useParsePacketHook from "./parse_packet_hook";
 import useStopWatch from "../../hooks/stop_watch.js";
@@ -14,7 +15,7 @@ const AppProvider = ({ children }) => {
     main_loop_sleep: 1000,
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
-    client_timeout: 3 * 1000,
+    client_timeout: 25 * 1000,
     client_server_url: "http://localhost:3000",
     start_as_connection_enabled: true
   });
@@ -26,10 +27,10 @@ const AppProvider = ({ children }) => {
   const [state_connection_status, set_state_connection_status] = React.useState(
     "Disconnected"
   );
-  const [
-    state_reconnect_attempts,
-    set_state_reconnect_attempts
-  ] = React.useState(0);
+
+  const [state_loading_dots] = React.useState(
+    new LoadingDots({ interval: 1000 })
+  );
 
   const {
     hook_parse_packet,
@@ -40,6 +41,7 @@ const AppProvider = ({ children }) => {
     hook_data_world,
     hook_data_land,
     hook_received_messages,
+    hook_ref_client,
     hook_pop_received_messages,
     hook_clear_messages,
     hook_clear_logged_as
@@ -70,8 +72,6 @@ const AppProvider = ({ children }) => {
       state_connection_enabled,
       state_connection_status,
       set_state_connection_status,
-      state_reconnect_attempts,
-      set_state_reconnect_attempts,
       hook_logged_as,
       hook_clear_logged_as,
       stop_watch,
@@ -81,67 +81,29 @@ const AppProvider = ({ children }) => {
 
   const _start_client = () => {
     const check_connection = _this => {
-      let reconnect_attempts = 0;
-
       if (_this.state_client == null || _this.state_client == null) {
-        // Client not set
-
         _this.set_state_connection_status("Disconnected");
+      } else if (
+        _this.state_connection_enabled &&
+        _this.state_client.auto_reconnect_data.enabled === false
+      ) {
+        _this.state_client.auto_reconnect_data.enabled = true;
       } else if (!_this.state_connection_enabled) {
-        // Client set but possibility to connect disabled by user
-
+        _this.state_client.auto_reconnect_data.enabled = false;
         _this.state_client.disconnect("Connection disabled by user");
         _this.set_state_connection_status("Disconnected");
-      } else if (!_this.state_client.is_connected()) {
-        // Client set but not connected
-
-        if (
-          _this.stop_watch.get_elapsed_milliseconds() <
-          _this.state_settings.reconnect_attempts_interval
-        )
-          return;
-        _this.stop_watch.reset();
-
-        _this.hook_clear_logged_as();
-        _this.state_client.connect();
-        reconnect_attempts = _this.state_reconnect_attempts + 1;
-        _this.set_state_connection_status(
-          `Try to  connect... ${reconnect_attempts} times.`
-        );
-      } else if (_this.hook_logged_as === "") {
-        // Client connected and try to log in
-
-        if (_this.state_reconnect_attempts < 10) {
-          // Reconnecting until max attempts
-
-          if (
-            _this.stop_watch.get_elapsed_milliseconds() <
-            _this.state_settings.reconnect_attempts_interval
-          )
-            return;
-          _this.stop_watch.reset();
-
-          SendPacket.login(_this.state_client, {
-            login: _this.state_settings.login,
-            password: _this.state_settings.password
-          });
-          reconnect_attempts = _this.state_reconnect_attempts + 1;
-          _this.set_state_connection_status(
-            `Try to  login... ${reconnect_attempts}/10 times.`
-          );
-        } else {
-          // Max attempts reached
-          _this.set_state_connection_status("Reconnecting...");
-          _this.state_client.disconnect("Reconnecting...");
-        }
-      } else {
-        // Client connected
+      } else if (
+        _this.state_client.is_connected() &&
+        _this.hook_logged_as !== ""
+      ) {
         _this.set_state_connection_status(
           "Connected as " + _this.hook_logged_as
         );
+      } else {
+        _this.set_state_connection_status(
+          "Connecting" + state_loading_dots.get_dots()
+        );
       }
-
-      _this.set_state_reconnect_attempts(reconnect_attempts);
     };
 
     const main_loop = async () => {
@@ -158,11 +120,35 @@ const AppProvider = ({ children }) => {
     try {
       const client = new Client({
         url: state_settings.client_server_url,
-        send_delay: state_settings.client_send_delay,
-        timeout: state_settings.timeout
+        options: {
+          send_delay: state_settings.client_send_delay,
+          //packet_timeout: state_settings.timeout,
+          auto_reconnect: true,
+          debug: true
+        }
       });
       client.add_parse_packet_dict(create_parse_dict());
+      client.events.connected = () => {
+        console.log("client.connected");
+        const _this = ref_check_connection.current;
+        _this.set_state_connection_status("Logging in...");
+        SendPacket.login(_this.state_client, {
+          login: _this.state_settings.login,
+          password: _this.state_settings.password
+        });
+      };
+      client.events.disconnected = () => {
+        console.log("client.disconnected");
+        const _this = ref_check_connection.current;
+        _this.set_state_connection_status("Disconnected");
+      };
+      client.events.reconnecting = () => {
+        console.log("client.reconnecting");
+        const _this = ref_check_connection.current;
+        _this.set_state_connection_status("Reconnecting...");
+      };
       set_state_client(client);
+      hook_ref_client.current = client;
       _update_hook_check_connections();
       main_loop();
       return () => clearTimeout(ref_main_loop.current);
@@ -205,8 +191,6 @@ const AppProvider = ({ children }) => {
     state_connection_enabled,
     state_connection_status,
     set_state_connection_status,
-    state_reconnect_attempts,
-    set_state_reconnect_attempts,
     hook_logged_as,
     hook_clear_logged_as,
     stop_watch,
