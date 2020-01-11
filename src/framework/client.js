@@ -79,7 +79,7 @@ class Client {
   _send(packet_id, data) {
     if (this.socket == null || !this.is_connected()) return;
 
-    if (this.options.debug) console.log("_send", packet_id, data);
+    if (this.options.debug) console.log("Send", packet_id, data);
 
     try {
       if (this.options.send_delay > 0) {
@@ -88,7 +88,7 @@ class Client {
         }, this.options.send_delay);
       } else this.socket.emit(packet_id, data);
     } catch (error) {
-      console.log("Exception: " + error);
+      if (this.options.debug) console.log("Exception: " + error);
     }
   }
 
@@ -97,15 +97,16 @@ class Client {
       this.last_packet_time = date;
 
       if (!(packet_id in this.parse_packet_dict)) {
-        console.log("Unable to parse packet id: " + packet_id);
+        if (this.options.debug)
+          console.log("Unable to parse packet id: " + packet_id);
         return;
       }
 
-      if (this.options.debug) console.log("_parse_packet", packet_id, data);
+      if (this.options.debug) console.log("Parse", packet_id, data);
 
       this.parse_packet_dict[packet_id](data);
     } catch (error) {
-      console.log("Exception: " + error + error.stack);
+      if (this.options.debug) console.log("Exception: " + error + error.stack);
     }
   }
 
@@ -172,7 +173,8 @@ class Client {
   disconnect(message) {
     if (this.socket == null) return;
 
-    console.info("Connection disconnected. Error:", message);
+    if (this.options.debug)
+      console.info("Connection disconnected. Error:", message);
 
     if (this.is_connected()) this.socket.close();
 
