@@ -4,7 +4,6 @@ import Util from "../../framework/util";
 import LoadingDots from "../../framework/loading_dots";
 import SendPacket from "./send_packet";
 import useParsePacketHook from "./parse_packet_hook";
-import useStopWatch from "../../hooks/stop_watch.js";
 
 export const AppContext = React.createContext();
 
@@ -50,8 +49,6 @@ const AppProvider = ({ children }) => {
   const ref_main_loop = React.useRef();
   const ref_check_connection = React.useRef();
 
-  const stop_watch = useStopWatch();
-
   const _get_connection_id = () => {
     if (
       state_client != null &&
@@ -74,7 +71,6 @@ const AppProvider = ({ children }) => {
       set_state_connection_status,
       hook_logged_as,
       hook_clear_logged_as,
-      stop_watch,
       state_settings
     };
   };
@@ -193,7 +189,6 @@ const AppProvider = ({ children }) => {
     set_state_connection_status,
     hook_logged_as,
     hook_clear_logged_as,
-    stop_watch,
     state_settings
   ]);
 
