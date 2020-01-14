@@ -12,6 +12,10 @@ function useParsePacketHook(props) {
   const [state_received_messages, set_state_received_messages] = React.useState(
     []
   );
+  const [
+    state_packets_virtual_world,
+    set_state_packets_virtual_world
+  ] = React.useState([]);
 
   const get_client = () => {
     return ref_client.current;
@@ -48,6 +52,11 @@ function useParsePacketHook(props) {
   };
   const action_message = data => {
     set_state_received_messages([...state_received_messages, { ...data }]);
+  const virtual_world = data => {
+    set_state_packets_virtual_world([
+      ...state_packets_virtual_world,
+      { ...data }
+    ]);
   };
 
   // Other functions
@@ -59,6 +68,14 @@ function useParsePacketHook(props) {
     return received_messages;
   };
 
+  const pop_packets_virtual_world = () => {
+    if (state_packets_virtual_world.length <= 0) return;
+
+    const received_packets = [...state_packets_virtual_world];
+    set_state_packets_virtual_world([]);
+    return received_packets;
+  };
+
   return {
     hook_parse_packet: {
       login: login,
@@ -67,6 +84,7 @@ function useParsePacketHook(props) {
       data_land: data_land,
       data_world: data_world,
       action_message: action_message
+      virtual_world: virtual_world
     },
     hook_logged_as: state_logged_as,
     hook_admin: state_admin,
@@ -75,8 +93,10 @@ function useParsePacketHook(props) {
     hook_data_land: state_data_land,
     hook_data_world: state_data_world,
     hook_received_messages: state_received_messages,
+    hook_packets_virtual_world: state_packets_virtual_world,
     hook_ref_client: ref_client,
     hook_pop_received_messages: pop_received_messages,
+    hook_pop_packets_virtual_world: pop_packets_virtual_world,
     hook_clear_logged_as: () => {
       set_state_logged_as("");
     },

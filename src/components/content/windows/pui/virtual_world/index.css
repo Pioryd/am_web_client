@@ -1,0 +1,65 @@
+.virtual_world {
+  position: relative;
+  height: calc(100% - 20px);
+}
+
+.virtual_world .content {
+  position: relative;
+  display: flex;
+  float: left;
+  height: 100%;
+  background-color: blue;
+}
+.virtual_world .content .column_left {
+  position: relative;
+  min-width: 100px;
+  max-width: 100px;
+  width: 100px;
+  height: 100%;
+  border: 1px solid red;
+  overflow: auto;
+}
+
+.virtual_world .content .column_left .button {
+  width: 100px;
+}
+
+.virtual_world .content .column_right {
+  position: relative;
+  min-width: 300px;
+  max-width: calc(100% - 2px);
+  width: calc(100% - 2px);
+  height: 100%;
+  border: 1px solid red;
+  overflow: auto;
+}
+
+.virtual_world .received {
+  border: 1px solid gray;
+  background-color: gainsboro;
+  color: black;
+  width: calc(100% - 2px);
+}
+
+.virtual_world .received .info {
+  font-size: 12px;
+  border: 1px solid gainsboro;
+  background-color: lavender;
+  color: black;
+  width: calc(100% - 2px);
+}
+
+.virtual_world .sended {
+  border: 1px solid blue;
+  background-color: dodgerblue;
+  color: white;
+  width: calc(100% - 2px);
+}
+
+.virtual_world .sended .info {
+  font-size: 12px;
+  border: 1px solid dodgerblue;
+  background-color: rgb(57, 182, 224);
+  color: white;
+  width: calc(100% - 2px);
+}

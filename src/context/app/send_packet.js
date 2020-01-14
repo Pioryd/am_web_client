@@ -57,6 +57,19 @@ class SendPacket {
     this._send(client, "action_message", { name, text });
   }
 
+  // Currently is not used by server
+  static enter_virtual_world(client, { id }) {
+    this._send(client, "enter_virtual_world", { id });
+  }
+
+  static leave_virtual_world(client) {
+    this._send(client, "leave_virtual_world", {});
+  }
+
+  static virtual_world(client, { id, packet_id, packet_data }) {
+    this._send(client, "virtual_world", { id, packet_id, packet_data });
+  }
+
   static process_script_action(client, { object_id, action_id, dynamic_args }) {
     this._send(client, "process_script_action", {
       object_id,

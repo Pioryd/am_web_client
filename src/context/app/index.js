@@ -11,7 +11,7 @@ const AppProvider = ({ children }) => {
   const [state_settings, set_state_settings] = React.useState({
     login: Util.get_url_path(),
     password: "123",
-    main_loop_sleep: 1000,
+    main_loop_sleep: 2500,
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
     client_timeout: 25 * 1000,
@@ -40,9 +40,11 @@ const AppProvider = ({ children }) => {
     hook_data_world,
     hook_data_land,
     hook_received_messages,
+    hook_packets_virtual_world,
     hook_ref_client,
     hook_pop_received_messages,
     hook_clear_messages,
+    hook_pop_packets_virtual_world,
     hook_clear_logged_as
   } = useParsePacketHook();
 
@@ -221,6 +223,15 @@ const AppProvider = ({ children }) => {
     context_send_message: (...args) => {
       SendPacket.action_message(state_client, ...args);
     },
+    context_send_enter_virtual_world: (...args) => {
+      SendPacket.enter_virtual_world(state_client, ...args);
+    },
+    context_send_leave_virtual_world: (...args) => {
+      SendPacket.leave_virtual_world(state_client, ...args);
+    },
+    context_send_virtual_world: (...args) => {
+      SendPacket.virtual_world(state_client, ...args);
+    },
     context_logged_as: hook_logged_as,
     context_admin: hook_admin,
     context_data_full: hook_data_full,
@@ -230,6 +241,8 @@ const AppProvider = ({ children }) => {
     context_received_messages: hook_received_messages,
     context_pop_received_messages: hook_pop_received_messages,
     context_clear_received_messages: hook_clear_messages,
+    context_packets_virtual_world: hook_packets_virtual_world,
+    context_pop_packets_virtual_world: hook_pop_packets_virtual_world,
     context_connection_enabled: state_connection_enabled,
     context_connection_status: state_connection_status,
     context_connection_id: `Connection ID: ${_get_connection_id()}`,

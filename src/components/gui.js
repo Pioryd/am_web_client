@@ -7,6 +7,7 @@ import Statistics from "../components/content/windows/pui/statistics";
 import Settings from "../components/content/windows/settings";
 import Chat from "../components/content/windows/pui/chat";
 import UserInterface from "../components/content/windows/pui/user_interface";
+import VirtualWorld from "../components/content/windows/pui/virtual_world";
 
 function Gui() {
   let ref_gl = React.createRef();
@@ -15,7 +16,8 @@ function Gui() {
     settings: { class: Settings, title: "[All] Settings" },
     statistics: { class: Statistics, title: "[All] Statistics" },
     chat: { class: Chat, title: "[User] Chat" },
-    user_interface: { class: UserInterface, title: "[User] Edit data" }
+    user_interface: { class: UserInterface, title: "[User] Edit data" },
+    virtual_world: { class: VirtualWorld, title: "[User] Virtual world" }
   };
 
   const helper = {
@@ -101,6 +103,16 @@ function Gui() {
                         id: "user_interface",
                         key: "user_interface",
                         title: "user_interface"
+                      }
+                    },
+                    {
+                      title: "virtual_world",
+                      type: "react-component",
+                      component: "virtual_world",
+                      props: {
+                        id: "virtual_world",
+                        key: "virtual_world",
+                        title: "virtual_world"
                       }
                     }
                   ]
