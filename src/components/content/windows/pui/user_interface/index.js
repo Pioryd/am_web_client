@@ -121,12 +121,20 @@ function UserInterface(props) {
       for (const [object_id, object_data] of Object.entries(
         world.environment_objects_map
       )) {
-        const object_name = object_data.name;
-        for (const action_id of object_data.actions_list) {
-          select_row_actions.row_options.push({
-            label: `${object_name}\n${action_id}`,
-            value: { object_id, action_id }
-          });
+        const land = context_data_land;
+        if ("map" in land) {
+          for (const point of land.map) {
+            if (
+              "objects_list" in point &&
+              point.objects_list.includes(object_id)
+            )
+              for (const action_id of object_data.actions_list) {
+                select_row_actions.row_options.push({
+                  label: `${object_data.name}\n${action_id}`,
+                  value: { object_id, action_id }
+                });
+              }
+          }
         }
       }
 

@@ -10,9 +10,9 @@ Friends list
 function Chat(props) {
   const {
     context_data_character,
-    context_received_messages,
-    context_pop_received_messages,
-    context_send_message
+    context_packets_action_message,
+    context_pop_packets_action_message,
+    context_send_action_message
   } = React.useContext(AppContext);
 
   const {
@@ -82,7 +82,7 @@ function Chat(props) {
     set_state_display_rooms(display_rooms);
   };
 
-  const send_message = () => {
+  const send_action_message = () => {
     if (current_room.name === "") return;
 
     const text = state_input_value;
@@ -96,7 +96,7 @@ function Chat(props) {
       received: false
     });
 
-    context_send_message({
+    context_send_action_message({
       name: name,
       text: text
     });
@@ -114,14 +114,14 @@ function Chat(props) {
   };
 
   React.useEffect(() => {
-    const received_messages = context_pop_received_messages();
+    const received_messages = context_pop_packets_action_message();
     if (received_messages == null) return;
 
     for (const message of received_messages)
       add_message({ ...message, date: new Date(), received: true });
 
     update_displayed_message();
-  }, [context_received_messages]);
+  }, [context_packets_action_message]);
 
   React.useEffect(() => {
     update_displayed_rooms();
@@ -150,10 +150,10 @@ function Chat(props) {
               set_state_input_value(e.currentTarget.value);
             }}
             onKeyDown={e => {
-              if (e.key === "Enter") send_message();
+              if (e.key === "Enter") send_action_message();
             }}
           />
-          <button onClick={send_message}>send</button>
+          <button onClick={send_action_message}>send</button>
           <button onClick={clear_messages}>clear</button>
         </div>
         <div className="chat">

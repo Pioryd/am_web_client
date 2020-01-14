@@ -2,7 +2,6 @@ import React from "react";
 
 function InputRow(props) {
   const [state_key, set_state_key] = React.useState("");
-  const [state_value, set_state_value] = React.useState("");
 
   const ref_text_input = React.useRef();
 
@@ -22,15 +21,11 @@ function InputRow(props) {
           key={state_key + "_value"}
           name={state_key}
           type="text"
-          onChange={e => {
-            set_state_value(e.target.value);
-          }}
         ></input>
         <button
           className="process"
           onClick={e => {
-            props.on_process(state_value);
-            set_state_value("");
+            props.on_process(ref_text_input.current.value);
             ref_text_input.current.value = "";
           }}
         >

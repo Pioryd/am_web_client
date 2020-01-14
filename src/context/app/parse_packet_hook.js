@@ -9,9 +9,10 @@ function useParsePacketHook(props) {
   const [state_data_character, set_state_data_character] = React.useState({});
   const [state_data_land, set_state_data_land] = React.useState({});
   const [state_data_world, set_state_data_world] = React.useState({});
-  const [state_received_messages, set_state_received_messages] = React.useState(
-    []
-  );
+  const [
+    state_packets_action_message,
+    set_state_packets_action_message
+  ] = React.useState([]);
   const [
     state_packets_virtual_world,
     set_state_packets_virtual_world
@@ -51,7 +52,11 @@ function useParsePacketHook(props) {
     SendPacket.data_world(get_client(), {});
   };
   const action_message = data => {
-    set_state_received_messages([...state_received_messages, { ...data }]);
+    set_state_packets_action_message([
+      ...state_packets_action_message,
+      { ...data }
+    ]);
+  };
   const virtual_world = data => {
     set_state_packets_virtual_world([
       ...state_packets_virtual_world,
@@ -60,11 +65,11 @@ function useParsePacketHook(props) {
   };
 
   // Other functions
-  const pop_received_messages = () => {
-    if (state_received_messages.length <= 0) return;
+  const pop_packets_action_message = () => {
+    if (state_packets_action_message.length <= 0) return;
 
-    const received_messages = [...state_received_messages];
-    set_state_received_messages([]);
+    const received_messages = [...state_packets_action_message];
+    set_state_packets_action_message([]);
     return received_messages;
   };
 
@@ -83,7 +88,7 @@ function useParsePacketHook(props) {
       data_character: data_character,
       data_land: data_land,
       data_world: data_world,
-      action_message: action_message
+      action_message: action_message,
       virtual_world: virtual_world
     },
     hook_logged_as: state_logged_as,
@@ -92,16 +97,13 @@ function useParsePacketHook(props) {
     hook_data_character: state_data_character,
     hook_data_land: state_data_land,
     hook_data_world: state_data_world,
-    hook_received_messages: state_received_messages,
+    hook_packets_action_message: state_packets_action_message,
     hook_packets_virtual_world: state_packets_virtual_world,
     hook_ref_client: ref_client,
-    hook_pop_received_messages: pop_received_messages,
+    hook_pop_packets_action_message: pop_packets_action_message,
     hook_pop_packets_virtual_world: pop_packets_virtual_world,
     hook_clear_logged_as: () => {
       set_state_logged_as("");
-    },
-    hook_clear_messages: () => {
-      set_state_received_messages([]);
     }
   };
 }

@@ -15,7 +15,7 @@ const AppProvider = ({ children }) => {
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
     client_timeout: 25 * 1000,
-    client_server_url: "http://localhost:3000",
+    client_server_url: "http://192.168.43.50:3000",
     start_as_connection_enabled: true
   });
   const [state_client, set_state_client] = React.useState();
@@ -39,11 +39,10 @@ const AppProvider = ({ children }) => {
     hook_data_character,
     hook_data_world,
     hook_data_land,
-    hook_received_messages,
+    hook_packets_action_message,
     hook_packets_virtual_world,
     hook_ref_client,
-    hook_pop_received_messages,
-    hook_clear_messages,
+    hook_pop_packets_action_message,
     hook_pop_packets_virtual_world,
     hook_clear_logged_as
   } = useParsePacketHook();
@@ -220,7 +219,7 @@ const AppProvider = ({ children }) => {
     context_change_activity: (...args) => {
       SendPacket.data_character_change_activity(state_client, ...args);
     },
-    context_send_message: (...args) => {
+    context_send_action_message: (...args) => {
       SendPacket.action_message(state_client, ...args);
     },
     context_send_enter_virtual_world: (...args) => {
@@ -238,10 +237,9 @@ const AppProvider = ({ children }) => {
     context_data_character: hook_data_character,
     context_data_land: hook_data_land,
     context_data_world: hook_data_world,
-    context_received_messages: hook_received_messages,
-    context_pop_received_messages: hook_pop_received_messages,
-    context_clear_received_messages: hook_clear_messages,
+    context_packets_action_message: hook_packets_action_message,
     context_packets_virtual_world: hook_packets_virtual_world,
+    context_pop_packets_action_message: hook_pop_packets_action_message,
     context_pop_packets_virtual_world: hook_pop_packets_virtual_world,
     context_connection_enabled: state_connection_enabled,
     context_connection_status: state_connection_status,
