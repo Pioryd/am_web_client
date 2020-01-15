@@ -67,7 +67,7 @@ select {
   padding: 0px 10px 0px 10px;
 }
 
-.label {
+label {
   height: 14px;
   color: green;
   background-color: black;

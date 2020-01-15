@@ -138,10 +138,10 @@ function Chat(props) {
     <React.Fragment>
       <div className="content_body">
         <div className="bar">
-          <div style={{ width: "80px" }} className="label">
+          <label style={{ width: "80px" }}>
             {current_room.name}
             {current_room.unread === true ? "(!)" : ""}
-          </div>
+          </label>
           <input
             key="chat_input"
             type="text"
