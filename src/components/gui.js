@@ -13,11 +13,11 @@ function Gui() {
   let ref_gl = React.createRef();
 
   const windows_map = {
-    settings: { class: Settings, title: "[All] Settings" },
-    statistics: { class: Statistics, title: "[All] Statistics" },
-    chat: { class: Chat, title: "[User] Chat" },
-    user_interface: { class: UserInterface, title: "[User] Edit data" },
-    virtual_world: { class: VirtualWorld, title: "[User] Virtual world" }
+    settings: { class: Settings, title: "Settings" },
+    statistics: { class: Statistics, title: "Statistics" },
+    chat: { class: Chat, title: "Chat" },
+    user_interface: { class: UserInterface, title: "Edit data" },
+    virtual_world: { class: VirtualWorld, title: "Virtual world" }
   };
 
   const helper = {
