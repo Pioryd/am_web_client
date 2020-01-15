@@ -7,8 +7,6 @@ import "./index.css";
 
 function UserInterface(props) {
   const {
-    context_admin,
-    context_data_full,
     context_data_character,
     context_data_land,
     context_data_world,
@@ -84,7 +82,9 @@ function UserInterface(props) {
         for (const character_id of point.characters_list)
           if (
             "characters_map" in state_formated_data_world &&
-            Object.values(state_formated_data_world.characters_map).length > 0
+            Object.values(state_formated_data_world.characters_map).length >
+              0 &&
+            character_id in state_formated_data_world.characters_map
           ) {
             const data = state_formated_data_world.characters_map[character_id];
             str_point += `<C: ${data.name}(${data.state})(${data.action})(${data.activity})>`;

@@ -66,8 +66,8 @@ class SendPacket {
     this._send(client, "leave_virtual_world", {});
   }
 
-  static virtual_world(client, { id, packet_id, packet_data }) {
-    this._send(client, "virtual_world", { id, packet_id, packet_data });
+  static virtual_world(client, { packet_id, packet_data }) {
+    this._send(client, "virtual_world", { packet_id, packet_data });
   }
 
   static process_script_action(client, { object_id, action_id, dynamic_args }) {

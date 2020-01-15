@@ -94,28 +94,7 @@ function Gui() {
                 {
                   type: "row",
                   isClosable: false,
-                  content: [
-                    {
-                      title: "user_interface",
-                      type: "react-component",
-                      component: "user_interface",
-                      props: {
-                        id: "user_interface",
-                        key: "user_interface",
-                        title: "user_interface"
-                      }
-                    },
-                    {
-                      title: "virtual_world",
-                      type: "react-component",
-                      component: "virtual_world",
-                      props: {
-                        id: "virtual_world",
-                        key: "virtual_world",
-                        title: "virtual_world"
-                      }
-                    }
-                  ]
+                  content: []
                 }
               ]
             }}

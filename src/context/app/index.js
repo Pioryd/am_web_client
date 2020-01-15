@@ -15,7 +15,7 @@ const AppProvider = ({ children }) => {
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
     client_timeout: 25 * 1000,
-    client_server_url: "http://192.168.43.50:3000",
+    client_server_url: "http://localhost:3000",
     start_as_connection_enabled: true
   });
   const [state_client, set_state_client] = React.useState();
@@ -124,6 +124,14 @@ const AppProvider = ({ children }) => {
           debug: true
         }
       });
+      client.logger.options = {
+        ...client.logger.options,
+        print_log: true,
+        print_info: true,
+        print_error: true,
+        print_warn: true,
+        print_debug: true
+      };
       client.add_parse_packet_dict(create_parse_dict());
       client.events.connected = () => {
         console.log("client.connected");
