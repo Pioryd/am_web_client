@@ -97,16 +97,16 @@ function Gui() {
                   type: "row",
                   isClosable: false,
                   content: [
-                    {
-                      title: "settings",
-                      type: "react-component",
-                      component: "settings",
-                      props: {
-                        id: "settings",
-                        key: "settings",
-                        title: "settings"
-                      }
-                    }
+                    // {
+                    //   title: "example",
+                    //   type: "react-component",
+                    //   component: "example",
+                    //   props: {
+                    //     id: "example",
+                    //     key: "example",
+                    //     title: "example"
+                    //   }
+                    // }
                   ]
                 }
               ]
