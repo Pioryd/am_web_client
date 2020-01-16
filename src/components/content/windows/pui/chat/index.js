@@ -30,6 +30,8 @@ function Chat(props) {
   );
   const [state_input_value, set_state_input_value] = React.useState("");
 
+  const ref_text_input = React.useRef();
+
   const update_displayed_message = () => {
     const messages = [...current_room.messages];
 
@@ -104,6 +106,8 @@ function Chat(props) {
     set_state_input_value("");
 
     update_displayed_message();
+
+    ref_text_input.current.value = "";
   };
 
   const clear_messages = () => {
@@ -129,9 +133,9 @@ function Chat(props) {
   }, [rooms_list, current_room]);
 
   React.useEffect(() => {
-    if (!("character" in context_data_character)) return;
+    if (!("id" in context_data_character)) return;
 
-    update_rooms([...context_data_character.character.friends_list]);
+    update_rooms([...context_data_character.friends_list]);
   }, [context_data_character]);
 
   return (
@@ -143,6 +147,7 @@ function Chat(props) {
             {current_room.unread === true ? "(!)" : ""}
           </label>
           <input
+            ref={ref_text_input}
             key="chat_input"
             type="text"
             value={state_input_value}
