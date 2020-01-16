@@ -3,20 +3,22 @@ import { GoldenLayoutComponent } from "../components/layout/goldenLayoutComponen
 
 import GuiProvider from "../context/gui";
 import Navigation from "../components/navigation";
-import Statistics from "../components/content/windows/pui/statistics";
+import ViewData from "../components/content/windows/pui/view_data";
+import ViewSource from "../components/content/windows/pui/view_source";
 import Settings from "../components/content/windows/settings";
 import Chat from "../components/content/windows/pui/chat";
-import UserInterface from "../components/content/windows/pui/user_interface";
+import EditData from "./content/windows/pui/edit_data";
 import VirtualWorld from "../components/content/windows/pui/virtual_world";
 
 function Gui() {
   let ref_gl = React.createRef();
 
   const windows_map = {
-    settings: { class: Settings, title: "Settings" },
-    statistics: { class: Statistics, title: "Statistics" },
+    settings: { class: Settings, title: "Client settings" },
+    view_data: { class: ViewData, title: "View data" },
+    view_source: { class: ViewSource, title: "View source" },
     chat: { class: Chat, title: "Chat" },
-    user_interface: { class: UserInterface, title: "Edit data" },
+    edit_data: { class: EditData, title: "Edit data" },
     virtual_world: { class: VirtualWorld, title: "Virtual world" }
   };
 
@@ -94,7 +96,38 @@ function Gui() {
                 {
                   type: "row",
                   isClosable: false,
-                  content: []
+                  content: [
+                    {
+                      title: "edit_data",
+                      type: "react-component",
+                      component: "edit_data",
+                      props: {
+                        id: "edit_data",
+                        key: "edit_data",
+                        title: "edit_data"
+                      }
+                    },
+                    {
+                      title: "view_data",
+                      type: "react-component",
+                      component: "view_data",
+                      props: {
+                        id: "view_data",
+                        key: "view_data",
+                        title: "view_data"
+                      }
+                    },
+                    {
+                      title: "view_source",
+                      type: "react-component",
+                      component: "view_source",
+                      props: {
+                        id: "view_source",
+                        key: "view_source",
+                        title: "view_source"
+                      }
+                    }
+                  ]
                 }
               ]
             }}

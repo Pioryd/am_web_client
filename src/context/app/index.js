@@ -11,7 +11,7 @@ const AppProvider = ({ children }) => {
   const [state_settings, set_state_settings] = React.useState({
     login: Util.get_url_path(),
     password: "123",
-    main_loop_sleep: 2500,
+    main_loop_sleep: 500,
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
     client_timeout: 25 * 1000,

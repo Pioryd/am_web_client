@@ -1,11 +1,10 @@
 import React from "react";
-import ReactJson from "react-json-view";
 import InputRow from "./input_row";
 import SelectRow from "./select_row";
 import { AppContext } from "../../../../../context/app";
 import "./index.css";
 
-function UserInterface(props) {
+function EditData(props) {
   const {
     context_data_character,
     context_data_land,
@@ -20,18 +19,9 @@ function UserInterface(props) {
     context_change_activity
   } = React.useContext(AppContext);
 
-  const [
-    state_formated_data_world,
-    set_state_formated_data_world
-  ] = React.useState({});
-  const [
-    state_formated_data_land,
-    set_state_formated_data_land
-  ] = React.useState({});
-  const [
-    state_formated_data_character,
-    set_state_formated_data_character
-  ] = React.useState({});
+  const [state_data_character, set_state_data_character] = React.useState({});
+  const [state_data_land, set_state_data_land] = React.useState({});
+  const [state_data_world, set_state_data_world] = React.useState({});
 
   const [
     state_select_row_actions,
@@ -50,76 +40,18 @@ function UserInterface(props) {
     state_select_row_characters,
     set_state_select_row_characters
   ] = React.useState({});
-  React.useEffect(() => {
-    set_state_formated_data_character(context_data_character);
-  }, [context_data_character]);
 
   const [
     state_actions_dynamic_args,
     set_state_actions_dynamic_args
   ] = React.useState({});
 
-  React.useEffect(() => {
-    // Format land data
-    let formated_data = {};
-    if ("id" in context_data_land) {
-      const land = context_data_land;
-      const map = [];
-      for (const point of land.map) {
-        let str_point = "";
-        for (const object_id of point.objects_list)
-          if (
-            "environment_objects_map" in state_formated_data_world &&
-            Object.values(state_formated_data_world.environment_objects_map)
-              .length > 0
-          ) {
-            const data =
-              state_formated_data_world.environment_objects_map[object_id];
-            str_point += `<O: ${data.name}(${data.type})>`;
-          } else {
-            str_point += `<O: ${object_id}(${object_id})>`;
-          }
-        for (const character_id of point.characters_list)
-          if (
-            "characters_map" in state_formated_data_world &&
-            Object.values(state_formated_data_world.characters_map).length >
-              0 &&
-            character_id in state_formated_data_world.characters_map
-          ) {
-            const data = state_formated_data_world.characters_map[character_id];
-            str_point += `<C: ${data.name}(${data.state})(${data.action})(${data.activity})>`;
-          } else {
-            str_point += `<C: ${character_id}>`;
-          }
-
-        map.push(str_point);
-      }
-
-      let land_name = "";
-      if (
-        "lands_map" in state_formated_data_world &&
-        Object.values(state_formated_data_world.lands_map).length > 0
-      ) {
-        const data = state_formated_data_world.lands_map[land.id];
-        land_name = data.name;
-      }
-      formated_data = { id: land.id, name: land_name, map: map };
-    }
-
-    set_state_formated_data_land(formated_data);
-  }, [context_data_land, state_formated_data_world]);
-
-  React.useEffect(() => {
-    set_state_formated_data_world(context_data_world);
-  }, [context_data_world]);
-
-  React.useEffect(() => {
+  const set_row_actions = world_data => {
     // set_state_select_row_actions
-    let world = state_formated_data_world;
     let select_row_actions = { row_value: "", row_options: [] };
-    if ("environment_objects_map" in world) {
+    if ("environment_objects_map" in world_data) {
       for (const [object_id, object_data] of Object.entries(
-        world.environment_objects_map
+        world_data.environment_objects_map
       )) {
         const land = context_data_land;
         if ("map" in land) {
@@ -143,26 +75,25 @@ function UserInterface(props) {
 
       set_state_select_row_actions(select_row_actions);
     }
+  };
 
-    // set_state_select_row_position
-    const character = state_formated_data_character;
+  const set_row_position = (character_data, land_data) => {
     let input_row_position = { row_value: 0, row_options: [] };
-    if ("id" in character && "id" in context_data_land) {
-      const land = context_data_land;
-      for (let i = 0; i < land.map.length; i++) {
-        if (land.map[i].characters_list.includes(character.id))
+    if ("id" in character_data && "id" in land_data) {
+      for (let i = 0; i < land_data.map.length; i++) {
+        if (land_data.map[i].characters_list.includes(character_data.id))
           input_row_position.row_value = i;
 
         input_row_position.row_options.push({ label: i, value: i });
       }
     }
     set_state_select_row_position(input_row_position);
+  };
 
-    // set_state_select_row_land
-    world = state_formated_data_world;
+  const set_row_land = world_data => {
     let select_row_land = { row_value: "", row_options: [] };
-    if ("lands_map" in world) {
-      for (const [land_id, land_data] of Object.entries(world.lands_map)) {
+    if ("lands_map" in world_data) {
+      for (const [land_id, land_data] of Object.entries(world_data.lands_map)) {
         select_row_land.row_options.push({
           label: land_data.name,
           value: land_id
@@ -174,11 +105,30 @@ function UserInterface(props) {
 
       set_state_select_row_land(select_row_land);
     }
+  };
 
-    // set_state_select_row_friends_list
+  const set_row_characters = (character_data, world_data) => {
+    let select_row_characters = { row_value: "", row_options: [] };
+    if ("id" in character_data && "lands_map" in world_data) {
+      for (const [id, data] of Object.entries(world_data.characters_map)) {
+        if (!character_data.friends_list.includes(data.name))
+          select_row_characters.row_options.push({
+            label: data.name,
+            value: data.name
+          });
+      }
+
+      if (select_row_characters.row_options.length > 0)
+        select_row_characters.row_value = select_row_characters.row_options[0];
+
+      set_state_select_row_characters(select_row_characters);
+    }
+  };
+
+  const set_row_friends_list = character_data => {
     let select_row_friends_list = { row_value: "", row_options: [] };
-    if ("id" in character) {
-      for (const friend_name of character.friends_list)
+    if ("id" in character_data) {
+      for (const friend_name of character_data.friends_list)
         select_row_friends_list.row_options.push({
           label: friend_name,
           value: friend_name
@@ -190,31 +140,31 @@ function UserInterface(props) {
 
       set_state_select_row_friends_list(select_row_friends_list);
     }
+  };
 
-    // set_state_input_row_characters
-    let select_row_characters = { row_value: "", row_options: [] };
-    if ("id" in character && "lands_map" in world) {
-      for (const [character_id, character_data] of Object.entries(
-        world.characters_map
-      )) {
-        if (!character.friends_list.includes(character_data.name))
-          select_row_characters.row_options.push({
-            label: character_data.name,
-            value: character_data.name
-          });
-      }
+  React.useEffect(() => {
+    const character_data = state_data_character;
+    const land_data = state_data_land;
+    const world_data = state_data_world;
 
-      if (select_row_characters.row_options.length > 0)
-        select_row_characters.row_value =
-          select_row_friends_list.row_options[0];
+    set_row_actions(world_data);
+    set_row_position(character_data, land_data);
+    set_row_land(world_data);
+    set_row_characters(character_data, world_data);
+    set_row_friends_list(character_data);
+  }, [state_data_character, state_data_land, state_data_world]);
 
-      set_state_select_row_characters(select_row_characters);
-    }
-  }, [
-    state_formated_data_character,
-    state_formated_data_world,
-    context_data_land
-  ]);
+  React.useEffect(() => {
+    set_state_data_character(context_data_character);
+  }, [context_data_character]);
+
+  React.useEffect(() => {
+    set_state_data_land(context_data_land);
+  }, [context_data_land]);
+
+  React.useEffect(() => {
+    set_state_data_world(context_data_world);
+  }, [context_data_world]);
 
   return (
     <React.Fragment>
@@ -305,30 +255,9 @@ function UserInterface(props) {
             }}
           />
         </div>
-        <ReactJson
-          name="CharacterData"
-          src={state_formated_data_character}
-          theme="monokai"
-          indentWidth={2}
-          collapsed={true}
-        />
-        <ReactJson
-          name="WorldLand"
-          src={state_formated_data_land}
-          theme="monokai"
-          indentWidth={2}
-          collapsed={true}
-        />
-        <ReactJson
-          name="WorldData"
-          src={state_formated_data_world}
-          theme="monokai"
-          indentWidth={2}
-          collapsed={true}
-        />
       </div>
     </React.Fragment>
   );
 }
 
-export default UserInterface;
+export default EditData;
