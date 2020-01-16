@@ -98,33 +98,13 @@ function Gui() {
                   isClosable: false,
                   content: [
                     {
-                      title: "edit_data",
+                      title: "settings",
                       type: "react-component",
-                      component: "edit_data",
+                      component: "settings",
                       props: {
-                        id: "edit_data",
-                        key: "edit_data",
-                        title: "edit_data"
-                      }
-                    },
-                    {
-                      title: "view_data",
-                      type: "react-component",
-                      component: "view_data",
-                      props: {
-                        id: "view_data",
-                        key: "view_data",
-                        title: "view_data"
-                      }
-                    },
-                    {
-                      title: "view_source",
-                      type: "react-component",
-                      component: "view_source",
-                      props: {
-                        id: "view_source",
-                        key: "view_source",
-                        title: "view_source"
+                        id: "settings",
+                        key: "settings",
+                        title: "settings"
                       }
                     }
                   ]

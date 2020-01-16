@@ -9,7 +9,7 @@ function Settings() {
   const [state_settings, set_state_settings] = React.useState({});
 
   const on_edit = data => {
-    context_set_settings(data);
+    context_set_settings({ ...data });
   };
 
   React.useEffect(() => {
