@@ -180,7 +180,10 @@ function EditData(props) {
               context_process_script_action({
                 object_id: value.object_id,
                 action_id: value.action_id,
-                dynamic_args: JSON.parse(state_actions_dynamic_args)
+                dynamic_args:
+                  Object.keys(state_actions_dynamic_args).length === 0
+                    ? {}
+                    : JSON.parse(state_actions_dynamic_args)
               });
             }}
           >
