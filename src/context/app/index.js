@@ -2,21 +2,23 @@ import React from "react";
 import Client from "../../framework/client";
 import Util from "../../framework/util";
 import LoadingDots from "../../framework/loading_dots";
-import SendPacket from "./send_packet";
-import useParsePacketHook from "./parse_packet_hook";
+import SendCharacterPacket from "./send_character_packet";
+import useParseCharacterPacketHook from "./parse_character_packet_hook";
 
 export const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [state_settings, set_state_settings] = React.useState({
-    login: Util.get_url_path(),
+    login: "admin",
     password: "123",
     main_loop_sleep: 500,
     reconnect_attempts_interval: 1000,
     client_send_delay: 0,
     client_timeout: 25 * 1000,
-    client_server_url: "http://localhost:3000",
-    start_as_connection_enabled: true
+    host: "localhost",
+    port: "3000",
+    start_as_connection_enabled: true,
+    ...Util.get_formated_url_path()
   });
   const [state_client, set_state_client] = React.useState();
   const [
@@ -32,20 +34,20 @@ const AppProvider = ({ children }) => {
   );
 
   const {
-    hook_parse_packet,
-    hook_logged_as,
-    hook_admin,
-    hook_data_full,
-    hook_data_character,
-    hook_data_world,
-    hook_data_land,
-    hook_packets_action_message,
-    hook_packets_virtual_world,
-    hook_ref_client,
-    hook_pop_packets_action_message,
-    hook_pop_packets_virtual_world,
-    hook_clear_logged_as
-  } = useParsePacketHook();
+    hook_character_parse_packet,
+    hook_character_logged_as,
+    hook_character_admin,
+    hook_character_data_full,
+    hook_character_data_character,
+    hook_character_data_world,
+    hook_character_data_land,
+    hook_character_packets_action_message,
+    hook_character_packets_virtual_world,
+    hook_character_ref_client,
+    hook_character_pop_packets_action_message,
+    hook_character_pop_packets_virtual_world,
+    hook_character_clear_logged_as
+  } = useParseCharacterPacketHook();
 
   const ref_main_loop = React.useRef();
   const ref_check_connection = React.useRef();
@@ -70,8 +72,8 @@ const AppProvider = ({ children }) => {
       state_connection_enabled,
       state_connection_status,
       set_state_connection_status,
-      hook_logged_as,
-      hook_clear_logged_as,
+      hook_character_logged_as,
+      hook_character_clear_logged_as,
       state_settings
     };
   };
@@ -91,10 +93,10 @@ const AppProvider = ({ children }) => {
         _this.set_state_connection_status("Disconnected");
       } else if (
         _this.state_client.is_connected() &&
-        _this.hook_logged_as !== ""
+        _this.hook_character_logged_as !== ""
       ) {
         _this.set_state_connection_status(
-          "Connected as " + _this.hook_logged_as
+          "Connected as " + _this.hook_character_logged_as
         );
       } else {
         _this.set_state_connection_status(
@@ -116,10 +118,10 @@ const AppProvider = ({ children }) => {
 
     try {
       const client = new Client({
-        url: state_settings.client_server_url,
+        url: `http://${state_settings.host}:${state_settings.port}`,
         options: {
           send_delay: state_settings.client_send_delay,
-          //packet_timeout: state_settings.timeout,
+          packet_timeout: state_settings.client_timeout,
           auto_reconnect: true,
           debug: true
         }
@@ -137,7 +139,7 @@ const AppProvider = ({ children }) => {
         console.log("client.connected");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Logging in...");
-        SendPacket.login(_this.state_client, {
+        SendCharacterPacket.login(_this.state_client, {
           login: _this.state_settings.login,
           password: _this.state_settings.password
         });
@@ -153,7 +155,7 @@ const AppProvider = ({ children }) => {
         _this.set_state_connection_status("Reconnecting...");
       };
       set_state_client(client);
-      hook_ref_client.current = client;
+      hook_character_ref_client.current = client;
       _update_hook_check_connections();
       main_loop();
       return () => clearTimeout(ref_main_loop.current);
@@ -164,9 +166,9 @@ const AppProvider = ({ children }) => {
 
   const create_parse_dict = () => {
     const parse_packet_dict = {};
-    for (const [packet_id] of Object.entries(hook_parse_packet)) {
+    for (const [packet_id] of Object.entries(hook_character_parse_packet)) {
       parse_packet_dict[packet_id] = data => {
-        return hook_parse_packet[packet_id](data);
+        return hook_character_parse_packet[packet_id](data);
       };
     }
     return parse_packet_dict;
@@ -196,63 +198,64 @@ const AppProvider = ({ children }) => {
     state_connection_enabled,
     state_connection_status,
     set_state_connection_status,
-    hook_logged_as,
-    hook_clear_logged_as,
+    hook_character_logged_as,
+    hook_character_clear_logged_as,
     state_settings
   ]);
 
   const value = {
+    // Character
+    context_character_send_process_script_action: (...args) => {
+      SendCharacterPacket.process_script_action(state_client, ...args);
+    },
+    context_character_send_change_position: (...args) => {
+      SendCharacterPacket.data_character_change_position(state_client, ...args);
+    },
+    context_character_send_change_land: (...args) => {
+      SendCharacterPacket.data_character_change_land(state_client, ...args);
+    },
+    context_character_send_add_friend: (...args) => {
+      SendCharacterPacket.data_character_add_friend(state_client, ...args);
+    },
+    context_character_send_remove_friend: (...args) => {
+      SendCharacterPacket.data_character_remove_friend(state_client, ...args);
+    },
+    context_character_send_change_state: (...args) => {
+      SendCharacterPacket.data_character_change_state(state_client, ...args);
+    },
+    context_character_send_change_action: (...args) => {
+      SendCharacterPacket.data_character_change_action(state_client, ...args);
+    },
+    context_character_send_change_activity: (...args) => {
+      SendCharacterPacket.data_character_change_activity(state_client, ...args);
+    },
+    context_character_send_action_message: (...args) => {
+      SendCharacterPacket.action_message(state_client, ...args);
+    },
+    context_character_send_enter_virtual_world: (...args) => {
+      SendCharacterPacket.enter_virtual_world(state_client, ...args);
+    },
+    context_character_send_leave_virtual_world: (...args) => {
+      SendCharacterPacket.leave_virtual_world(state_client, ...args);
+    },
+    context_character_send_virtual_world: (...args) => {
+      SendCharacterPacket.virtual_world(state_client, ...args);
+    },
+    context_character_logged_as: hook_character_logged_as,
+    context_character_admin: hook_character_admin,
+    context_character_data_full: hook_character_data_full,
+    context_character_data_character: hook_character_data_character,
+    context_character_data_land: hook_character_data_land,
+    context_character_data_world: hook_character_data_world,
+    context_character_packets_action_message: hook_character_packets_action_message,
+    context_character_packets_virtual_world: hook_character_packets_virtual_world,
+    context_character_pop_packets_action_message: hook_character_pop_packets_action_message,
+    context_character_pop_packets_virtual_world: hook_character_pop_packets_virtual_world,
+    // Other
     context_on_toggle_sync: value => toggle_sync(value),
-    context_process_script_action: (...args) => {
-      SendPacket.process_script_action(state_client, ...args);
-    },
-    context_change_position: (...args) => {
-      SendPacket.data_character_change_position(state_client, ...args);
-    },
-    context_change_land: (...args) => {
-      SendPacket.data_character_change_land(state_client, ...args);
-    },
-    context_add_friend: (...args) => {
-      SendPacket.data_character_add_friend(state_client, ...args);
-    },
-    context_remove_friend: (...args) => {
-      SendPacket.data_character_remove_friend(state_client, ...args);
-    },
-    context_change_state: (...args) => {
-      SendPacket.data_character_change_state(state_client, ...args);
-    },
-    context_change_action: (...args) => {
-      SendPacket.data_character_change_action(state_client, ...args);
-    },
-    context_change_activity: (...args) => {
-      SendPacket.data_character_change_activity(state_client, ...args);
-    },
-    context_send_action_message: (...args) => {
-      SendPacket.action_message(state_client, ...args);
-    },
-    context_send_enter_virtual_world: (...args) => {
-      SendPacket.enter_virtual_world(state_client, ...args);
-    },
-    context_send_leave_virtual_world: (...args) => {
-      SendPacket.leave_virtual_world(state_client, ...args);
-    },
-    context_send_virtual_world: (...args) => {
-      SendPacket.virtual_world(state_client, ...args);
-    },
-    context_logged_as: hook_logged_as,
-    context_admin: hook_admin,
-    context_data_full: hook_data_full,
-    context_data_character: hook_data_character,
-    context_data_land: hook_data_land,
-    context_data_world: hook_data_world,
-    context_packets_action_message: hook_packets_action_message,
-    context_packets_virtual_world: hook_packets_virtual_world,
-    context_pop_packets_action_message: hook_pop_packets_action_message,
-    context_pop_packets_virtual_world: hook_pop_packets_virtual_world,
     context_connection_enabled: state_connection_enabled,
     context_connection_status: state_connection_status,
     context_connection_id: `Connection ID: ${_get_connection_id()}`,
-    contextValue: "default value",
     context_settings: state_settings,
     context_set_settings: set_state_settings
   };

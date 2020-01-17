@@ -6,11 +6,11 @@ import "./index.css";
 
 function Chat(props) {
   const {
-    context_data_character,
-    context_packets_virtual_world,
-    context_pop_packets_virtual_world,
-    context_send_virtual_world,
-    context_send_leave_virtual_world
+    context_character_data_character,
+    context_character_packets_virtual_world,
+    context_character_pop_packets_virtual_world,
+    context_character_send_virtual_world,
+    context_character_send_leave_virtual_world
   } = React.useContext(AppContext);
 
   const [
@@ -71,7 +71,7 @@ function Chat(props) {
       received: false
     });
 
-    context_send_virtual_world({
+    context_character_send_virtual_world({
       packet_id: "message",
       packet_data: { text }
     });
@@ -86,11 +86,11 @@ function Chat(props) {
   };
 
   const leave_virtual_world = () => {
-    context_send_leave_virtual_world();
+    context_character_send_leave_virtual_world();
   };
 
   const refresh = () => {
-    context_send_virtual_world({
+    context_character_send_virtual_world({
       packet_id: "data",
       packet_data: {}
     });
@@ -108,7 +108,7 @@ function Chat(props) {
   };
 
   React.useEffect(() => {
-    const character_data = context_data_character;
+    const character_data = context_character_data_character;
     let virtual_world_enabled =
       "virtual_world_id" in character_data &&
       character_data.virtual_world_id !== "";
@@ -120,10 +120,10 @@ function Chat(props) {
       refresh();
     }
     set_state_virtual_world_enabled(virtual_world_enabled);
-  }, [context_data_character]);
+  }, [context_character_data_character]);
 
   React.useEffect(() => {
-    const received_messages = context_pop_packets_virtual_world();
+    const received_messages = context_character_pop_packets_virtual_world();
     if (received_messages == null) return;
 
     for (const message of received_messages) {
@@ -138,7 +138,7 @@ function Chat(props) {
     }
 
     update_displayed_message();
-  }, [context_packets_virtual_world]);
+  }, [context_character_packets_virtual_world]);
 
   return (
     <React.Fragment>
@@ -172,7 +172,7 @@ function Chat(props) {
             <div className="column_right">
               {state_virtual_world_enabled ? (
                 <ReactJson
-                  name="context_data_full"
+                  name="context_character_data_full"
                   src={state_virtual_world_data}
                   theme="monokai"
                   indentWidth={2}

@@ -9,10 +9,10 @@ Friends list
 */
 function Chat(props) {
   const {
-    context_data_character,
-    context_packets_action_message,
-    context_pop_packets_action_message,
-    context_send_action_message
+    context_character_data_character,
+    context_character_packets_action_message,
+    context_character_pop_packets_action_message,
+    context_character_send_action_message
   } = React.useContext(AppContext);
 
   const {
@@ -98,7 +98,7 @@ function Chat(props) {
       received: false
     });
 
-    context_send_action_message({
+    context_character_send_action_message({
       name: name,
       text: text
     });
@@ -118,14 +118,14 @@ function Chat(props) {
   };
 
   React.useEffect(() => {
-    const received_messages = context_pop_packets_action_message();
+    const received_messages = context_character_pop_packets_action_message();
     if (received_messages == null) return;
 
     for (const message of received_messages)
       add_message({ ...message, date: new Date(), received: true });
 
     update_displayed_message();
-  }, [context_packets_action_message]);
+  }, [context_character_packets_action_message]);
 
   React.useEffect(() => {
     update_displayed_rooms();
@@ -133,10 +133,10 @@ function Chat(props) {
   }, [rooms_list, current_room]);
 
   React.useEffect(() => {
-    if (!("id" in context_data_character)) return;
+    if (!("id" in context_character_data_character)) return;
 
-    update_rooms([...context_data_character.friends_list]);
-  }, [context_data_character]);
+    update_rooms([...context_character_data_character.friends_list]);
+  }, [context_character_data_character]);
 
   return (
     <React.Fragment>

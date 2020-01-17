@@ -6,17 +6,17 @@ import "./index.css";
 
 function EditData(props) {
   const {
-    context_data_character,
-    context_data_land,
-    context_data_world,
-    context_process_script_action,
-    context_change_position,
-    context_change_land,
-    context_add_friend,
-    context_remove_friend,
-    context_change_state,
-    context_change_action,
-    context_change_activity
+    context_character_data_character,
+    context_character_data_land,
+    context_character_data_world,
+    context_character_send_process_script_action,
+    context_character_send_change_position,
+    context_character_send_change_land,
+    context_character_send_add_friend,
+    context_character_send_remove_friend,
+    context_character_send_change_state,
+    context_character_send_change_action,
+    context_character_send_change_activity
   } = React.useContext(AppContext);
 
   const [state_data_character, set_state_data_character] = React.useState({});
@@ -53,7 +53,7 @@ function EditData(props) {
       for (const [object_id, object_data] of Object.entries(
         world_data.environment_objects_map
       )) {
-        const land = context_data_land;
+        const land = context_character_data_land;
         if ("map" in land) {
           for (const point of land.map) {
             if (
@@ -155,16 +155,16 @@ function EditData(props) {
   }, [state_data_character, state_data_land, state_data_world]);
 
   React.useEffect(() => {
-    set_state_data_character(context_data_character);
-  }, [context_data_character]);
+    set_state_data_character(context_character_data_character);
+  }, [context_character_data_character]);
 
   React.useEffect(() => {
-    set_state_data_land(context_data_land);
-  }, [context_data_land]);
+    set_state_data_land(context_character_data_land);
+  }, [context_character_data_land]);
 
   React.useEffect(() => {
-    set_state_data_world(context_data_world);
-  }, [context_data_world]);
+    set_state_data_world(context_character_data_world);
+  }, [context_character_data_world]);
 
   return (
     <React.Fragment>
@@ -177,7 +177,7 @@ function EditData(props) {
             row_value={state_select_row_actions.row_value}
             row_options={state_select_row_actions.row_options}
             on_process={value => {
-              context_process_script_action({
+              context_character_send_process_script_action({
                 object_id: value.object_id,
                 action_id: value.action_id,
                 dynamic_args:
@@ -205,7 +205,7 @@ function EditData(props) {
             row_value={state_select_row_position.row_value}
             row_options={state_select_row_position.row_options}
             on_process={value => {
-              context_change_position({ position_x: value });
+              context_character_send_change_position({ position_x: value });
             }}
           />
           <SelectRow
@@ -215,46 +215,46 @@ function EditData(props) {
             row_options={state_select_row_land.row_options}
             on_process={value => {
               console.log("land", value);
-              context_change_land({ land_id: value });
+              context_character_send_change_land({ land_id: value });
             }}
           />
           <SelectRow
-            key="context_add_friend"
+            key="context_character_send_add_friend"
             row_key="add friend"
             row_value={state_select_row_characters.row_value}
             row_options={state_select_row_characters.row_options}
             on_process={value => {
-              context_add_friend({ name: value });
+              context_character_send_add_friend({ name: value });
             }}
           />
           <SelectRow
-            key="context_remove_friend"
+            key="context_character_send_remove_friend"
             row_key="remove friend"
             row_value={state_select_row_friends_list.row_value}
             row_options={state_select_row_friends_list.row_options}
             on_process={value => {
-              context_remove_friend({ name: value });
+              context_character_send_remove_friend({ name: value });
             }}
           />
           <InputRow
             key="change_state"
             row_key="change state"
             on_process={value => {
-              context_change_state({ name: value });
+              context_character_send_change_state({ name: value });
             }}
           />
           <InputRow
             key="change_action"
             row_key="change action"
             on_process={value => {
-              context_change_action({ name: value });
+              context_character_send_change_action({ name: value });
             }}
           />
           <InputRow
             key="change_activity"
             row_key="change activity"
             on_process={value => {
-              context_change_activity({ name: value });
+              context_character_send_change_activity({ name: value });
             }}
           />
         </div>
