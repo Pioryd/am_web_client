@@ -3,6 +3,8 @@ class SendCharacterPacket {
     if (client != null) client.send(packet_id, data);
   }
 
+  // Send
+
   static login(client, { login, password }) {
     this._send(client, "accept_connection", { login, password });
   }

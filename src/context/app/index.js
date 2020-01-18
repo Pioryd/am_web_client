@@ -4,6 +4,8 @@ import Util from "../../framework/util";
 import LoadingDots from "../../framework/loading_dots";
 import SendCharacterPacket from "./send_character_packet";
 import useParseCharacterPacketHook from "./parse_character_packet_hook";
+import SendAdminPacket from "./send_admin_packet";
+import useParseAdminPacketHook from "./parse_admin_packet_hook";
 
 export const AppContext = React.createContext();
 
@@ -17,6 +19,7 @@ const AppProvider = ({ children }) => {
     client_timeout: 25 * 1000,
     host: "localhost",
     port: "3000",
+    type: "admin",
     start_as_connection_enabled: true,
     ...Util.get_formated_url_path()
   });
@@ -49,6 +52,14 @@ const AppProvider = ({ children }) => {
     hook_character_clear_logged_as
   } = useParseCharacterPacketHook();
 
+  const {
+    hook_admin_parse_packet,
+    hook_admin_logged_as,
+    hook_admin_scripts_list,
+    hook_admin_ref_client,
+    hook_admin_clear_logged_as
+  } = useParseAdminPacketHook();
+
   const ref_main_loop = React.useRef();
   const ref_check_connection = React.useRef();
 
@@ -74,12 +85,20 @@ const AppProvider = ({ children }) => {
       set_state_connection_status,
       hook_character_logged_as,
       hook_character_clear_logged_as,
+      hook_admin_logged_as,
+      hook_admin_clear_logged_as,
       state_settings
     };
   };
 
   const _start_client = () => {
     const check_connection = _this => {
+      let logged_as = "";
+      if (_this.hook_character_logged_as !== "")
+        logged_as = _this.hook_character_logged_as;
+      else if (_this.hook_admin_logged_as !== "")
+        logged_as = _this.hook_admin_logged_as;
+
       if (_this.state_client == null || _this.state_client == null) {
         _this.set_state_connection_status("Disconnected");
       } else if (
@@ -91,13 +110,8 @@ const AppProvider = ({ children }) => {
         _this.state_client.auto_reconnect_data.enabled = false;
         _this.state_client.disconnect("Connection disabled by user");
         _this.set_state_connection_status("Disconnected");
-      } else if (
-        _this.state_client.is_connected() &&
-        _this.hook_character_logged_as !== ""
-      ) {
-        _this.set_state_connection_status(
-          "Connected as " + _this.hook_character_logged_as
-        );
+      } else if (_this.state_client.is_connected() && logged_as !== "") {
+        _this.set_state_connection_status("Connected as " + logged_as);
       } else {
         _this.set_state_connection_status(
           "Connecting" + state_loading_dots.get_dots()
@@ -139,10 +153,18 @@ const AppProvider = ({ children }) => {
         console.log("client.connected");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Logging in...");
-        SendCharacterPacket.login(_this.state_client, {
-          login: _this.state_settings.login,
-          password: _this.state_settings.password
-        });
+        // TODO
+        if (state_settings.type === "character") {
+          SendCharacterPacket.login(_this.state_client, {
+            login: _this.state_settings.login,
+            password: _this.state_settings.password
+          });
+        } else {
+          SendAdminPacket.login(_this.state_client, {
+            login: _this.state_settings.login,
+            password: _this.state_settings.password
+          });
+        }
       };
       client.events.disconnected = () => {
         console.log("client.disconnected");
@@ -156,6 +178,7 @@ const AppProvider = ({ children }) => {
       };
       set_state_client(client);
       hook_character_ref_client.current = client;
+      hook_admin_ref_client.current = client;
       _update_hook_check_connections();
       main_loop();
       return () => clearTimeout(ref_main_loop.current);
@@ -166,10 +189,19 @@ const AppProvider = ({ children }) => {
 
   const create_parse_dict = () => {
     const parse_packet_dict = {};
-    for (const [packet_id] of Object.entries(hook_character_parse_packet)) {
-      parse_packet_dict[packet_id] = data => {
-        return hook_character_parse_packet[packet_id](data);
-      };
+    // TODO
+    if (state_settings.type === "character") {
+      for (const [packet_id] of Object.entries(hook_character_parse_packet)) {
+        parse_packet_dict[packet_id] = data => {
+          return hook_character_parse_packet[packet_id](data);
+        };
+      }
+    } else {
+      for (const [packet_id] of Object.entries(hook_admin_parse_packet)) {
+        parse_packet_dict[packet_id] = data => {
+          return hook_admin_parse_packet[packet_id](data);
+        };
+      }
     }
     return parse_packet_dict;
   };
@@ -200,6 +232,8 @@ const AppProvider = ({ children }) => {
     set_state_connection_status,
     hook_character_logged_as,
     hook_character_clear_logged_as,
+    hook_admin_logged_as,
+    hook_admin_clear_logged_as,
     state_settings
   ]);
 
@@ -251,6 +285,17 @@ const AppProvider = ({ children }) => {
     context_character_packets_virtual_world: hook_character_packets_virtual_world,
     context_character_pop_packets_action_message: hook_character_pop_packets_action_message,
     context_character_pop_packets_virtual_world: hook_character_pop_packets_virtual_world,
+    // Admin
+    context_admin_send_scripts_list: (...args) => {
+      SendAdminPacket.scripts_list(state_client, ...args);
+    },
+    context_admin_send_process_script: (...args) => {
+      SendAdminPacket.process_script(state_client, ...args);
+    },
+    context_admin_logged_as: hook_admin_logged_as,
+    context_admin_scripts_list: hook_admin_scripts_list,
+    context_admin_ref_client: hook_admin_ref_client,
+    context_admin_clear_logged_as: hook_admin_clear_logged_as,
     // Other
     context_on_toggle_sync: value => toggle_sync(value),
     context_connection_enabled: state_connection_enabled,

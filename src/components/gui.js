@@ -9,6 +9,8 @@ import Settings from "../components/content/windows/settings";
 import Chat from "../components/content/windows/pui/chat";
 import EditData from "./content/windows/pui/edit_data";
 import VirtualWorld from "../components/content/windows/pui/virtual_world";
+import RunScript from "./content/windows/admin/run_script";
+import ScriptsList from "../components/content/windows/admin/scripts_list";
 
 function Gui() {
   let ref_gl = React.createRef();
@@ -19,7 +21,9 @@ function Gui() {
     view_source: { class: ViewSource, title: "View source" },
     chat: { class: Chat, title: "Chat" },
     edit_data: { class: EditData, title: "Edit data" },
-    virtual_world: { class: VirtualWorld, title: "Virtual world" }
+    virtual_world: { class: VirtualWorld, title: "Virtual world" },
+    admin_run_script: { class: RunScript, title: "[Admin] Run script" },
+    admin_scripts_list: { class: ScriptsList, title: "[Admin] Scripts list" }
   };
 
   const helper = {
@@ -107,6 +111,26 @@ function Gui() {
                     //     title: "example"
                     //   }
                     // }
+                    {
+                      title: "admin_run_script",
+                      type: "react-component",
+                      component: "admin_run_script",
+                      props: {
+                        id: "admin_run_script",
+                        key: "admin_run_script",
+                        title: "admin_run_script"
+                      }
+                    },
+                    {
+                      title: "admin_scripts_list",
+                      type: "react-component",
+                      component: "admin_scripts_list",
+                      props: {
+                        id: "admin_scripts_list",
+                        key: "admin_scripts_list",
+                        title: "admin_scripts_list"
+                      }
+                    }
                   ]
                 }
               ]
