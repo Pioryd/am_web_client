@@ -4,21 +4,43 @@ import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap_white.css";
 import "./index.css";
 
+const CELL_SIZE = 70;
+
 const objects = {
-  cactus: { style: {}, src: "/images/game/Items/cactus.png" },
-  rock: { style: {}, src: "/images/game/Items/rock.png" },
-  mushroom_red: { style: {}, src: "/images/game/Items/mushroomRed.png" },
-  spikes: { style: {}, src: "/images/game/Items/spikes.png" },
-  bush: { style: {}, src: "/images/game/Items/bush.png" },
-  plant: { style: {}, src: "/images/game/Items/plant.png" },
-  mushroom_brown: { style: {}, src: "/images/game/Items/mushroomBrown.png" },
+  cactus: {
+    style: { top: CELL_SIZE + "px" },
+    src: "/images/game/Items/cactus.png"
+  },
+  rock: {
+    style: { top: CELL_SIZE + "px" },
+    src: "/images/game/Items/rock.png"
+  },
+  mushroom_red: {
+    style: { top: CELL_SIZE + "px" },
+    src: "/images/game/Items/mushroomRed.png"
+  },
+  spikes: {
+    style: { top: CELL_SIZE + "px" },
+    src: "/images/game/Items/spikes.png"
+  },
+  bush: {
+    style: { top: CELL_SIZE + "px" },
+    src: "/images/game/Items/bush.png"
+  },
+  plant: {
+    style: { top: CELL_SIZE + "px" },
+    src: "/images/game/Items/plant.png"
+  },
+  mushroom_brown: {
+    style: { top: CELL_SIZE + "px" },
+    src: "/images/game/Items/mushroomBrown.png"
+  },
   portal: {
-    style: { top: "-40px", position: "relative", zIndex: 1 },
+    style: { top: "30px", position: "relative", zIndex: 1 },
     src: "/images/game/Tiles/door_closed_full.png"
   }
 };
 
-const CELL_SIZE = 70;
 function GraphicalUI() {
   const {
     context_character_data_character,
@@ -28,99 +50,152 @@ function GraphicalUI() {
   } = React.useContext(AppContext);
 
   const [state_map_size, set_state_map_size] = React.useState(12);
-  const [
-    state_character_div_style,
-    set_state_character_div_style
-  ] = React.useState({
-    top: "-230px",
-    left: CELL_SIZE * 1 + "px",
-    width: "66px",
-    height: "92px",
-    backgroundImage: "url(/images/game/Player/p3_front.png)"
-  });
-  const [state_cells, set_state_cells] = React.useState([]);
+
   const [
     state_current_index_position,
     set_state_current_index_position
   ] = React.useState(-1);
 
-  const render_map = (map, environment_objects) => {
-    let cells = [];
-    for (let i = 0; i < (state_map_size + 2) * 4; i++) {
-      let style = {};
-      const obj_data = { field_type: "", name: "", obj: {} };
-      if (i < state_map_size + 2 || i >= (state_map_size + 2) * 3) {
-        obj_data.field_type = "Sky";
-      }
-      if (i >= state_map_size + 2 && i < (state_map_size + 2) * 2) {
-        obj_data.field_type = "Obj";
+  const [state_ground_elements, set_state_ground_elements] = React.useState([]);
+  const [
+    state_environment_objects_elements,
+    set_state_environment_objects_elements
+  ] = React.useState([]);
+  const [
+    state_characters_elements,
+    set_state_characters_elements
+  ] = React.useState([]);
 
-        let position = i - (state_map_size + 2) - 1;
-        if (position >= 0 && position < map.length) {
-          if (map[position].objects_list.length > 0) {
-            const object_id = map[position].objects_list[0];
-            for (const [id, data] of Object.entries(environment_objects)) {
-              if (id === object_id) {
-                obj_data.obj = objects[data.type];
-                obj_data.name = data.name;
-                break;
-              }
-            }
+  const render_ground = map => {
+    const ground_elements = [];
+
+    for (let i = 0; i < map.length; i++) {
+      const style = { top: 140, zIndex: 0 };
+      let src = "";
+
+      if (i === 0) src = "/images/game/Tiles/grassLeft.png";
+      else if (i === map.length - 1) src = "/images/game/Tiles/grassRight.png";
+      else src = "/images/game/Tiles/grassMid.png";
+
+      const left = CELL_SIZE * (i + 1);
+      style.left = left + "px";
+
+      ground_elements.push(
+        <Tooltip
+          key={"ground_" + i}
+          placement="top"
+          trigger={["hover"]}
+          overlay={<span>{"Land"}</span>}
+          arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+        >
+          <img
+            className="sprite"
+            style={style}
+            src={src}
+            alt={"obje.name"}
+            onClick={() => {
+              console.log("hello");
+            }}
+          />
+        </Tooltip>
+      );
+    }
+
+    set_state_ground_elements(ground_elements);
+  };
+
+  const render_objects = (map, environment_objects) => {
+    const environment_objects_elements = [];
+
+    for (let i = 0; i < map.length; i++) {
+      const point = map[i];
+      if (point.objects_list.length > 0) {
+        const object_id = point.objects_list[0];
+
+        for (const [id, data] of Object.entries(environment_objects)) {
+          if (id !== object_id) continue;
+
+          const src = objects[data.type].src;
+          const style = { zIndex: 1, ...objects[data.type].style };
+          const left = CELL_SIZE * (i + 1);
+          style.left = left + "px";
+          const name = data.name;
+
+          environment_objects_elements.push(
+            <Tooltip
+              key={"environment_object_" + i}
+              placement="top"
+              trigger={["hover"]}
+              overlay={<span>{name}</span>}
+              arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+            >
+              <img
+                className="sprite"
+                style={style}
+                src={src}
+                alt={name}
+                onClick={() => {
+                  console.log("hello");
+                }}
+              />
+            </Tooltip>
+          );
+        }
+      }
+    }
+    set_state_environment_objects_elements(environment_objects_elements);
+  };
+
+  const render_characters = (map, characters) => {
+    const characters_elements = [];
+
+    for (let i = 0; i < map.length; i++) {
+      for (let j = 0; j < map[i].characters_list.length; j++) {
+        let character = { id: map[i].characters_list[j] };
+        const style = {
+          top: "50px",
+          left: CELL_SIZE * (i + 1) + "px",
+          zIndex: j + 2
+        };
+
+        for (const [id, data] of Object.entries(characters)) {
+          if (id === character.id) {
+            character = { ...data, ...character };
+            break;
           }
         }
-      }
-      if (i >= (state_map_size + 2) * 2 && i < (state_map_size + 2) * 3) {
-        obj_data.field_type = "Ground";
 
-        if (i === (state_map_size + 2) * 2) {
-        } else if (i === (state_map_size + 2) * 2 + 1) {
-          style.backgroundImage = "url(/images/game/Tiles/grassLeft.png)";
-        } else if (
-          i > (state_map_size + 2) * 2 + 1 &&
-          i < (state_map_size + 2) * 3 - 2
-        ) {
-          style.backgroundImage = "url(/images/game/Tiles/grassMid.png)";
-        } else if (i === (state_map_size + 2) * 3 - 2) {
-          style.backgroundImage = "url(/images/game/Tiles/grassRight.png)";
-        }
-      }
-      cells.push(
-        <div
-          key={i}
-          className="cell"
-          style={{
-            width: CELL_SIZE,
-            height: CELL_SIZE,
-            ...style
-          }}
-        >
+        delete character.id;
+        const string_info = JSON.stringify(character);
+
+        characters_elements.push(
           <Tooltip
+            key={"characters_" + i + "_" + j}
             placement="top"
             trigger={["hover"]}
-            overlay={<span>{obj_data.name}</span>}
+            overlay={<span>{string_info}</span>}
             arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
           >
             <img
               className="sprite"
-              style={obj_data.obj.style}
-              src={obj_data.obj.src}
+              style={style}
+              src={"/images/game/Player/p3_front.png"}
+              alt={string_info}
               onClick={() => {
                 console.log("hello");
               }}
             />
           </Tooltip>
-        </div>
-      );
+        );
+      }
     }
-    set_state_cells(cells);
-  };
 
-  const render_character = current_index_position => {
-    let style = { ...state_character_div_style };
-
-    const left = CELL_SIZE * (current_index_position + 1);
-    style.left = left + "px";
-    set_state_character_div_style(style);
+    console.log(
+      "characters_elements",
+      characters_elements.length,
+      characters_elements
+    );
+    set_state_characters_elements(characters_elements);
   };
 
   const on_key_press = e => {
@@ -140,6 +215,7 @@ function GraphicalUI() {
     const land_data = context_character_data_land;
     const world_data = context_character_data_world;
     const character_data = context_character_data_character;
+
     if (
       "map" in land_data &&
       "environment_objects_map" in world_data &&
@@ -157,8 +233,10 @@ function GraphicalUI() {
 
       set_state_current_index_position(current_index_position);
       set_state_map_size(map_size);
-      render_character(current_index_position);
-      render_map(land_data.map, world_data.environment_objects_map);
+
+      render_characters(land_data.map, world_data.characters_map);
+      render_objects(land_data.map, world_data.environment_objects_map);
+      render_ground(land_data.map);
     }
   }, [
     context_character_data_character,
@@ -179,9 +257,10 @@ function GraphicalUI() {
               }}
               className="map"
             >
-              {state_cells}
+              {state_ground_elements}
+              {state_environment_objects_elements}
+              {state_characters_elements}
             </div>
-            <div style={state_character_div_style} className="character" />
           </div>
         </div>
       </div>

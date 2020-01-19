@@ -17,32 +17,13 @@
   );
 }
 
-.graphical_ui .content .map .cell {
-  position: relative;
-  display: inline-block;
-  margin: 0;
-  vertical-align: top;
-  padding: 0px;
-  margin: 0px;
-  text-align: center;
-  background-color: transparent;
-  background-size: contain; /* <------ */
-  background-repeat: no-repeat;
-}
-
-.graphical_ui .content .map .cell .sprite {
+.graphical_ui .content .map .sprite {
+  position: absolute;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.graphical_ui .content .map .cell .sprite:hover {
+.graphical_ui .content .map .sprite:hover {
   border: 1px solid red;
-}
-.graphical_ui .content .character {
-  position: relative;
-  background-color: transparent;
-  background-size: contain; /* <------ */
-  background-repeat: no-repeat;
-  z-index: 3;
 }
