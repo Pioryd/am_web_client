@@ -46,7 +46,8 @@ function GraphicalUI() {
     context_character_data_character,
     context_character_data_land,
     context_character_data_world,
-    context_character_send_change_position
+    context_character_send_change_position,
+    context_character_send_process_script_action
   } = React.useContext(AppContext);
 
   const [state_map_size, set_state_map_size] = React.useState(12);
@@ -64,6 +65,10 @@ function GraphicalUI() {
   const [
     state_characters_elements,
     set_state_characters_elements
+  ] = React.useState([]);
+  const [
+    state_virtual_world_elements,
+    set_state_virtual_world_elements
   ] = React.useState([]);
 
   const render_ground = map => {
@@ -116,6 +121,17 @@ function GraphicalUI() {
         for (const [id, data] of Object.entries(environment_objects)) {
           if (id !== object_id) continue;
 
+          let on_click = () => {};
+          if (data.actions_list.length > 0) {
+            on_click = () => {
+              context_character_send_process_script_action({
+                object_id: id,
+                action_id: 0,
+                dynamic_args: {}
+              });
+            };
+          }
+
           const src = objects[data.type].src;
           const style = { zIndex: 1, ...objects[data.type].style };
           const left = CELL_SIZE * (i + 1);
@@ -130,7 +146,13 @@ function GraphicalUI() {
               overlay={<span>{name}</span>}
               arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
             >
-              <img className="sprite" style={style} src={src} alt={name} />
+              <img
+                className="sprite"
+                style={style}
+                src={src}
+                alt={name}
+                onClick={on_click}
+              />
             </Tooltip>
           );
         }
@@ -183,6 +205,28 @@ function GraphicalUI() {
     set_state_characters_elements(characters_elements);
   };
 
+  const render_virtual_world = () => {
+    set_state_virtual_world_elements(
+      <div
+        style={{
+          height: "10em",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <label
+          style={{
+            fontSize: "70px",
+            backgroundColor: "transparent"
+          }}
+        >
+          {"VIRTUAL WORLD"}
+        </label>
+      </div>
+    );
+  };
+
   const on_key_press = e => {
     if (!("map" in context_character_data_land)) return;
 
@@ -202,27 +246,38 @@ function GraphicalUI() {
     const character_data = context_character_data_character;
 
     if (
-      "map" in land_data &&
-      "environment_objects_map" in world_data &&
-      "id" in character_data
+      !(
+        "map" in land_data &&
+        "environment_objects_map" in world_data &&
+        "id" in character_data
+      )
     ) {
-      const character_id = character_data.id;
-      const map_size = land_data.map.length;
-      let current_index_position = -1;
-      for (let i = 0; i < land_data.map.length; i++) {
-        if (land_data.map[i].characters_list.includes(character_id)) {
-          current_index_position = i;
-          break;
-        }
-      }
+      set_state_ground_elements([]);
+      set_state_environment_objects_elements([]);
+      set_state_characters_elements([]);
 
-      set_state_current_index_position(current_index_position);
-      set_state_map_size(map_size);
-
-      render_characters(land_data.map, world_data.characters_map);
-      render_objects(land_data.map, world_data.environment_objects_map);
-      render_ground(land_data.map);
+      render_virtual_world();
+      return;
     }
+
+    set_state_virtual_world_elements([]);
+
+    const character_id = character_data.id;
+    const map_size = land_data.map.length;
+    let current_index_position = -1;
+    for (let i = 0; i < land_data.map.length; i++) {
+      if (land_data.map[i].characters_list.includes(character_id)) {
+        current_index_position = i;
+        break;
+      }
+    }
+
+    set_state_current_index_position(current_index_position);
+    set_state_map_size(map_size);
+
+    render_characters(land_data.map, world_data.characters_map);
+    render_objects(land_data.map, world_data.environment_objects_map);
+    render_ground(land_data.map);
   }, [
     context_character_data_character,
     context_character_data_land,
@@ -245,6 +300,7 @@ function GraphicalUI() {
               {state_ground_elements}
               {state_environment_objects_elements}
               {state_characters_elements}
+              {state_virtual_world_elements}
             </div>
           </div>
         </div>
