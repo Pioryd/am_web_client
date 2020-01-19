@@ -3,14 +3,18 @@ import { GoldenLayoutComponent } from "../components/layout/goldenLayoutComponen
 
 import GuiProvider from "../context/gui";
 import Navigation from "../components/navigation";
-import ViewData from "../components/content/windows/pui/view_data";
-import ViewSource from "../components/content/windows/pui/view_source";
-import Settings from "../components/content/windows/settings";
-import Chat from "../components/content/windows/pui/chat";
+
+import Settings from "./content/windows/settings";
+
+import ViewData from "./content/windows/pui/view_data";
+import ViewSource from "./content/windows/pui/view_source";
+import GraphicalUI from "./content/windows/pui/graphical_ui";
+import Chat from "./content/windows/pui/chat";
 import EditData from "./content/windows/pui/edit_data";
-import VirtualWorld from "../components/content/windows/pui/virtual_world";
+import VirtualWorld from "./content/windows/pui/virtual_world";
+
 import RunScript from "./content/windows/admin/run_script";
-import ScriptsList from "../components/content/windows/admin/scripts_list";
+import ScriptsList from "./content/windows/admin/scripts_list";
 
 function Gui() {
   let ref_gl = React.createRef();
@@ -23,7 +27,8 @@ function Gui() {
     edit_data: { class: EditData, title: "Edit data" },
     virtual_world: { class: VirtualWorld, title: "Virtual world" },
     admin_run_script: { class: RunScript, title: "[Admin] Run script" },
-    admin_scripts_list: { class: ScriptsList, title: "[Admin] Scripts list" }
+    admin_scripts_list: { class: ScriptsList, title: "[Admin] Scripts list" },
+    graphical_ui: { class: GraphicalUI, title: "[Admin] Graphical UI" }
   };
 
   const helper = {
@@ -112,23 +117,13 @@ function Gui() {
                     //   }
                     // }
                     {
-                      title: "admin_run_script",
+                      title: "graphical_ui",
                       type: "react-component",
-                      component: "admin_run_script",
+                      component: "graphical_ui",
                       props: {
-                        id: "admin_run_script",
-                        key: "admin_run_script",
-                        title: "admin_run_script"
-                      }
-                    },
-                    {
-                      title: "admin_scripts_list",
-                      type: "react-component",
-                      component: "admin_scripts_list",
-                      props: {
-                        id: "admin_scripts_list",
-                        key: "admin_scripts_list",
-                        title: "admin_scripts_list"
+                        id: "graphical_ui",
+                        key: "graphical_ui",
+                        title: "graphical_ui"
                       }
                     }
                   ]

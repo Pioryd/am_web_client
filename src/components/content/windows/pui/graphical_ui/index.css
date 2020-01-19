@@ -1,0 +1,48 @@
+.graphical_ui {
+  position: relative;
+  width: auto;
+  height: auto;
+}
+
+.graphical_ui .content {
+  position: relative;
+}
+
+.graphical_ui .content .map {
+  position: relative;
+  background-image: linear-gradient(
+    rgb(1, 196, 245),
+    rgb(45, 185, 250),
+    rgb(234, 249, 253)
+  );
+}
+
+.graphical_ui .content .map .cell {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+  background-color: transparent;
+  background-size: contain; /* <------ */
+  background-repeat: no-repeat;
+}
+
+.graphical_ui .content .map .cell .sprite {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.graphical_ui .content .map .cell .sprite:hover {
+  border: 1px solid red;
+}
+.graphical_ui .content .character {
+  position: relative;
+  background-color: transparent;
+  background-size: contain; /* <------ */
+  background-repeat: no-repeat;
+  z-index: 3;
+}
