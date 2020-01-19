@@ -20,14 +20,15 @@ const AppProvider = ({ children }) => {
     host: "localhost",
     port: "3000",
     type: "admin",
-    start_as_connection_enabled: true,
+    start_as_connection_enabled: 1,
     ...Util.get_formated_url_path()
   });
   const [state_client, set_state_client] = React.useState();
   const [
     state_connection_enabled,
     set_state_connection_enabled
-  ] = React.useState(state_settings.start_as_connection_enabled);
+    // can be number, so ==
+  ] = React.useState(state_settings.start_as_connection_enabled == true);
   const [state_connection_status, set_state_connection_status] = React.useState(
     "Disconnected"
   );
