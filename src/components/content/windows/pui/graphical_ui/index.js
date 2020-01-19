@@ -71,6 +71,8 @@ function GraphicalUI() {
     set_state_virtual_world_elements
   ] = React.useState([]);
 
+  const [state_debug_info, set_state_debug_info] = React.useState(false);
+
   const render_ground = map => {
     const ground_elements = [];
 
@@ -84,21 +86,26 @@ function GraphicalUI() {
 
       const left = CELL_SIZE * (i + 1);
       style.left = left + "px";
-      const name = "Ground";
 
+      let info = { name: "Ground" };
+      if (state_debug_info) {
+        info = { position_index: i, ...info };
+      }
+
+      const text_info = JSON.stringify(info);
       ground_elements.push(
         <Tooltip
           key={"ground_" + i}
           placement="top"
           trigger={["hover"]}
-          overlay={<span>{name}</span>}
+          overlay={<span>{text_info}</span>}
           arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
         >
           <img
             className="sprite"
             style={style}
             src={src}
-            alt={name}
+            alt={text_info}
             onClick={() => {
               context_character_send_change_position({ position_x: i });
             }}
@@ -136,21 +143,31 @@ function GraphicalUI() {
           const style = { zIndex: 1, ...objects[data.type].style };
           const left = CELL_SIZE * (i + 1);
           style.left = left + "px";
-          const name = data.name;
 
+          let info = { name: data.name };
+          if (state_debug_info) {
+            info = {
+              id: object_id,
+              type: data.type,
+              action: data.actions_list.length > 0,
+              ...info
+            };
+          }
+
+          const text_info = JSON.stringify(info);
           environment_objects_elements.push(
             <Tooltip
               key={"environment_object_" + i}
               placement="top"
               trigger={["hover"]}
-              overlay={<span>{name}</span>}
+              overlay={<span>{text_info}</span>}
               arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
             >
               <img
                 className="sprite"
                 style={style}
                 src={src}
-                alt={name}
+                alt={text_info}
                 onClick={on_click}
               />
             </Tooltip>
@@ -180,7 +197,9 @@ function GraphicalUI() {
           }
         }
 
-        delete character.id;
+        if (!state_debug_info) {
+          delete character.id;
+        }
         const string_info = JSON.stringify(character);
 
         characters_elements.push(
@@ -287,7 +306,19 @@ function GraphicalUI() {
   return (
     <React.Fragment>
       <div className="content_body" onKeyPress={on_key_press} tabIndex="0">
-        <div className="bar"></div>
+        <div className="bar">
+          <label>
+            <input
+              name="hello"
+              type="checkbox"
+              checked={state_debug_info}
+              onChange={e => {
+                set_state_debug_info(e.target.checked);
+              }}
+            />
+            Debug info
+          </label>
+        </div>
         <div className="graphical_ui">
           <div className="content">
             <div
