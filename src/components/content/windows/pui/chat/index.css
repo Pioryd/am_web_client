@@ -8,7 +8,6 @@
   display: flex;
   float: left;
   height: 100%;
-  background-color: blue;
 }
 .chat .content .column_left {
   position: relative;

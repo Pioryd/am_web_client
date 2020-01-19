@@ -9,7 +9,6 @@
   float: left;
   width: calc(100% - 2px);
   height: calc(100% - 8px);
-  background-color: blue;
 }
 .virtual_world .content .column_left {
   position: relative;
