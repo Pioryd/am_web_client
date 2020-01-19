@@ -1,7 +1,7 @@
 import React from "react";
 import { AppContext } from "../../context/app";
 import Tooltip from "rc-tooltip";
-import "rc-tooltip/assets/bootstrap.css";
+import "rc-tooltip/assets/bootstrap_white.css";
 
 function SyncButton(props) {
   const {
