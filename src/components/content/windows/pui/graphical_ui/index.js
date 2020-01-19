@@ -79,22 +79,23 @@ function GraphicalUI() {
 
       const left = CELL_SIZE * (i + 1);
       style.left = left + "px";
+      const name = "Ground";
 
       ground_elements.push(
         <Tooltip
           key={"ground_" + i}
           placement="top"
           trigger={["hover"]}
-          overlay={<span>{"Land"}</span>}
+          overlay={<span>{name}</span>}
           arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
         >
           <img
             className="sprite"
             style={style}
             src={src}
-            alt={"obje.name"}
+            alt={name}
             onClick={() => {
-              console.log("hello");
+              context_character_send_change_position({ position_x: i });
             }}
           />
         </Tooltip>
@@ -129,15 +130,7 @@ function GraphicalUI() {
               overlay={<span>{name}</span>}
               arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
             >
-              <img
-                className="sprite"
-                style={style}
-                src={src}
-                alt={name}
-                onClick={() => {
-                  console.log("hello");
-                }}
-              />
+              <img className="sprite" style={style} src={src} alt={name} />
             </Tooltip>
           );
         }
@@ -181,20 +174,12 @@ function GraphicalUI() {
               style={style}
               src={"/images/game/Player/p3_front.png"}
               alt={string_info}
-              onClick={() => {
-                console.log("hello");
-              }}
             />
           </Tooltip>
         );
       }
     }
 
-    console.log(
-      "characters_elements",
-      characters_elements.length,
-      characters_elements
-    );
     set_state_characters_elements(characters_elements);
   };
 
