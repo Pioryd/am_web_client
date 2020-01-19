@@ -127,7 +127,6 @@ function Chat(props) {
     if (received_messages == null) return;
 
     for (const message of received_messages) {
-      console.log("message", message);
       const { packet_id, data } = message;
       if (packet_id === "data") {
         set_state_virtual_world_data(data);
