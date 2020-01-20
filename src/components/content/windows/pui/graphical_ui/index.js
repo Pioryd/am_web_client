@@ -6,7 +6,7 @@ import "./index.css";
 
 const CELL_SIZE = 70;
 
-const objects = {
+const ENVIRONMENT_OBJECTS = {
   cactus: {
     style: { top: CELL_SIZE + "px" },
     src: "/images/game/Items/cactus.png"
@@ -41,6 +41,20 @@ const objects = {
   }
 };
 
+const CHARACTERS = {
+  1: {
+    style: {},
+    src: "/images/game/Player/p1_front.png"
+  },
+  2: {
+    style: {},
+    src: "/images/game/Player/p2_front.png"
+  },
+  3: {
+    style: {},
+    src: "/images/game/Player/p3_front.png"
+  }
+};
 function GraphicalUI() {
   const {
     context_character_data_character,
@@ -139,8 +153,8 @@ function GraphicalUI() {
             };
           }
 
-          const src = objects[data.type].src;
-          const style = { zIndex: 1, ...objects[data.type].style };
+          const src = ENVIRONMENT_OBJECTS[data.type].src;
+          const style = { zIndex: 1, ...ENVIRONMENT_OBJECTS[data.type].style };
           const left = CELL_SIZE * (i + 1);
           style.left = left + "px";
 
@@ -197,8 +211,11 @@ function GraphicalUI() {
           }
         }
 
+        const src = CHARACTERS[character.outfit].src;
+
         if (!state_debug_info) {
           delete character.id;
+          delete character.outfit;
         }
         const string_info = JSON.stringify(character);
 
@@ -210,12 +227,7 @@ function GraphicalUI() {
             overlay={<span>{string_info}</span>}
             arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
           >
-            <img
-              className="sprite"
-              style={style}
-              src={"/images/game/Player/p3_front.png"}
-              alt={string_info}
-            />
+            <img className="sprite" style={style} src={src} alt={string_info} />
           </Tooltip>
         );
       }
