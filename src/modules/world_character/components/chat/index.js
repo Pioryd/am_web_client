@@ -1,6 +1,6 @@
 import React from "react";
-import Util from "../../../../../framework/util";
-import { AppContext } from "../../../../../context/app";
+import Util from "../../../../framework/util";
+import { AppContext } from "../../../../context/app";
 import useRooms from "./rooms_hook";
 import "./index.css";
 /*

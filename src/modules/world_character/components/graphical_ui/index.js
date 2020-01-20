@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContext } from "../../../../../context/app";
+import { AppContext } from "../../../../context/app";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap_white.css";
 import "./index.css";

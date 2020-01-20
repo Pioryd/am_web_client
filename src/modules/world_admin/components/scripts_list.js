@@ -1,6 +1,6 @@
 import React from "react";
-import { AppContext } from "../../../../context/app";
-import Util from "../../../../framework/util";
+import { AppContext } from "../../../context/app";
+import Util from "../../../framework/util";
 function ScriptsList() {
   const {
     context_admin_send_scripts_list,

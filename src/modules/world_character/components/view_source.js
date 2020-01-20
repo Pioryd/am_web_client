@@ -1,6 +1,6 @@
 import React from "react";
 import ReactJson from "react-json-view";
-import { AppContext } from "../../../../context/app";
+import { AppContext } from "../../../context/app";
 
 function ViewSource() {
   const {

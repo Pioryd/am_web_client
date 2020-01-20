@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContext } from "../../../../context/app";
+import { AppContext } from "../../../context/app";
 
 function RunScript() {
   const { context_admin_send_process_script } = React.useContext(AppContext);

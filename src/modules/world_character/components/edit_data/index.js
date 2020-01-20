@@ -1,7 +1,7 @@
 import React from "react";
 import InputRow from "./input_row";
 import SelectRow from "./select_row";
-import { AppContext } from "../../../../../context/app";
+import { AppContext } from "../../../../context/app";
 import "./index.css";
 
 function EditData(props) {
