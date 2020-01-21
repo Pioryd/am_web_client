@@ -1,7 +1,12 @@
 import React from "react";
+import Util from "../framework/util";
+
 import { GoldenLayoutComponent } from "./layout/goldenLayoutComponent";
 
+import { AppContext } from "../context/app";
+import ProtocolProvider from "../context/protocol";
 import GuiProvider from "../context/gui";
+
 import Navigation from "./navigation";
 
 import Settings from "./windows/settings";
@@ -9,14 +14,23 @@ import Settings from "./windows/settings";
 import WorldAdmin from "../modules/world_admin";
 import WorldCharacter from "../modules/world_character";
 
-function Gui() {
-  let ref_golden_layout = React.createRef();
+let ModuleWindowsMap = [];
+const module_name = Util.get_formated_url_path().type;
+if (module_name === "world_admin") {
+  ModuleWindowsMap = WorldAdmin.windows_map;
+} else if (module_name === "world_character") {
+  ModuleWindowsMap = WorldCharacter.windows_map;
+}
 
+function Gui() {
   const windows_map = {
     settings: { class: Settings, title: "Client settings" },
-    ...WorldAdmin.windows_map,
-    ...WorldCharacter.windows_map
+    ...ModuleWindowsMap
   };
+
+  const { context_settings } = React.useContext(AppContext);
+
+  const ref_golden_layout = React.createRef();
 
   const helper = {
     get_layout_root: () => {
@@ -74,34 +88,35 @@ function Gui() {
         windows_list={windows_map}
         on_add_window={name => add_window(name)}
       >
-        <Navigation> </Navigation>
-        <div className="main-window-content">
-          {" "}
-          <GoldenLayoutComponent
-            ref={ref_golden_layout}
-            htmlAttrs={{
-              style: {
-                display: "inline-block",
-                position: "fixed",
-                height: "100%",
-                width: "100%"
-              }
-            }}
-            config={{
-              content: [
-                {
-                  type: "row",
-                  isClosable: false,
-                  content: []
+        <ProtocolProvider settings={context_settings}>
+          <Navigation />
+          <div className="main-window-content">
+            <GoldenLayoutComponent
+              ref={ref_golden_layout}
+              htmlAttrs={{
+                style: {
+                  display: "inline-block",
+                  position: "fixed",
+                  height: "100%",
+                  width: "100%"
                 }
-              ]
-            }}
-            registerComponents={myLayout => {
-              for (const [window_name, values] of Object.entries(windows_map))
-                myLayout.registerComponent(window_name, values.class);
-            }}
-          />
-        </div>
+              }}
+              config={{
+                content: [
+                  {
+                    type: "row",
+                    isClosable: false,
+                    content: []
+                  }
+                ]
+              }}
+              registerComponents={myLayout => {
+                for (const [window_name, values] of Object.entries(windows_map))
+                  myLayout.registerComponent(window_name, values.class);
+              }}
+            />
+          </div>
+        </ProtocolProvider>
       </GuiProvider>
     </React.Fragment>
   );

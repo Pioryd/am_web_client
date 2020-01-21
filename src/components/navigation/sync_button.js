@@ -1,15 +1,15 @@
 import React from "react";
-import { AppContext } from "../../context/app";
+import { ProtocolContext } from "../../context/protocol";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap_white.css";
 
 function SyncButton(props) {
   const {
-    context_on_toggle_sync,
+    context_connection_toggle,
     context_connection_status,
     context_connection_enabled,
     context_connection_id
-  } = React.useContext(AppContext);
+  } = React.useContext(ProtocolContext);
   const state_form = {
     enabled: {
       enabled: true,
@@ -26,7 +26,7 @@ function SyncButton(props) {
   );
 
   const toggle_sync = () => {
-    context_on_toggle_sync(!state.enabled);
+    context_connection_toggle(!state.enabled);
 
     if (state.enabled) set_state(state_form.disabled);
     else set_state(state_form.enabled);

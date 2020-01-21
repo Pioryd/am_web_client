@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContext } from "../../../../context/app";
+import { ProtocolContext } from "../../context/protocol";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap_white.css";
 import "./index.css";
@@ -62,7 +62,7 @@ function GraphicalUI() {
     context_character_data_world,
     context_character_send_change_position,
     context_character_send_process_script_action
-  } = React.useContext(AppContext);
+  } = React.useContext(ProtocolContext);
 
   const [state_map_size, set_state_map_size] = React.useState(12);
 

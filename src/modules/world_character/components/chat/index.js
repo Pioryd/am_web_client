@@ -1,6 +1,6 @@
 import React from "react";
 import Util from "../../../../framework/util";
-import { AppContext } from "../../../../context/app";
+import { ProtocolContext } from "../../context/protocol";
 import useRooms from "./rooms_hook";
 import "./index.css";
 /*
@@ -13,7 +13,7 @@ function Chat(props) {
     context_character_packets_action_message,
     context_character_pop_packets_action_message,
     context_character_send_action_message
-  } = React.useContext(AppContext);
+  } = React.useContext(ProtocolContext);
 
   const {
     current_room,

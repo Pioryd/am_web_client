@@ -1,7 +1,7 @@
 import React from "react";
 import ReactJson from "react-json-view";
 import Util from "../../../../framework/util";
-import { AppContext } from "../../../../context/app";
+import { ProtocolContext } from "../../context/protocol";
 import "./index.css";
 
 function Chat(props) {
@@ -11,7 +11,7 @@ function Chat(props) {
     context_character_pop_packets_virtual_world,
     context_character_send_virtual_world,
     context_character_send_leave_virtual_world
-  } = React.useContext(AppContext);
+  } = React.useContext(ProtocolContext);
 
   const [
     state_virtual_world_enabled,

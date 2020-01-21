@@ -1,13 +1,13 @@
 import React from "react";
 import ReactJson from "react-json-view";
-import { AppContext } from "../../../context/app";
+import { ProtocolContext } from "../context/protocol";
 
 function ViewData() {
   const {
     context_character_data_character,
     context_character_data_land,
     context_character_data_world
-  } = React.useContext(AppContext);
+  } = React.useContext(ProtocolContext);
 
   const [state_data_world, set_state_data_world] = React.useState({});
   const [state_data_land, set_state_data_land] = React.useState({});

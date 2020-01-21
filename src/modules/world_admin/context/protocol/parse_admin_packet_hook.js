@@ -10,10 +10,9 @@ function useParseAdminPacketHook(props) {
     return ref_client.current;
   };
 
-  // parse packets
+  //parse packets
   const login = data => {
     set_state_logged_as(data.character_name);
-
     SendAdminPacket.scripts_list(get_client(), {});
   };
 

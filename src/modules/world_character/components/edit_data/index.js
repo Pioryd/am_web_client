@@ -1,7 +1,7 @@
 import React from "react";
 import InputRow from "./input_row";
 import SelectRow from "./select_row";
-import { AppContext } from "../../../../context/app";
+import { ProtocolContext } from "../../context/protocol";
 import "./index.css";
 
 function EditData(props) {
@@ -17,7 +17,7 @@ function EditData(props) {
     context_character_send_change_state,
     context_character_send_change_action,
     context_character_send_change_activity
-  } = React.useContext(AppContext);
+  } = React.useContext(ProtocolContext);
 
   const [state_data_character, set_state_data_character] = React.useState({});
   const [state_data_land, set_state_data_land] = React.useState({});

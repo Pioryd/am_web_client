@@ -1,13 +1,13 @@
 import React from "react";
-import { AppContext } from "../../../context/app";
+import { ProtocolContext } from "../context/protocol";
 
 function RunScript() {
-  const { context_admin_send_process_script } = React.useContext(AppContext);
+  const { context_send_process_script } = React.useContext(ProtocolContext);
 
   const ref_text_input = React.useRef();
 
   const execute_script = () => {
-    context_admin_send_process_script({ script: ref_text_input.current.value });
+    context_send_process_script({ script: ref_text_input.current.value });
     ref_text_input.current.value = "";
   };
   return (

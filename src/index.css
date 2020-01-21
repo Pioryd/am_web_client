@@ -97,21 +97,22 @@ label {
 }
 
 .main-window-bar .dropdown-buttons-list {
-  height: auto;
-  top: 15px;
+  position: absolute;
   display: block;
+  height: auto;
+  width: auto;
+  top: 15px;
   color: white;
   cursor: pointer;
   z-index: 2000000;
   background-color: black;
   float: left;
-  position: absolute;
   border: 1px solid red;
 }
 
 .main-window-bar .button {
   clear: both;
-  width: calc(100% - 2px);
+  min-width: calc(100% - 2px);
 }
 
 /* 
