@@ -1,6 +1,6 @@
 import React from "react";
 import { JsonTree } from "react-editable-json-tree";
-import { AppContext } from "../../../context/app";
+import { AppContext } from "../../context/app";
 
 function Settings() {
   const { context_settings, context_set_settings } = React.useContext(
@@ -30,6 +30,7 @@ function Settings() {
           cancelButtonElement={<button>Cancel</button>}
           editButtonElement={<button>Accept</button>}
           addButtonElement={<button>Add</button>}
+          minusMenuElement={<span />}
         />
       </div>
     </React.Fragment>
