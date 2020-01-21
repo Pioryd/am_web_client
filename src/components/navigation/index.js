@@ -2,6 +2,7 @@ import React from "react";
 
 import WindowsList from "./windows_list/index";
 import SyncButton from "./sync_button";
+import "./index.css";
 
 function Navigation(props) {
   return (

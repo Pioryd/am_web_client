@@ -1,0 +1,6 @@
+.main-window-content {
+  background-color: black;
+  position: fixed;
+  width: calc(100% - 2px);
+  height: 100%;
+}

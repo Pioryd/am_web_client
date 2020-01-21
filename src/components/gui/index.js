@@ -1,19 +1,21 @@
 import React from "react";
-import Util from "../framework/util";
+import Util from "../../framework/util";
 
-import { GoldenLayoutComponent } from "./layout/goldenLayoutComponent";
+import { GoldenLayoutComponent } from "../layout/goldenLayoutComponent";
 
-import { AppContext } from "../context/app";
+import { AppContext } from "../../context/app";
 
-import ProtocolProvider from "../context/protocol";
-import GuiProvider from "../context/gui";
+import ProtocolProvider from "../../context/protocol";
+import GuiProvider from "../../context/gui";
 
-import Navigation from "./navigation";
+import Navigation from "../navigation";
 
-import Settings from "./windows/settings";
+import Settings from "../windows/settings";
 
-import WorldAdmin from "../modules/world_admin";
-import WorldCharacter from "../modules/world_character";
+import WorldAdmin from "../../modules/world_admin";
+import WorldCharacter from "../../modules/world_character";
+
+import "./index.css";
 
 let ModuleWindowsMap = [];
 const module_name = Util.get_formated_url_path().module;

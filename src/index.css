@@ -80,52 +80,6 @@ label {
 }
 
 /* 
- * Main window
- */
-.main-window-bar {
-  height: 14px;
-  font-size: 12px;
-  text-align: left;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  background-color: black;
-  color: white;
-  position: relative;
-  top: 0; /* Position the navbar at the top of the page */
-  width: calc(100% - 2px);
-  border: 1px solid red;
-  z-index: 10000;
-}
-
-.main-window-bar .dropdown-buttons-list {
-  position: absolute;
-  display: block;
-  height: auto;
-  width: auto;
-  top: 15px;
-  color: white;
-  cursor: pointer;
-  z-index: 2000000;
-  background-color: black;
-  float: left;
-  border: 1px solid red;
-}
-
-.main-window-bar .button {
-  clear: both;
-  min-width: calc(100% - 2px);
-}
-
-/* 
- * Main window content
- */
-.main-window-content {
-  background-color: black;
-  position: fixed;
-  width: calc(100% - 2px);
-  height: 100%;
-}
-
-/* 
  * Windows
  */
 .content_body {

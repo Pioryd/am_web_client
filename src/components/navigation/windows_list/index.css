@@ -1,0 +1,18 @@
+.main-window-bar .dropdown-buttons-list {
+  position: absolute;
+  display: block;
+  height: auto;
+  width: auto;
+  top: 15px;
+  color: white;
+  cursor: pointer;
+  z-index: 2000000;
+  background-color: black;
+  float: left;
+  border: 1px solid red;
+}
+
+.main-window-bar .button {
+  clear: both;
+  min-width: calc(100% - 2px);
+}
