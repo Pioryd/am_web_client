@@ -57,11 +57,11 @@ const CHARACTERS = {
 };
 function GraphicalUI() {
   const {
-    context_character_data_character,
-    context_character_data_land,
-    context_character_data_world,
-    context_character_send_change_position,
-    context_character_send_process_script_action
+    context_data_character,
+    context_data_land,
+    context_data_world,
+    context_send_change_position,
+    context_send_process_script_action
   } = React.useContext(ProtocolContext);
 
   const [state_map_size, set_state_map_size] = React.useState(12);
@@ -121,7 +121,7 @@ function GraphicalUI() {
             src={src}
             alt={text_info}
             onClick={() => {
-              context_character_send_change_position({ position_x: i });
+              context_send_change_position({ position_x: i });
             }}
           />
         </Tooltip>
@@ -145,7 +145,7 @@ function GraphicalUI() {
           let on_click = () => {};
           if (data.actions_list.length > 0) {
             on_click = () => {
-              context_character_send_process_script_action({
+              context_send_process_script_action({
                 object_id: id,
                 action_id: 0,
                 dynamic_args: {}
@@ -259,22 +259,22 @@ function GraphicalUI() {
   };
 
   const on_key_press = e => {
-    if (!("map" in context_character_data_land)) return;
+    if (!("map" in context_data_land)) return;
 
     let index_position = state_current_index_position;
-    const max_index_position = context_character_data_land.map.length - 1;
+    const max_index_position = context_data_land.map.length - 1;
     if (e.key === "a") index_position = Math.max(0, index_position - 1);
     else if (e.key === "d")
       index_position = Math.min(max_index_position, index_position + 1);
     else return;
 
-    context_character_send_change_position({ position_x: index_position });
+    context_send_change_position({ position_x: index_position });
   };
 
   React.useEffect(() => {
-    const land_data = context_character_data_land;
-    const world_data = context_character_data_world;
-    const character_data = context_character_data_character;
+    const land_data = context_data_land;
+    const world_data = context_data_world;
+    const character_data = context_data_character;
 
     if (
       !(
@@ -309,11 +309,7 @@ function GraphicalUI() {
     render_characters(land_data.map, world_data.characters_map);
     render_objects(land_data.map, world_data.environment_objects_map);
     render_ground(land_data.map);
-  }, [
-    context_character_data_character,
-    context_character_data_land,
-    context_character_data_world
-  ]);
+  }, [context_data_character, context_data_land, context_data_world]);
 
   return (
     <React.Fragment>

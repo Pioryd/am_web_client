@@ -1,4 +1,4 @@
-class SendCharacterPacket {
+class SendPacket {
   static _send(client, packet_id, data) {
     if (client != null) client.send(packet_id, data);
   }
@@ -98,4 +98,4 @@ class SendCharacterPacket {
   }
 }
 
-export default SendCharacterPacket;
+export default SendPacket;

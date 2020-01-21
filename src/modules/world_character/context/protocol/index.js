@@ -1,24 +1,24 @@
 import React from "react";
 import useClient from "../../../../hooks/client";
-import SendCharacterPacket from "./send_character_packet";
-import useParseCharacterPacketHook from "./parse_character_packet_hook";
+import SendCharacterPacket from "./send_packet";
+import useParseCharacterPacketHook from "./parse_packet_hook";
 
 export const ProtocolContext = React.createContext();
 
 const ProtocolProvider = ({ settings, children }) => {
   const {
-    hook_character_parse_packet,
-    hook_character_logged_as,
-    hook_character_admin,
-    hook_character_data_full,
-    hook_character_data_character,
-    hook_character_data_world,
-    hook_character_data_land,
-    hook_character_packets_action_message,
-    hook_character_packets_virtual_world,
-    hook_character_ref_client,
-    hook_character_pop_packets_action_message,
-    hook_character_pop_packets_virtual_world
+    hook_parse_packet,
+    hook_logged_as,
+    hook_admin,
+    hook_data_full,
+    hook_data_character,
+    hook_data_world,
+    hook_data_land,
+    hook_packets_action_message,
+    hook_packets_virtual_world,
+    hook_ref_client,
+    hook_pop_packets_action_message,
+    hook_pop_packets_virtual_world
   } = useParseCharacterPacketHook();
 
   const {
@@ -31,19 +31,19 @@ const ProtocolProvider = ({ settings, children }) => {
     hook_connection_id
   } = useClient({
     settings: settings,
-    parse_packet_map: hook_character_parse_packet,
+    parse_packet_map: hook_parse_packet,
     on_connected: (...args) => {
       SendCharacterPacket.login(...args);
     }
   });
 
   React.useEffect(() => {
-    hook_character_ref_client.current = hook_client;
+    hook_ref_client.current = hook_client;
   }, [hook_client]);
 
   React.useEffect(() => {
-    hook_set_logged_as(hook_character_logged_as);
-  }, [hook_character_logged_as]);
+    hook_set_logged_as(hook_logged_as);
+  }, [hook_logged_as]);
 
   React.useEffect(() => {
     hook_update_settings(settings);
@@ -51,52 +51,52 @@ const ProtocolProvider = ({ settings, children }) => {
 
   const value = {
     // Character
-    context_character_send_process_script_action: (...args) => {
+    context_send_process_script_action: (...args) => {
       SendCharacterPacket.process_script_action(hook_client, ...args);
     },
-    context_character_send_change_position: (...args) => {
+    context_send_change_position: (...args) => {
       SendCharacterPacket.data_character_change_position(hook_client, ...args);
     },
-    context_character_send_change_land: (...args) => {
+    context_send_change_land: (...args) => {
       SendCharacterPacket.data_character_change_land(hook_client, ...args);
     },
-    context_character_send_add_friend: (...args) => {
+    context_send_add_friend: (...args) => {
       SendCharacterPacket.data_character_add_friend(hook_client, ...args);
     },
-    context_character_send_remove_friend: (...args) => {
+    context_send_remove_friend: (...args) => {
       SendCharacterPacket.data_character_remove_friend(hook_client, ...args);
     },
-    context_character_send_change_state: (...args) => {
+    context_send_change_state: (...args) => {
       SendCharacterPacket.data_character_change_state(hook_client, ...args);
     },
-    context_character_send_change_action: (...args) => {
+    context_send_change_action: (...args) => {
       SendCharacterPacket.data_character_change_action(hook_client, ...args);
     },
-    context_character_send_change_activity: (...args) => {
+    context_send_change_activity: (...args) => {
       SendCharacterPacket.data_character_change_activity(hook_client, ...args);
     },
-    context_character_send_action_message: (...args) => {
+    context_send_action_message: (...args) => {
       SendCharacterPacket.action_message(hook_client, ...args);
     },
-    context_character_send_enter_virtual_world: (...args) => {
+    context_send_enter_virtual_world: (...args) => {
       SendCharacterPacket.enter_virtual_world(hook_client, ...args);
     },
-    context_character_send_leave_virtual_world: (...args) => {
+    context_send_leave_virtual_world: (...args) => {
       SendCharacterPacket.leave_virtual_world(hook_client, ...args);
     },
-    context_character_send_virtual_world: (...args) => {
+    context_send_virtual_world: (...args) => {
       SendCharacterPacket.virtual_world(hook_client, ...args);
     },
-    context_character_logged_as: hook_character_logged_as,
-    context_character_admin: hook_character_admin,
-    context_character_data_full: hook_character_data_full,
-    context_character_data_character: hook_character_data_character,
-    context_character_data_land: hook_character_data_land,
-    context_character_data_world: hook_character_data_world,
-    context_character_packets_action_message: hook_character_packets_action_message,
-    context_character_packets_virtual_world: hook_character_packets_virtual_world,
-    context_character_pop_packets_action_message: hook_character_pop_packets_action_message,
-    context_character_pop_packets_virtual_world: hook_character_pop_packets_virtual_world,
+    context_logged_as: hook_logged_as,
+    context_admin: hook_admin,
+    context_data_full: hook_data_full,
+    context_data_character: hook_data_character,
+    context_data_land: hook_data_land,
+    context_data_world: hook_data_world,
+    context_packets_action_message: hook_packets_action_message,
+    context_packets_virtual_world: hook_packets_virtual_world,
+    context_pop_packets_action_message: hook_pop_packets_action_message,
+    context_pop_packets_virtual_world: hook_pop_packets_virtual_world,
 
     // Each protocol context must have these
     context_connection_toggle: hook_toggle_connection_enabled,

@@ -4,9 +4,9 @@ import { ProtocolContext } from "../context/protocol";
 
 function ViewData() {
   const {
-    context_character_data_character,
-    context_character_data_land,
-    context_character_data_world
+    context_data_character,
+    context_data_land,
+    context_data_world
   } = React.useContext(ProtocolContext);
 
   const [state_data_world, set_state_data_world] = React.useState({});
@@ -32,8 +32,8 @@ function ViewData() {
 
   const format_land_data = () => {
     let data = {};
-    if ("id" in context_character_data_land) {
-      const land = context_character_data_land;
+    if ("id" in context_data_land) {
+      const land = context_data_land;
       const map = [];
       for (const point of land.map) {
         let str_point = "";
@@ -93,16 +93,16 @@ function ViewData() {
   }, [state_data_world]);
 
   React.useEffect(() => {
-    set_state_data_character(context_character_data_character);
-  }, [context_character_data_character]);
+    set_state_data_character(context_data_character);
+  }, [context_data_character]);
 
   React.useEffect(() => {
-    set_state_data_land(context_character_data_land);
-  }, [context_character_data_land]);
+    set_state_data_land(context_data_land);
+  }, [context_data_land]);
 
   React.useEffect(() => {
-    set_state_data_world(context_character_data_world);
-  }, [context_character_data_world]);
+    set_state_data_world(context_data_world);
+  }, [context_data_world]);
 
   return (
     <React.Fragment>

@@ -11,7 +11,7 @@ const windows_map = {
   chat: { class: Chat, title: "Chat" },
   edit_data: { class: EditData, title: "Edit data" },
   virtual_world: { class: VirtualWorld, title: "Virtual world" },
-  graphical_ui: { class: GraphicalUI, title: "[Admin] Graphical UI" }
+  graphical_ui: { class: GraphicalUI, title: "Graphical UI" }
 };
 
 export default { windows_map };

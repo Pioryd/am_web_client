@@ -1,5 +1,5 @@
 import React from "react";
-import SendCharacterPacket from "./send_character_packet";
+import SendPacket from "./send_packet";
 
 function useParseCharacterPacketHook(props) {
   const ref_client = React.useRef();
@@ -27,25 +27,25 @@ function useParseCharacterPacketHook(props) {
     set_state_logged_as(data.character_name);
     set_state_admin(data.admin);
 
-    SendCharacterPacket.data_character(get_client(), {});
-    SendCharacterPacket.data_land(get_client(), {});
-    SendCharacterPacket.data_world(get_client(), {});
+    SendPacket.data_character(get_client(), {});
+    SendPacket.data_land(get_client(), {});
+    SendPacket.data_world(get_client(), {});
   };
   const data_full = data => {
     set_state_data_full({ ...data });
-    SendCharacterPacket.data_full(get_client(), {});
+    SendPacket.data_full(get_client(), {});
   };
   const data_character = data => {
     set_state_data_character({ ...data });
-    SendCharacterPacket.data_character(get_client(), {});
+    SendPacket.data_character(get_client(), {});
   };
   const data_land = data => {
     set_state_data_land({ ...data });
-    SendCharacterPacket.data_land(get_client(), {});
+    SendPacket.data_land(get_client(), {});
   };
   const data_world = data => {
     set_state_data_world({ ...data });
-    SendCharacterPacket.data_world(get_client(), {});
+    SendPacket.data_world(get_client(), {});
   };
   const action_message = data => {
     set_state_packets_action_message([
@@ -78,7 +78,7 @@ function useParseCharacterPacketHook(props) {
   };
 
   return {
-    hook_character_parse_packet: {
+    hook_parse_packet: {
       login: login,
       data_full: data_full,
       data_character: data_character,
@@ -87,18 +87,18 @@ function useParseCharacterPacketHook(props) {
       action_message: action_message,
       virtual_world: virtual_world
     },
-    hook_character_logged_as: state_logged_as,
-    hook_character_admin: state_admin,
-    hook_character_data_full: state_data_full,
-    hook_character_data_character: state_data_character,
-    hook_character_data_land: state_data_land,
-    hook_character_data_world: state_data_world,
-    hook_character_packets_action_message: state_packets_action_message,
-    hook_character_packets_virtual_world: state_packets_virtual_world,
-    hook_character_ref_client: ref_client,
-    hook_character_pop_packets_action_message: pop_packets_action_message,
-    hook_character_pop_packets_virtual_world: pop_packets_virtual_world,
-    hook_character_clear_logged_as: () => {
+    hook_logged_as: state_logged_as,
+    hook_admin: state_admin,
+    hook_data_full: state_data_full,
+    hook_data_character: state_data_character,
+    hook_data_land: state_data_land,
+    hook_data_world: state_data_world,
+    hook_packets_action_message: state_packets_action_message,
+    hook_packets_virtual_world: state_packets_virtual_world,
+    hook_ref_client: ref_client,
+    hook_pop_packets_action_message: pop_packets_action_message,
+    hook_pop_packets_virtual_world: pop_packets_virtual_world,
+    hook_clear_logged_as: () => {
       set_state_logged_as("");
     }
   };

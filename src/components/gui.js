@@ -4,6 +4,7 @@ import Util from "../framework/util";
 import { GoldenLayoutComponent } from "./layout/goldenLayoutComponent";
 
 import { AppContext } from "../context/app";
+
 import ProtocolProvider from "../context/protocol";
 import GuiProvider from "../context/gui";
 

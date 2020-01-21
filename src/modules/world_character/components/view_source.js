@@ -4,9 +4,9 @@ import { ProtocolContext } from "../context/protocol";
 
 function ViewSource() {
   const {
-    context_character_data_character,
-    context_character_data_land,
-    context_character_data_world
+    context_data_character,
+    context_data_land,
+    context_data_world
   } = React.useContext(ProtocolContext);
 
   return (
@@ -16,21 +16,21 @@ function ViewSource() {
         <React.Fragment>
           <ReactJson
             name="CharacterData"
-            src={context_character_data_character}
+            src={context_data_character}
             theme="monokai"
             indentWidth={2}
             collapsed={true}
           />
           <ReactJson
             name="LandData"
-            src={context_character_data_land}
+            src={context_data_land}
             theme="monokai"
             indentWidth={2}
             collapsed={true}
           />
           <ReactJson
             name="WorldData"
-            src={context_character_data_world}
+            src={context_data_world}
             theme="monokai"
             indentWidth={2}
             collapsed={true}
