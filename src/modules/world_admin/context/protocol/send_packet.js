@@ -1,4 +1,4 @@
-class SendAdminPacket {
+class SendPacket {
   static _send(client, packet_id, data) {
     if (client != null) client.send(packet_id, data);
   }
@@ -20,4 +20,4 @@ class SendAdminPacket {
   }
 }
 
-export default SendAdminPacket;
+export default SendPacket;

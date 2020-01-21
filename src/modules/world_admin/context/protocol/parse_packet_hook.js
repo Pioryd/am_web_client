@@ -1,7 +1,7 @@
 import React from "react";
-import SendAdminPacket from "./send_admin_packet";
+import SendPacket from "./send_packet";
 
-function useParseAdminPacketHook(props) {
+function useParsePacketHook(props) {
   const ref_client = React.useRef();
   const [state_logged_as, set_state_logged_as] = React.useState("");
   const [state_scripts_list, set_state_scripts_list] = React.useState([]);
@@ -13,7 +13,7 @@ function useParseAdminPacketHook(props) {
   //parse packets
   const login = data => {
     set_state_logged_as(data.character_name);
-    SendAdminPacket.scripts_list(get_client(), {});
+    SendPacket.scripts_list(get_client(), {});
   };
 
   const scripts_list = data => {
@@ -21,17 +21,17 @@ function useParseAdminPacketHook(props) {
   };
 
   return {
-    hook_admin_parse_packet: {
+    hook_parse_packet: {
       login: login,
       scripts_list: scripts_list
     },
-    hook_admin_logged_as: state_logged_as,
-    hook_admin_scripts_list: state_scripts_list,
-    hook_admin_ref_client: ref_client,
-    hook_admin_clear_logged_as: () => {
+    hook_logged_as: state_logged_as,
+    hook_scripts_list: state_scripts_list,
+    hook_ref_client: ref_client,
+    hook_clear_logged_as: () => {
       set_state_logged_as("");
     }
   };
 }
 
-export default useParseAdminPacketHook;
+export default useParsePacketHook;
