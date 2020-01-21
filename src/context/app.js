@@ -13,7 +13,7 @@ const AppProvider = ({ children }) => {
     client_timeout: 25 * 1000,
     host: "localhost",
     port: "3000",
-    type: "admin",
+    module: "world_admin",
     start_as_connection_enabled: 1,
     ...Util.get_formated_url_path()
   });

@@ -16,7 +16,7 @@ import WorldAdmin from "../modules/world_admin";
 import WorldCharacter from "../modules/world_character";
 
 let ModuleWindowsMap = [];
-const module_name = Util.get_formated_url_path().type;
+const module_name = Util.get_formated_url_path().module;
 if (module_name === "world_admin") {
   ModuleWindowsMap = WorldAdmin.windows_map;
 } else if (module_name === "world_character") {

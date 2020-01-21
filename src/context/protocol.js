@@ -6,7 +6,7 @@ import { ProtocolContext as CharacterProtocolContext } from "../modules/world_ch
 
 export let ProtocolContext = {};
 let ProtocolProvider = {};
-const module_name = Util.get_formated_url_path().type;
+const module_name = Util.get_formated_url_path().module;
 if (module_name === "world_admin") {
   ProtocolContext = AdminProtocolContext;
   ProtocolProvider = WorldAdminProtocolProvider;
