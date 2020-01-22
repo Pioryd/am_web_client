@@ -9,6 +9,7 @@ const ProtocolProvider = ({ settings, children }) => {
   const {
     hook_parse_packet,
     hook_logged_as,
+    hook_module_data,
     hook_scripts_list,
     hook_ref_client,
     hook_clear_logged_as
@@ -46,10 +47,14 @@ const ProtocolProvider = ({ settings, children }) => {
     context_send_scripts_list: (...args) => {
       SendPacket.scripts_list(hook_client, ...args);
     },
+    context_send_module_data: (...args) => {
+      SendPacket.module_data(hook_client, ...args);
+    },
     context_send_process_script: (...args) => {
       SendPacket.process_script(hook_client, ...args);
     },
     context_logged_as: hook_logged_as,
+    context_module_data: hook_module_data,
     context_scripts_list: hook_scripts_list,
     context_ref_client: hook_ref_client,
     context_clear_logged_as: hook_clear_logged_as,

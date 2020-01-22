@@ -79,23 +79,6 @@ class SendPacket {
       dynamic_args
     });
   }
-
-  // Admin packets
-  static process_script(client, { object_id, action_id, dynamic_args }) {
-    this._send(client, "process_script_action", {
-      object_id,
-      action_id,
-      dynamic_args
-    });
-  }
-
-  static scripts_list(client, { object_id, action_id, dynamic_args }) {
-    this._send(client, "process_script_action", {
-      object_id,
-      action_id,
-      dynamic_args
-    });
-  }
 }
 
 export default SendPacket;

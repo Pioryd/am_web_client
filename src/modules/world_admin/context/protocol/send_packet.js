@@ -9,6 +9,10 @@ class SendPacket {
     this._send(client, "accept_connection", { login, password });
   }
 
+  static module_data(client) {
+    this._send(client, "module_data");
+  }
+
   static process_script(client, { script }) {
     this._send(client, "process_script", {
       script
