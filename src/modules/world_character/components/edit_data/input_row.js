@@ -21,7 +21,7 @@ function InputRow(props) {
           key={state_key + "_value"}
           name={state_key}
           type="text"
-        ></input>
+        />
         <button
           className="process"
           onClick={e => {
