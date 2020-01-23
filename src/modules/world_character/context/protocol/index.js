@@ -9,8 +9,6 @@ const ProtocolProvider = ({ settings, children }) => {
   const {
     hook_parse_packet,
     hook_logged_as,
-    hook_admin,
-    hook_data_full,
     hook_data_character,
     hook_data_world,
     hook_data_land,
@@ -88,8 +86,6 @@ const ProtocolProvider = ({ settings, children }) => {
       SendCharacterPacket.virtual_world(hook_client, ...args);
     },
     context_logged_as: hook_logged_as,
-    context_admin: hook_admin,
-    context_data_full: hook_data_full,
     context_data_character: hook_data_character,
     context_data_land: hook_data_land,
     context_data_world: hook_data_world,

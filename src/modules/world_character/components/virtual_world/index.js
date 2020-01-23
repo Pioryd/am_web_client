@@ -171,7 +171,7 @@ function Chat(props) {
             <div className="column_right">
               {state_virtual_world_enabled ? (
                 <ReactJson
-                  name="context_data_full"
+                  name="context_virtual_world_data"
                   src={state_virtual_world_data}
                   theme="monokai"
                   indentWidth={2}

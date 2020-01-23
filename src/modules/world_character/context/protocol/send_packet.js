@@ -9,10 +9,6 @@ class SendPacket {
     this._send(client, "accept_connection", { login, password });
   }
 
-  static data_full(client) {
-    this._send(client, "data_full");
-  }
-
   static data_character(client) {
     this._send(client, "data_character");
   }
