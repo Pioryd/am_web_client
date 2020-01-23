@@ -12,14 +12,14 @@ import Navigation from "../navigation";
 
 import Settings from "../windows/settings";
 
-import WorldAdmin from "../../modules/world_admin";
+import WorldAdmin from "../../modules/admin";
 import WorldCharacter from "../../modules/world_character";
 
 import "./index.css";
 
 let ModuleWindowsMap = [];
 const module_name = Util.get_formated_url_path().module;
-if (module_name === "world_admin") {
+if (module_name === "admin") {
   ModuleWindowsMap = WorldAdmin.windows_map;
 } else if (module_name === "world_character") {
   ModuleWindowsMap = WorldCharacter.windows_map;
