@@ -91,8 +91,8 @@ const useClient = props => {
       const client = new Client({
         url: `http://${state_settings.host}:${state_settings.port}`,
         options: {
-          send_delay: state_settings.client_send_delay,
-          packet_timeout: state_settings.client_timeout,
+          send_delay: state_settings.packet_send_delay,
+          packet_timeout: state_settings.packet_timeout,
           auto_reconnect: true,
           debug: true
         }
@@ -154,8 +154,8 @@ const useClient = props => {
   React.useEffect(() => {
     if (state_client == null) return;
 
-    state_client.set_send_delay(state_settings.client_send_delay);
-    state_client.set_timeout(state_settings.client_timeout);
+    state_client.set_send_delay(state_settings.packet_send_delay);
+    state_client.set_timeout(state_settings.packet_timeout);
   }, [state_settings]);
 
   // If you add new object here, you need to add it too in function
