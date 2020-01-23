@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Util from "../../framework/util";
 
 import { GoldenLayoutComponent } from "../layout/goldenLayoutComponent";
@@ -87,6 +88,11 @@ function Gui() {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>
+          {`[${context_settings.module}]<${context_settings.login}> - AM`}
+        </title>
+      </Helmet>
       <GuiProvider
         windows_list={windows_map}
         on_add_window={name => add_window(name)}
