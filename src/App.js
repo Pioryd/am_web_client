@@ -16,7 +16,7 @@ const error_info = (
   <React.Fragment>
     <p>[ERROR] Wrong arguments. You need to put correct args. For example:</p>
     <p>
-      http://localhost:3002/login:admin/password:123/host:localhost/port:3001/module:world_admin
+      http://localhost:3000/login:admin/password:123/host:localhost/port:3101/module:admin
     </p>
   </React.Fragment>
 );
