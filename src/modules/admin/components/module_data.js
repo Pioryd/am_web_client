@@ -3,8 +3,8 @@ import ReactJson from "react-json-view";
 import { ProtocolContext } from "../context/protocol";
 import Util from "../../../framework/util";
 
-const DEFAULT_INTERVAL = 5000;
-const MIN_INTERVAL = 1000;
+const DEFAULT_INTERVAL = 1000;
+const MIN_INTERVAL = 10;
 const MAX_INTERVAL = 10000;
 
 function ModuleData() {
