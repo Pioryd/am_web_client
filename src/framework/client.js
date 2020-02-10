@@ -49,6 +49,12 @@ class Client {
       connect_timeout: timeout => {},
       error: error => {},
       disconnect: reason => {
+        /**
+         * TODO
+         *  It cannot be here, because it's faster then reconnect, so
+         *  it disconnet new connection ?
+         *  Is it really needed here ?
+         */
         this.events.disconnected();
       },
       // This class don't use socket.io reconnect
