@@ -1,7 +1,10 @@
-# Artificial mind - Preview - Admin Client
+# Artificial Mind - Web Client
 
-## How to run
+## Install and run
 
-From project directory:
+```powershell
+npm install
+npm start
+```
 
-> npm start
+## More informations at [Artificial Mind](https://www.artificialmind.dev/)
