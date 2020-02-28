@@ -42,6 +42,10 @@ const ENVIRONMENT_OBJECTS = {
 };
 
 const CHARACTERS = {
+  0: {
+    style: {},
+    src: "/images/game/Player/p0_front.png"
+  },
   1: {
     style: {},
     src: "/images/game/Player/p1_front.png"
