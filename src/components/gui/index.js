@@ -1,5 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { useMediaQuery } from "react-responsive";
+
 import Util from "../../framework/util";
 
 import { GoldenLayoutComponent } from "../layout/goldenLayoutComponent";
@@ -27,6 +29,11 @@ if (module_name === "admin") {
 }
 
 function Gui() {
+  const hook_is_desktop_or_laptop = useMediaQuery({ minWidth: 992 });
+  const [
+    state_is_desktop_or_laptop,
+    set_state_is_desktop_or_laptop
+  ] = React.useState(false);
   const windows_map = {
     settings: { class: Settings, title: "Client settings" },
     ...ModuleWindowsMap
@@ -62,17 +69,54 @@ function Gui() {
     const root = helper.get_layout_root();
     if (root == null) return;
 
-    root.contentItems[0].addChild({
-      title: windows_map[window_name].title,
-      type: "react-component",
-      component: window_name,
-      props: {
-        id: { window_name },
-        key: window_name,
-        title: windows_map[window_name].title
+    if (state_is_desktop_or_laptop) {
+      if (root.contentItems[0].contentItems.length === 0) {
+        root.contentItems[0].addChild({
+          type: "row",
+          content: [{ type: "column" }, { type: "column" }, { type: "column" }]
+        });
       }
-    });
+      const column_0 = root.contentItems[0].contentItems[0].contentItems[0];
+      const column_1 = root.contentItems[0].contentItems[0].contentItems[1];
+      const column_2 = root.contentItems[0].contentItems[0].contentItems[2];
+
+      let selected_column = column_0;
+      if (column_0.contentItems.length > column_1.contentItems.length)
+        selected_column = column_1;
+      else if (column_1.contentItems.length > column_2.contentItems.length)
+        selected_column = column_2;
+
+      selected_column.addChild({
+        title: windows_map[window_name].title,
+        type: "react-component",
+        component: window_name,
+        props: {
+          id: { window_name },
+          key: window_name,
+          title: windows_map[window_name].title
+        }
+      });
+    } else {
+      if (root.contentItems[0].contentItems.length === 0) {
+        root.contentItems[0].addChild({ type: "stack" });
+      }
+
+      root.contentItems[0].contentItems[0].addChild({
+        title: windows_map[window_name].title,
+        type: "react-component",
+        component: window_name,
+        props: {
+          id: { window_name },
+          key: window_name,
+          title: windows_map[window_name].title
+        }
+      });
+    }
   };
+
+  React.useEffect(() => {
+    set_state_is_desktop_or_laptop(hook_is_desktop_or_laptop);
+  }, []);
 
   React.useLayoutEffect(() => {
     function updateSize() {
