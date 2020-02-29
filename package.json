@@ -13,6 +13,7 @@
     "react-editable-json-tree": "^2.2.1",
     "react-helmet": "^5.2.1",
     "react-json-view": "^1.19.1",
+    "react-responsive": "^8.0.3",
     "react-scripts": "^3.3.0",
     "react-select": "^3.0.8",
     "socket.io": "^2.3.0",
