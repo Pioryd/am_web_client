@@ -55,46 +55,44 @@ function ModuleData() {
   }, [state_sync_interval, state_auto_sync]);
 
   return (
-    <React.Fragment>
-      <div className="content_body">
-        <div className="bar">
-          <input
-            name="hello"
-            type="checkbox"
-            checked={state_auto_sync}
-            onChange={e => {
-              set_state_auto_sync(e.target.checked);
-            }}
-          />
-          <input
-            className="input_value"
-            key="interval_value"
-            name="interval_value"
-            type="number"
-            value={state_sync_interval}
-            min={MIN_INTERVAL}
-            max={MAX_INTERVAL}
-            step={100}
-            onChange={e => {
-              const value = e.target.value;
-              if (value >= MIN_INTERVAL && value <= MAX_INTERVAL)
-                set_state_sync_interval(value);
-            }}
-          />
-          <button className="process" onClick={refresh_module_data}>
-            refresh
-          </button>
-          <label>{`Last sync: ${state_last_sync}`}</label>
-        </div>
-        <ReactJson
-          name="ModuleData"
-          src={state_module_data}
-          theme="monokai"
-          indentWidth={2}
-          collapsed={true}
+    <div className="content_body">
+      <div className="bar">
+        <input
+          name="hello"
+          type="checkbox"
+          checked={state_auto_sync}
+          onChange={e => {
+            set_state_auto_sync(e.target.checked);
+          }}
         />
+        <input
+          className="input_value"
+          key="interval_value"
+          name="interval_value"
+          type="number"
+          value={state_sync_interval}
+          min={MIN_INTERVAL}
+          max={MAX_INTERVAL}
+          step={100}
+          onChange={e => {
+            const value = e.target.value;
+            if (value >= MIN_INTERVAL && value <= MAX_INTERVAL)
+              set_state_sync_interval(value);
+          }}
+        />
+        <button className="process" onClick={refresh_module_data}>
+          refresh
+        </button>
+        <label>{`Last sync: ${state_last_sync}`}</label>
       </div>
-    </React.Fragment>
+      <ReactJson
+        name="ModuleData"
+        src={state_module_data}
+        theme="monokai"
+        indentWidth={2}
+        collapsed={true}
+      />
+    </div>
   );
 }
 
