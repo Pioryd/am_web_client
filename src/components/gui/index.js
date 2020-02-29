@@ -28,6 +28,31 @@ if (module_name === "admin") {
   ModuleWindowsMap = WorldCharacter.windows_map;
 }
 
+const load_windows_config = () => {
+  const config = {
+    content: [
+      {
+        type: "row",
+        isClosable: false,
+        content: []
+      }
+    ]
+  };
+
+  const saved_state = localStorage.getItem("saved_state");
+
+  if (saved_state !== null) {
+    const parsed_saved_state = JSON.parse(saved_state);
+    console.log({ parsed_saved_state });
+    if ("content" in parsed_saved_state)
+      config.content = parsed_saved_state.content;
+  }
+
+  console.log(config);
+  return config;
+};
+const windows_config = load_windows_config();
+
 function Gui() {
   const hook_is_desktop_or_laptop = useMediaQuery({ minWidth: 992 });
   const [
@@ -154,18 +179,15 @@ function Gui() {
                   width: "100%"
                 }
               }}
-              config={{
-                content: [
-                  {
-                    type: "row",
-                    isClosable: false,
-                    content: []
-                  }
-                ]
-              }}
+              config={windows_config}
               registerComponents={myLayout => {
                 for (const [window_name, values] of Object.entries(windows_map))
                   myLayout.registerComponent(window_name, values.class);
+
+                myLayout.on("stateChanged", function() {
+                  var state = JSON.stringify(myLayout.toConfig());
+                  localStorage.setItem("saved_state", state);
+                });
               }}
             />
           </div>
