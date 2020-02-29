@@ -29,7 +29,7 @@ if (module_name === "admin") {
 }
 
 const load_windows_config = () => {
-  const config = {
+  let config = {
     content: [
       {
         type: "row",
@@ -41,14 +41,8 @@ const load_windows_config = () => {
 
   const saved_state = localStorage.getItem("saved_state");
 
-  if (saved_state !== null) {
-    const parsed_saved_state = JSON.parse(saved_state);
-    console.log({ parsed_saved_state });
-    if ("content" in parsed_saved_state)
-      config.content = parsed_saved_state.content;
-  }
+  if (saved_state !== null) config = JSON.parse(saved_state);
 
-  console.log(config);
   return config;
 };
 const windows_config = load_windows_config();
@@ -140,7 +134,17 @@ function Gui() {
   };
 
   React.useEffect(() => {
-    set_state_is_desktop_or_laptop(hook_is_desktop_or_laptop);
+    const set_desktop_or_laptop = () => {
+      let is_desktop_or_laptop = hook_is_desktop_or_laptop;
+
+      if (windows_config.content[0].content.length > 0) {
+        is_desktop_or_laptop =
+          windows_config.content[0].content[0].type === "row";
+      }
+
+      set_state_is_desktop_or_laptop(is_desktop_or_laptop);
+    };
+    set_desktop_or_laptop();
   }, []);
 
   React.useLayoutEffect(() => {
@@ -185,8 +189,10 @@ function Gui() {
                   myLayout.registerComponent(window_name, values.class);
 
                 myLayout.on("stateChanged", function() {
-                  var state = JSON.stringify(myLayout.toConfig());
-                  localStorage.setItem("saved_state", state);
+                  if (myLayout.isInitialised) {
+                    var state = JSON.stringify(myLayout.toConfig());
+                    localStorage.setItem("saved_state", state);
+                  }
                 });
               }}
             />
