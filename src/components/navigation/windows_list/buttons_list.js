@@ -46,7 +46,22 @@ function ButtonsList(props) {
     set_state_elements(elements);
   }, [state_buttons]);
 
-  return <React.Fragment>{state_elements}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {state_elements}{" "}
+      <button
+        className="button"
+        style={{ color: "red" }}
+        id="clear_saved_state"
+        key="clear_saved_state"
+        onClick={e => {
+          localStorage.removeItem("saved_state");
+        }}
+      >
+        Clear saved state
+      </button>
+    </React.Fragment>
+  );
 }
 
 export default ButtonsList;
