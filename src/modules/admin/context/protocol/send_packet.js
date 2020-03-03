@@ -22,6 +22,14 @@ class SendPacket {
   static scripts_list(client) {
     this._send(client, "scripts_list", {});
   }
+
+  static get_am_data(client, data) {
+    this._send(client, "get_am_data", data);
+  }
+
+  static update_am_data(client, data) {
+    this._send(client, "update_am_data", data);
+  }
 }
 
 export default SendPacket;

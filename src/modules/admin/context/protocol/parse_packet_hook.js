@@ -25,6 +25,14 @@ function useParsePacketHook(props) {
     set_state_scripts_list({ ...data });
   };
 
+  const get_am_data = data => {
+    set_state_module_data({ ...data });
+  };
+
+  const update_am_data = data => {
+    set_state_scripts_list({ ...data });
+  };
+
   return {
     hook_parse_packet: {
       login: login,
