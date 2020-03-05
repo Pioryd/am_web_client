@@ -39,10 +39,15 @@ const load_windows_config = () => {
     ]
   };
 
-  const saved_state = localStorage.getItem("saved_state");
-
-  if (saved_state !== null && module_name === saved_state.module_name)
-    config = JSON.parse(saved_state.config);
+  let saved_state = localStorage.getItem("saved_state");
+  try {
+    if (saved_state != null) {
+      saved_state = JSON.parse(saved_state);
+      if (module_name === saved_state.module_name) config = saved_state.config;
+    }
+  } catch (e) {
+    localStorage.removeItem("saved_state");
+  }
 
   return config;
 };
@@ -191,11 +196,15 @@ function Gui() {
 
                 myLayout.on("stateChanged", function() {
                   if (myLayout.isInitialised) {
-                    var state = JSON.stringify(myLayout.toConfig());
-                    localStorage.setItem("saved_state", {
-                      config: state,
+                    const saved_state = {
+                      config: myLayout.toConfig(),
                       module_name
-                    });
+                    };
+
+                    localStorage.setItem(
+                      "saved_state",
+                      JSON.stringify(saved_state)
+                    );
                   }
                 });
               }}
