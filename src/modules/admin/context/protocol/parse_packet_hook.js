@@ -13,6 +13,7 @@ function useParsePacketHook(props) {
 
   //parse packets
   const login = data => {
+    get_client().ext.logged_in = true;
     set_state_logged_as(data.character_name);
     SendPacket.scripts_list(get_client(), {});
   };

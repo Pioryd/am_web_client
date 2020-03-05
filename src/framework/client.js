@@ -15,6 +15,9 @@ class Client {
     this.logger = logger;
     this.url = url;
 
+    // For additional data given by class user
+    this.ext = {};
+
     this.options = {
       send_delay: 0,
       packet_timeout: 25 * 1000, // Not including internal ping
