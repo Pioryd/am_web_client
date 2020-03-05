@@ -41,7 +41,8 @@ const load_windows_config = () => {
 
   const saved_state = localStorage.getItem("saved_state");
 
-  if (saved_state !== null) config = JSON.parse(saved_state);
+  if (saved_state !== null && module_name === saved_state.module_name)
+    config = JSON.parse(saved_state.config);
 
   return config;
 };
@@ -191,7 +192,10 @@ function Gui() {
                 myLayout.on("stateChanged", function() {
                   if (myLayout.isInitialised) {
                     var state = JSON.stringify(myLayout.toConfig());
-                    localStorage.setItem("saved_state", state);
+                    localStorage.setItem("saved_state", {
+                      config: state,
+                      module_name
+                    });
                   }
                 });
               }}
