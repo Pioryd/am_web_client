@@ -3,16 +3,19 @@ import { ProtocolContext } from "../context/protocol";
 import Util from "../../../framework/util";
 function ScriptsList() {
   const {
-    context_send_scripts_list,
-    context_send_process_script,
-    context_scripts_list
+    context_send_packet,
+    context_packets_data,
+    context_packets_pop
   } = React.useContext(ProtocolContext);
 
   const [state_buttons, set_state_buttons] = React.useState([]);
   const [state_last_sync, set_state_last_sync] = React.useState("");
 
   React.useEffect(() => {
-    const { scripts_list } = context_scripts_list;
+    const packets = context_packets_pop("scripts_list");
+    if (packets.length === 0) return;
+
+    const { scripts_list } = packets.pop();
     if (!Array.isArray(scripts_list)) {
       console.log("Not array", scripts_list);
       return;
@@ -24,7 +27,7 @@ function ScriptsList() {
         <button
           key={script_name}
           onClick={() => {
-            context_send_process_script({ script: script_name });
+            context_send_packet("process_script", { script: script_name });
           }}
         >
           {script_name}
@@ -33,7 +36,7 @@ function ScriptsList() {
     }
     set_state_buttons(buttons_list);
     set_state_last_sync(Util.get_time_hms());
-  }, [context_scripts_list]);
+  }, [context_packets_data]);
 
   return (
     <React.Fragment>
@@ -43,7 +46,7 @@ function ScriptsList() {
             key="admin_send_scripts_list_button"
             className="process"
             onClick={e => {
-              context_send_scripts_list();
+              context_send_packet("scripts_list");
             }}
           >
             sync
