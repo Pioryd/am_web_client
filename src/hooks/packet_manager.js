@@ -1,6 +1,6 @@
 import React from "react";
 
-function useParsePacketHook(props) {
+function usePacketManagerHook(props) {
   const ref_client = React.useRef();
   const [state_logged_as, set_state_logged_as] = React.useState("");
   const [state_packets_data, set_state_packets_data] = React.useState({});
@@ -51,29 +51,15 @@ function useParsePacketHook(props) {
   return {
     hook_parse_packet: {
       login: data => {
+        get_client().ext.logged_in = true;
         set_state_logged_as(data.character_name);
-
-        send("data_character", {});
-        send("data_land", {});
-        send("data_world", {});
+        send("scripts_list", {});
       },
-      data_character: data => {
-        _push_packet_data("data_character", data);
-        send("data_character", {});
+      module_data: data => {
+        _push_packet_data("module_data", data);
       },
-      data_land: data => {
-        _push_packet_data("data_land", data);
-        send("data_land", {});
-      },
-      data_world: data => {
-        _push_packet_data("data_world", data);
-        send("data_world", {});
-      },
-      action_message: data => {
-        _push_packet_data("action_message", data);
-      },
-      virtual_world: data => {
-        _push_packet_data("virtual_world", data);
+      scripts_list: data => {
+        _push_packet_data("scripts_list", data);
       }
     },
     hook_logged_as: state_logged_as,
@@ -83,4 +69,4 @@ function useParsePacketHook(props) {
   };
 }
 
-export default useParsePacketHook;
+export default usePacketManagerHook;
