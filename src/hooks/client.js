@@ -97,6 +97,7 @@ const useClient = props => {
           debug: true
         }
       });
+      client.ext.logged_in = null;
       client.logger.options = {
         ...client.logger.options,
         print_log: true,
@@ -110,7 +111,7 @@ const useClient = props => {
         console.log("client.connected");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Logging in...");
-
+        _this.state_client.ext.logged_in = null;
         props.on_connected(_this.state_client, {
           login: _this.state_settings.login,
           password: _this.state_settings.password
@@ -120,11 +121,13 @@ const useClient = props => {
         console.log("client.disconnected");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Disconnected");
+        _this.state_client.ext.logged_in = null;
       };
       client.events.reconnecting = () => {
         console.log("client.reconnecting");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Reconnecting...");
+        _this.state_client.ext.logged_in = null;
       };
       set_state_client(client);
       _update_hook_check_connections();
