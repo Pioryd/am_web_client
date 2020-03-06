@@ -15,7 +15,7 @@ const AppProvider = ({ children }) => {
     port: "3000",
     module: "admin",
     start_as_connection_enabled: 1,
-    ...Util.get_formated_url_path()
+    ...Util.get_formatted_url_path()
   });
 
   const value = {

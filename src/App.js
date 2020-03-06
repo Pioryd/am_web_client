@@ -4,7 +4,7 @@ import Gui from "./components/gui";
 import AppProvider from "./context/app";
 import Util from "./framework/util";
 
-const args = Util.get_formated_url_path();
+const args = Util.get_formatted_url_path();
 const correct_args =
   args.login != null &&
   args.password != null &&
