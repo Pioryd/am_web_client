@@ -4,12 +4,9 @@ import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap_white.css";
 
 function SyncButton(props) {
-  const {
-    context_connection_toggle,
-    context_connection_status,
-    context_connection_enabled,
-    context_connection_id
-  } = React.useContext(ProtocolContext);
+  const { context_connection_fn, context_connection_info } = React.useContext(
+    ProtocolContext
+  );
   const state_form = {
     enabled: {
       enabled: true,
@@ -22,11 +19,11 @@ function SyncButton(props) {
   };
 
   const [state, set_state] = React.useState(
-    context_connection_enabled ? state_form.enabled : state_form.disabled
+    context_connection_info.enabled ? state_form.enabled : state_form.disabled
   );
 
   const toggle_sync = () => {
-    context_connection_toggle(!state.enabled);
+    context_connection_fn.set_enabled(!state.enabled);
 
     if (state.enabled) set_state(state_form.disabled);
     else set_state(state_form.enabled);
@@ -37,7 +34,7 @@ function SyncButton(props) {
       <Tooltip
         placement="bottom"
         trigger={["hover"]}
-        overlay={<span>{context_connection_id}</span>}
+        overlay={<span>{context_connection_info.id}</span>}
       >
         <button
           style={state.style}
@@ -46,7 +43,7 @@ function SyncButton(props) {
             toggle_sync();
           }}
         >
-          {context_connection_status}
+          {context_connection_info.status}
         </button>
       </Tooltip>
     </React.Fragment>
