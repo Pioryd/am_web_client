@@ -2,12 +2,12 @@ import React from "react";
 import { ProtocolContext } from "../context/protocol";
 
 function RunScript() {
-  const { context_send_packet } = React.useContext(ProtocolContext);
+  const { context_packets_fn } = React.useContext(ProtocolContext);
 
   const ref_text_input = React.useRef();
 
   const execute_script = () => {
-    context_send_packet("process_script", {
+    context_packets_fn.send("process_script", {
       script: ref_text_input.current.value
     });
     ref_text_input.current.value = "";

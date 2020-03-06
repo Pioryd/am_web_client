@@ -2,17 +2,15 @@ import React from "react";
 import { ProtocolContext } from "../context/protocol";
 import Util from "../../../framework/util";
 function ScriptsList() {
-  const {
-    context_send_packet,
-    context_packets_data,
-    context_packets_pop
-  } = React.useContext(ProtocolContext);
+  const { context_packets_data, context_packets_fn } = React.useContext(
+    ProtocolContext
+  );
 
   const [state_buttons, set_state_buttons] = React.useState([]);
   const [state_last_sync, set_state_last_sync] = React.useState("");
 
   React.useEffect(() => {
-    const packets = context_packets_pop("scripts_list");
+    const packets = context_packets_fn.pop("scripts_list");
     if (packets.length === 0) return;
 
     const { scripts_list } = packets.pop();
@@ -27,7 +25,7 @@ function ScriptsList() {
         <button
           key={script_name}
           onClick={() => {
-            context_send_packet("process_script", { script: script_name });
+            context_packets_fn.send("process_script", { script: script_name });
           }}
         >
           {script_name}
@@ -46,7 +44,7 @@ function ScriptsList() {
             key="admin_send_scripts_list_button"
             className="process"
             onClick={e => {
-              context_send_packet("scripts_list");
+              context_packets_fn.send("scripts_list");
             }}
           >
             sync

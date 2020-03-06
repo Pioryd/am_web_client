@@ -10,7 +10,7 @@ const ProtocolProvider = ({ settings, children }) => {
     hook_parse_packet,
     hook_logged_as,
     hook_packets_data,
-    hook_packets_pop,
+    hook_packets_fn,
     hook_ref_client
   } = useParsePacketHook();
 
@@ -43,11 +43,13 @@ const ProtocolProvider = ({ settings, children }) => {
   }, [settings]);
 
   const value = {
-    context_send_packet: (packet_id, packet_data) => {
-      send_packet(hook_client, packet_id, packet_data);
-    },
     context_packets_data: hook_packets_data,
-    context_packets_pop: hook_packets_pop,
+    context_packets_fn: {
+      send: (packet_id, packet_data) => {
+        send_packet(hook_client, packet_id, packet_data);
+      },
+      ...hook_packets_fn
+    },
     context_ref_client: hook_ref_client,
 
     // Each protocol context must have these
