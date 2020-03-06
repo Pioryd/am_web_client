@@ -1,5 +1,5 @@
 import React from "react";
-import useClient from "../../../../hooks/client";
+import useConnectionManager from "../../../../hooks/connection_manager";
 import send_packet from "./send_packet";
 import useParsePacketHook from "./parse_packet_hook";
 
@@ -14,14 +14,10 @@ const ProtocolProvider = ({ settings, children }) => {
   } = useParsePacketHook();
 
   const {
-    hook_update_settings,
-    hook_toggle_connection_enabled,
-    hook_set_logged_as,
+    hook_connection_manager_fn,
     hook_client,
-    hook_connection_enabled,
-    hook_connection_status,
-    hook_connection_id
-  } = useClient({
+    hook_connection_info
+  } = useConnectionManager({
     settings: settings,
     parse_packet_map: hook_parse_packet,
     on_connected: (client, data) => {
@@ -36,11 +32,11 @@ const ProtocolProvider = ({ settings, children }) => {
   React.useEffect(() => {
     const packets = hook_packets_fn.pop("accept_connection");
     if (packets.length === 0) return;
-    hook_set_logged_as(packets.pop());
+    hook_connection_manager_fn.set_logged_as(packets.pop());
   }, [hook_packets_data]);
 
   React.useEffect(() => {
-    hook_update_settings(settings);
+    hook_connection_manager_fn.set_settings(settings);
   }, [settings]);
 
   const value = {
@@ -54,10 +50,10 @@ const ProtocolProvider = ({ settings, children }) => {
     context_ref_client: hook_ref_client,
 
     // Each protocol context must have these
-    context_connection_toggle: hook_toggle_connection_enabled,
-    context_connection_enabled: hook_connection_enabled,
-    context_connection_status: hook_connection_status,
-    context_connection_id: hook_connection_id
+    context_connection_fn: {
+      set_enabled: hook_connection_manager_fn.set_connection_enabled
+    },
+    context_connection_info: hook_connection_info
   };
   return (
     <ProtocolContext.Provider value={value}>

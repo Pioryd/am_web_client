@@ -3,7 +3,7 @@ import Client from "../framework/client";
 
 import LoadingDots from "../framework/loading_dots";
 
-const useClient = props => {
+const useConnectionManager = props => {
   const [state_client, set_state_client] = React.useState();
   const [state_settings, set_state_settings] = React.useState(props.settings);
   const [
@@ -44,7 +44,6 @@ const useClient = props => {
       state_connection_status,
       set_state_connection_status,
       state_logged_as,
-      set_state_logged_as,
       state_settings: state_settings
     };
   };
@@ -171,19 +170,22 @@ const useClient = props => {
     state_connection_status,
     set_state_connection_status,
     state_logged_as,
-    set_state_logged_as,
     state_settings
   ]);
 
   return {
-    hook_update_settings: set_state_settings,
-    hook_toggle_connection_enabled: set_state_connection_enabled,
-    hook_set_logged_as: set_state_logged_as,
+    hook_connection_manager_fn: {
+      set_settings: set_state_settings,
+      set_connection_enabled: set_state_connection_enabled,
+      set_logged_as: set_state_logged_as
+    },
     hook_client: state_client,
-    hook_connection_enabled: state_connection_enabled,
-    hook_connection_status: state_connection_status,
-    hook_connection_id: `Connection ID: ${_get_connection_id()}`
+    hook_connection_info: {
+      enabled: state_connection_enabled,
+      status: state_connection_status,
+      id: _get_connection_id()
+    }
   };
 };
 
-export default useClient;
+export default useConnectionManager;
