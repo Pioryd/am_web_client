@@ -8,7 +8,6 @@ export const ProtocolContext = React.createContext();
 const ProtocolProvider = ({ settings, children }) => {
   const {
     hook_parse_packet,
-    hook_logged_as,
     hook_packets_data,
     hook_packets_fn,
     hook_ref_client
@@ -35,8 +34,10 @@ const ProtocolProvider = ({ settings, children }) => {
   }, [hook_client]);
 
   React.useEffect(() => {
-    hook_set_logged_as(hook_logged_as);
-  }, [hook_logged_as]);
+    const packets = hook_packets_fn.pop("accept_connection");
+    if (packets.length === 0) return;
+    hook_set_logged_as(packets.pop());
+  }, [hook_packets_data]);
 
   React.useEffect(() => {
     hook_update_settings(settings);
