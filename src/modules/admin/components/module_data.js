@@ -8,11 +8,9 @@ const MIN_INTERVAL = 10;
 const MAX_INTERVAL = 10000;
 
 function ModuleData() {
-  const {
-    context_send_packet,
-    context_packets_data,
-    context_packets_pop
-  } = React.useContext(ProtocolContext);
+  const { context_packets_data, context_packets_fn } = React.useContext(
+    ProtocolContext
+  );
 
   const ref_auto_sync = React.useRef({});
 
@@ -24,11 +22,11 @@ function ModuleData() {
   );
 
   const refresh_module_data = () => {
-    context_send_packet("module_data");
+    context_packets_fn.send("module_data");
   };
 
   React.useEffect(() => {
-    const packets = context_packets_pop("module_data");
+    const packets = context_packets_fn.pop("module_data");
     if (packets.length === 0) return;
 
     set_state_module_data(packets.pop());
