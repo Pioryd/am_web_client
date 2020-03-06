@@ -28,22 +28,28 @@ if (module_name === "admin") {
   ModuleWindowsMap = WorldCharacter.windows_map;
 }
 
+const DEFAULT_CONFIG = {
+  content: [
+    {
+      type: "row",
+      isClosable: false,
+      content: []
+    }
+  ]
+};
+
 const load_windows_config = () => {
-  let config = {
-    content: [
-      {
-        type: "row",
-        isClosable: false,
-        content: []
-      }
-    ]
-  };
+  let config = DEFAULT_CONFIG;
 
   let saved_state = localStorage.getItem("saved_state");
   try {
     if (saved_state != null) {
       saved_state = JSON.parse(saved_state);
-      if (module_name === saved_state.module_name) config = saved_state.config;
+      if (
+        module_name === saved_state.module_name &&
+        saved_state.config.content.length > 0
+      )
+        config = saved_state.config;
     }
   } catch (e) {
     localStorage.removeItem("saved_state");
@@ -142,6 +148,10 @@ function Gui() {
   React.useEffect(() => {
     const set_desktop_or_laptop = () => {
       let is_desktop_or_laptop = hook_is_desktop_or_laptop;
+
+      if (!("content" in windows_config.content[0])) {
+        windows_config.content[0].content = DEFAULT_CONFIG.content;
+      }
 
       if (windows_config.content[0].content.length > 0) {
         is_desktop_or_laptop =
