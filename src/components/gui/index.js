@@ -13,7 +13,7 @@ import GuiProvider from "../../context/gui";
 
 import Navigation from "../navigation";
 
-import Settings from "../windows/settings";
+import RootWindows from "../windows";
 
 import WorldAdmin from "../../modules/admin";
 import WorldCharacter from "../../modules/world_character";
@@ -66,7 +66,7 @@ function Gui() {
     set_state_is_desktop_or_laptop
   ] = React.useState(false);
   const windows_map = {
-    settings: { class: Settings, title: "Client settings" },
+    ...RootWindows.windows_map,
     ...ModuleWindowsMap
   };
 
