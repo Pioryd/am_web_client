@@ -1,6 +1,6 @@
 import React from "react";
 import ReactJson from "react-json-view";
-import { ProtocolContext } from "../context/protocol";
+import { ProtocolContext } from "../../../context/protocol";
 
 function ViewData() {
   const { context_packets_data, context_packets_fn } = React.useContext(

@@ -1,5 +1,5 @@
 import React from "react";
-import { ProtocolContext } from "../context/protocol";
+import { ProtocolContext } from "../../../context/protocol";
 import Util from "../../../framework/util";
 function ScriptsList() {
   const { context_packets_data, context_packets_fn } = React.useContext(
