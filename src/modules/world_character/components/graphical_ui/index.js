@@ -60,13 +60,9 @@ const CHARACTERS = {
   }
 };
 function GraphicalUI() {
-  const {
-    context_data_character,
-    context_data_land,
-    context_data_world,
-    context_send_change_position,
-    context_send_process_script_action
-  } = React.useContext(ProtocolContext);
+  const { context_packets_data, context_packets_fn } = React.useContext(
+    ProtocolContext
+  );
 
   const [state_map_size, set_state_map_size] = React.useState(12);
 
@@ -74,6 +70,10 @@ function GraphicalUI() {
     state_current_index_position,
     set_state_current_index_position
   ] = React.useState(-1);
+
+  const [state_land_data, set_state_land_data] = React.useState({});
+  const [state_character_data, set_state_character_data] = React.useState({});
+  const [state_world_data, set_state_world_data] = React.useState({});
 
   const [state_ground_elements, set_state_ground_elements] = React.useState([]);
   const [
@@ -125,7 +125,9 @@ function GraphicalUI() {
             src={src}
             alt={text_info}
             onClick={() => {
-              context_send_change_position({ position_x: i });
+              context_packets_fn.send("character_change_position", {
+                position_x: i
+              });
             }}
           />
         </Tooltip>
@@ -149,7 +151,7 @@ function GraphicalUI() {
           let on_click = () => {};
           if (data.actions_list.length > 0) {
             on_click = () => {
-              context_send_process_script_action({
+              context_packets_fn.send("script_action", {
                 object_id: id,
                 action_id: 0,
                 dynamic_args: {}
@@ -263,22 +265,24 @@ function GraphicalUI() {
   };
 
   const on_key_press = e => {
-    if (!("map" in context_data_land)) return;
+    if (!("map" in state_land_data)) return;
 
     let index_position = state_current_index_position;
-    const max_index_position = context_data_land.map.length - 1;
+    const max_index_position = state_land_data.map.length - 1;
     if (e.key === "a") index_position = Math.max(0, index_position - 1);
     else if (e.key === "d")
       index_position = Math.min(max_index_position, index_position + 1);
     else return;
 
-    context_send_change_position({ position_x: index_position });
+    context_packets_fn.send("character_change_position", {
+      position_x: index_position
+    });
   };
 
   React.useEffect(() => {
-    const land_data = context_data_land;
-    const world_data = context_data_world;
-    const character_data = context_data_character;
+    const land_data = state_land_data;
+    const world_data = state_world_data;
+    const character_data = state_character_data;
 
     if (
       !(
@@ -313,7 +317,22 @@ function GraphicalUI() {
     render_characters(land_data.map, world_data.characters_map);
     render_objects(land_data.map, world_data.environment_objects_map);
     render_ground(land_data.map);
-  }, [context_data_character, context_data_land, context_data_world]);
+  }, [state_land_data, state_character_data, state_world_data]);
+
+  React.useEffect(() => {
+    {
+      const packets = context_packets_fn.peek("data_land");
+      if (packets.length > 0) set_state_land_data(packets.pop());
+    }
+    {
+      const packets = context_packets_fn.peek("data_world");
+      if (packets.length > 0) set_state_world_data(packets.pop());
+    }
+    {
+      const packets = context_packets_fn.peek("data_character");
+      if (packets.length > 0) set_state_character_data(packets.pop());
+    }
+  }, [context_packets_data]);
 
   return (
     <React.Fragment>
