@@ -14,12 +14,11 @@ const useConnectionManager = props => {
   const [state_connection_status, set_state_connection_status] = React.useState(
     "Disconnected"
   );
-
+  const [state_logged_as, set_state_logged_as] = React.useState("");
   const [state_loading_dots] = React.useState(
     new LoadingDots({ interval: 1000 })
   );
 
-  const [state_logged_as, set_state_logged_as] = React.useState("");
   const ref_main_loop = React.useRef();
   const ref_check_connection = React.useRef();
 
@@ -179,12 +178,12 @@ const useConnectionManager = props => {
       set_connection_enabled: set_state_connection_enabled,
       set_logged_as: set_state_logged_as
     },
-    hook_client: state_client,
     hook_connection_info: {
       enabled: state_connection_enabled,
       status: state_connection_status,
       id: _get_connection_id()
-    }
+    },
+    hook_client: state_client
   };
 };
 
