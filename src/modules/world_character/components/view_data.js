@@ -3,11 +3,9 @@ import ReactJson from "react-json-view";
 import { ProtocolContext } from "../context/protocol";
 
 function ViewData() {
-  const {
-    context_data_character,
-    context_data_land,
-    context_data_world
-  } = React.useContext(ProtocolContext);
+  const { context_packets_data, context_packets_fn } = React.useContext(
+    ProtocolContext
+  );
 
   const [state_data_world, set_state_data_world] = React.useState({});
   const [state_data_land, set_state_data_land] = React.useState({});
@@ -32,8 +30,8 @@ function ViewData() {
 
   const format_land_data = () => {
     let data = {};
-    if ("id" in context_data_land) {
-      const land = context_data_land;
+    if ("id" in state_data_land) {
+      const land = state_data_land;
       const map = [];
       for (const point of land.map) {
         let str_point = "";
@@ -93,16 +91,19 @@ function ViewData() {
   }, [state_data_world]);
 
   React.useEffect(() => {
-    set_state_data_character(context_data_character);
-  }, [context_data_character]);
-
-  React.useEffect(() => {
-    set_state_data_land(context_data_land);
-  }, [context_data_land]);
-
-  React.useEffect(() => {
-    set_state_data_world(context_data_world);
-  }, [context_data_world]);
+    {
+      const packets = context_packets_fn.peek("data_character");
+      if (packets.length > 0) set_state_data_character(packets.pop());
+    }
+    {
+      const packets = context_packets_fn.peek("data_land");
+      if (packets.length > 0) set_state_data_land(packets.pop());
+    }
+    {
+      const packets = context_packets_fn.peek("data_world");
+      if (packets.length > 0) set_state_data_world(packets.pop());
+    }
+  }, [context_packets_data]);
 
   return (
     <React.Fragment>

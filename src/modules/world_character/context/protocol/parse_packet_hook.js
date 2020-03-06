@@ -35,6 +35,17 @@ function useParsePacketHook(props) {
     return packet_data_list;
   };
 
+  const packets_peek = packet_id => {
+    const packets_data = { ...state_packets_data };
+
+    if (!(packet_id in packets_data)) return [];
+    if (packets_data[packet_id].length === 0) return [];
+
+    const packet_data_list = packets_data[packet_id];
+
+    return JSON.parse(JSON.stringify(packet_data_list));
+  };
+
   const _push_packet_data = (packet_id, data) => {
     const packets_data = { ...state_packets_data };
 
@@ -52,6 +63,8 @@ function useParsePacketHook(props) {
     hook_parse_packet: {
       login: data => {
         set_state_logged_as(data.character_name);
+
+        get_client().ext.logged_in = true;
 
         send("data_character", {});
         send("data_land", {});
@@ -78,7 +91,7 @@ function useParsePacketHook(props) {
     },
     hook_logged_as: state_logged_as,
     hook_packets_data: state_packets_data,
-    hook_packets_pop: packets_pop,
+    hook_packets_fn: { pop: packets_pop, peek: packets_peek },
     hook_ref_client: ref_client
   };
 }

@@ -5,13 +5,9 @@ import { ProtocolContext } from "../../context/protocol";
 import "./index.css";
 
 function Chat(props) {
-  const {
-    context_data_character,
-    context_packets_virtual_world,
-    context_pop_packets_virtual_world,
-    context_send_virtual_world,
-    context_send_leave_virtual_world
-  } = React.useContext(ProtocolContext);
+  const { context_packets_data, context_packets_fn } = React.useContext(
+    ProtocolContext
+  );
 
   const [
     state_virtual_world_enabled,
@@ -71,7 +67,7 @@ function Chat(props) {
       received: false
     });
 
-    context_send_virtual_world({
+    context_packets_fn.send("virtual_world", {
       packet_id: "message",
       packet_data: { text }
     });
@@ -86,11 +82,11 @@ function Chat(props) {
   };
 
   const leave_virtual_world = () => {
-    context_send_leave_virtual_world();
+    context_packets_fn.send("leave_virtual_world");
   };
 
   const refresh = () => {
-    context_send_virtual_world({
+    context_packets_fn.send("virtual_world", {
       packet_id: "data",
       packet_data: {}
     });
@@ -108,36 +104,43 @@ function Chat(props) {
   };
 
   React.useEffect(() => {
-    const character_data = context_data_character;
-    let virtual_world_enabled =
-      "virtual_world_id" in character_data &&
-      character_data.virtual_world_id !== "";
+    {
+      let character_data = {};
+      const packets = context_packets_fn.peek("data_character");
+      if (packets.length > 0) character_data = packets.pop();
 
-    if (
-      virtual_world_enabled === true &&
-      state_virtual_world_enabled !== true
-    ) {
-      refresh();
+      let virtual_world_enabled =
+        "virtual_world_id" in character_data &&
+        character_data.virtual_world_id !== "";
+
+      if (
+        virtual_world_enabled === true &&
+        state_virtual_world_enabled !== true
+      ) {
+        refresh();
+      }
+      set_state_virtual_world_enabled(virtual_world_enabled);
     }
-    set_state_virtual_world_enabled(virtual_world_enabled);
-  }, [context_data_character]);
+    {
+      let received_messages = null;
+      const packets = context_packets_fn.pop("virtual_world");
+      if (packets.length > 0) received_messages = packets.pop();
 
-  React.useEffect(() => {
-    const received_messages = context_pop_packets_virtual_world();
-    if (received_messages == null) return;
+      if (received_messages != null) {
+        for (const message of received_messages) {
+          const { packet_id, data } = message;
+          if (packet_id === "data") {
+            set_state_virtual_world_data(data);
+            set_state_last_sync(Util.get_time_hms());
+          } else if (packet_id === "message") {
+            add_message({ ...data, date: new Date(), received: true });
+          }
+        }
 
-    for (const message of received_messages) {
-      const { packet_id, data } = message;
-      if (packet_id === "data") {
-        set_state_virtual_world_data(data);
-        set_state_last_sync(Util.get_time_hms());
-      } else if (packet_id === "message") {
-        add_message({ ...data, date: new Date(), received: true });
+        update_displayed_message();
       }
     }
-
-    update_displayed_message();
-  }, [context_packets_virtual_world]);
+  }, [context_packets_data]);
 
   return (
     <React.Fragment>
