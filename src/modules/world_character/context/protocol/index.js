@@ -1,6 +1,5 @@
 import React from "react";
 import useConnectionManager from "../../../../hooks/connection_manager";
-import send_packet from "./send_packet";
 import useParsePacketHook from "./parse_packet_hook";
 
 export const ProtocolContext = React.createContext();
@@ -15,13 +14,13 @@ const ProtocolProvider = ({ settings, children }) => {
 
   const {
     hook_connection_manager_fn,
-    hook_client,
-    hook_connection_info
+    hook_connection_info,
+    hook_client
   } = useConnectionManager({
     settings: settings,
     parse_packet_map: hook_parse_packet,
     on_connected: (client, data) => {
-      send_packet(client, "accept_connection", data);
+      hook_packets_fn.send("accept_connection", data);
     }
   });
 
@@ -32,7 +31,7 @@ const ProtocolProvider = ({ settings, children }) => {
   React.useEffect(() => {
     const packets = hook_packets_fn.pop("accept_connection");
     if (packets.length === 0) return;
-    hook_connection_manager_fn.set_logged_as(packets.pop());
+    hook_connection_manager_fn.set_logged_as(packets.pop().character_name);
   }, [hook_packets_data]);
 
   React.useEffect(() => {
@@ -43,7 +42,7 @@ const ProtocolProvider = ({ settings, children }) => {
     context_packets_data: hook_packets_data,
     context_packets_fn: {
       send: (packet_id, packet_data) => {
-        send_packet(hook_client, packet_id, packet_data);
+        hook_packets_fn.send(packet_id, packet_data);
       },
       ...hook_packets_fn
     },
