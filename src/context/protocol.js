@@ -42,7 +42,7 @@ const ProtocolProvider = ({ settings, children }) => {
   React.useEffect(() => {
     const packets = hook_packets_fn.pop("accept_connection");
     if (packets.length === 0) return;
-    hook_connection_manager_fn.set_logged_as(packets.pop().character_name);
+    hook_connection_manager_fn.set_logged_as(packets.pop().user_name);
   }, [hook_packets_data]);
 
   React.useEffect(() => {
