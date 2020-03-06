@@ -6,7 +6,7 @@ import admin_useParsePacketHook from "../modules/admin/hooks/parse_packet";
 import world_character_useParsePacketHook from "../modules/world_character/hooks/parse_packet";
 
 let useParsePacketHook = {};
-const module_name = Util.get_formated_url_path().module;
+const module_name = Util.get_formatted_url_path().module;
 if (module_name === "admin") {
   useParsePacketHook = admin_useParsePacketHook;
 } else if (module_name === "world_character") {

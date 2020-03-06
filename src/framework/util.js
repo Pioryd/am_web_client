@@ -9,7 +9,7 @@ class Util {
     });
   }
 
-  static get_formated_url_path() {
+  static get_formatted_url_path() {
     let url_path = window.location.pathname;
     if (url_path.charAt(0) === "/" || url_path.charAt(0) === "\\")
       url_path = url_path.substring(1);
