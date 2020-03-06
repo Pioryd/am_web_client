@@ -1,5 +1,5 @@
 import React from "react";
-import { ProtocolContext } from "../context/protocol";
+import { ProtocolContext } from "../../../context/protocol";
 
 function RunScript() {
   const { context_packets_fn } = React.useContext(ProtocolContext);

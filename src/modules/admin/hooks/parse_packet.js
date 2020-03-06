@@ -1,4 +1,4 @@
-import usePacketManagerHook from "./../../../../hooks/packet_manager";
+import usePacketManagerHook from "../../../hooks/packet_manager";
 
 function useParsePacketHook(props) {
   const {

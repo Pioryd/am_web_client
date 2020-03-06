@@ -1,7 +1,7 @@
 import React from "react";
 import ReactJson from "react-json-view";
 import Util from "../../../../framework/util";
-import { ProtocolContext } from "../../context/protocol";
+import { ProtocolContext } from "../../../../context/protocol";
 import "./index.css";
 
 function Chat(props) {

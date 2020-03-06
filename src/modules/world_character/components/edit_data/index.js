@@ -1,7 +1,7 @@
 import React from "react";
 import InputRow from "./input_row";
 import SelectRow from "./select_row";
-import { ProtocolContext } from "../../context/protocol";
+import { ProtocolContext } from "../../../../context/protocol";
 import "./index.css";
 
 function EditData(props) {
