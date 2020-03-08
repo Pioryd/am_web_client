@@ -67,12 +67,10 @@ select {
 }
 
 label {
-  height: 14px;
   color: green;
   background-color: black;
   font-size: 12px;
   border: none;
-  position: flex;
   float: left;
   padding: 0px;
   margin-left: 1px;
@@ -90,14 +88,16 @@ label {
 }
 
 .content_body .bar {
-  height: 15px;
+  height: auto;
+  display: inline-block;
+  overflow: hidden;
   font-size: 12px;
   text-align: left;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   cursor: move;
   background-color: black;
-  border: 1px solid red;
-  position: sticky;
+  border: 1px solid blue;
+  position: relative;
   top: 0; /* Position the navbar at the top of the page */
   width: calc(100% - 2px);
   z-index: 1000000;
