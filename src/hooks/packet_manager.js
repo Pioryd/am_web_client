@@ -1,4 +1,5 @@
 import React from "react";
+import Util from "../framework/util";
 
 const QUEUE_SIZE = 10;
 
@@ -44,7 +45,7 @@ function usePacketManagerHook(props) {
 
     const packet_data_list = packets_data[packet_id];
 
-    return JSON.parse(JSON.stringify(packet_data_list));
+    return Util.shallow_copy(packet_data_list);
   };
 
   const _push = (packet_id, data) => {
