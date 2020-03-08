@@ -23,6 +23,10 @@ class Util {
     }
     return formatted_vars;
   }
+
+  static shallow_copy(object) {
+    return JSON.parse(JSON.stringify(object));
+  }
 }
 
 export default Util;
