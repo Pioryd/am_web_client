@@ -62,7 +62,7 @@ function useProtocolHook(props) {
         context_packets_fn.send("data_am_form", { action_id });
         set_state_action_id(action_id);
       },
-      new_form: () => {
+      new_form: function() {
         if (can_perform_action() === false) return;
 
         context_packets_fn.send("update_am_form", {
