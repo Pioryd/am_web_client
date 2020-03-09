@@ -3,19 +3,23 @@ import Util from "../../../../framework/util";
 
 function useEditJson(props) {
   const [state_current_form, set_state_current_form] = React.useState({});
-  const [state_last_message, set_state_last_message] = React.useState("");
+  const [state_last_log, set_state_last_log] = React.useState("");
   const [state_data_changed, set_state_data_changed] = React.useState("false");
 
-  const update_last_message = message => {
-    set_state_last_message(`"[${Util.get_time_hms()}] ${message}"`);
+  const update_last_log = message => {
+    set_state_last_log(`"[${Util.get_time_hms()}] ${message}"`);
   };
 
   return {
-    hook_last_message: state_last_message,
+    hook_edit_json_last_log: state_last_log,
     hook_current_form: state_current_form,
     hook_data_changed: state_data_changed,
     hook_edit_json_fn: {
       set_current_form: current_form => {
+        update_last_log(
+          `Changed from[${state_current_form.name}] to[${current_form.name}]`
+        );
+
         set_state_current_form(Util.shallow_copy(current_form));
         set_state_data_changed(false);
       },
@@ -31,7 +35,7 @@ function useEditJson(props) {
           }
         }
 
-        update_last_message(`(Error) Update key[${key}] is not allowed`);
+        update_last_log(`(Error) Update key[${key}] is not allowed`);
       },
       on_remove: (key, keyPath, deep, oldValue) => {
         const current_form = { ...state_current_form };
@@ -57,7 +61,7 @@ function useEditJson(props) {
         };
 
         if (add() === false) {
-          update_last_message(`(Error) Remove key[${key}] is not allowed`);
+          update_last_log(`(Error) Remove key[${key}] is not allowed`);
         } else {
           set_state_current_form(current_form);
           set_state_data_changed(true);
@@ -81,7 +85,7 @@ function useEditJson(props) {
         };
 
         if (add() === false) {
-          update_last_message(`(Error) Add key[${key}] is not allowed`);
+          update_last_log(`(Error) Add key[${key}] is not allowed`);
         } else {
           set_state_current_form(current_form);
           set_state_data_changed(true);
@@ -91,7 +95,7 @@ function useEditJson(props) {
       on_delta_update: data => {
         const { type, key, oldValue, newValue } = data;
 
-        update_last_message(
+        update_last_log(
           `[${type}] key[${key}] old_value[${oldValue}] new_value[${newValue}]`
         );
       }
