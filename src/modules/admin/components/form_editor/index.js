@@ -31,7 +31,7 @@ function FormEditor() {
   const can_perform_action = () => {
     if (state_action_id !== "") {
       update_last_message(
-        "You cannot perform action. Util last one will done."
+        "You cannot perform action. Until last one will done."
       );
       return false;
     }
@@ -183,8 +183,14 @@ function FormEditor() {
         )}
         {state_action_id !== "" ? (
           <React.Fragment>
-            <p>Waiting for the end of the action</p>
-            <button>cancel action</button>
+            <p>{`Waiting for the end of the action[${state_action_id}]`}</p>
+            <button
+              onClick={() => {
+                set_state_action_id("");
+              }}
+            >
+              cancel action
+            </button>
           </React.Fragment>
         ) : (
           <JsonTree
