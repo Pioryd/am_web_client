@@ -4,6 +4,7 @@ import { JsonTree } from "react-editable-json-tree";
 
 import useEditJson from "./edit_json_hook";
 import useProtocolHook from "./protocol_hook";
+import useSelectHook from "./select_hook";
 
 function FormEditor() {
   const {
@@ -14,58 +15,26 @@ function FormEditor() {
   } = useEditJson();
 
   const {
-    hook_forms,
+    hook_protocol_forms,
     hook_protocol_last_log,
     hook_protocol_action_id,
     hook_protocol_fn
   } = useProtocolHook();
 
-  const [state_options, set_state_options] = React.useState([]);
-  const [state_selected_option, set_state_selected_option] = React.useState("");
+  const {
+    hook_current_value,
+    hook_select_options,
+    hook_selected_option,
+    hook_select_fn
+  } = useSelectHook();
 
-  // Handle select
   React.useEffect(() => {
-    const options = state_options;
-    const label = state_selected_option.label;
+    hook_edit_json_fn.set_current_form(hook_current_value);
+  }, [hook_current_value]);
 
-    let form = {};
-    for (const option of options) {
-      if (option.label === label) form = option.value;
-    }
-
-    hook_edit_json_fn.set_current_form(form);
-  }, [state_selected_option]);
-
-  // Parse packet
   React.useEffect(() => {
-    let options = null;
-    let current_form = null;
-    let selected_option = null;
-
-    options = [];
-    current_form = {};
-
-    selected_option = "";
-
-    for (const form of Object.values(hook_forms))
-      options.push({ label: form.id + "_" + form.name, value: form });
-
-    if ("id" in hook_current_form) {
-      for (const option of options) {
-        const form = option.value;
-
-        if (form.id === hook_current_form.id) {
-          selected_option = option;
-          current_form = form;
-          break;
-        }
-      }
-    }
-
-    if (options != null) set_state_options(options);
-    if (current_form != null) hook_edit_json_fn.set_current_form(current_form);
-    if (selected_option != null) set_state_selected_option(selected_option);
-  }, [hook_forms]);
+    hook_select_fn.update(hook_protocol_forms, hook_current_form.id);
+  }, [hook_protocol_forms]);
 
   return (
     <div className="content_body">
@@ -104,12 +73,10 @@ function FormEditor() {
       </div>
       <div>
         <Select
-          value={state_selected_option}
+          value={hook_selected_option}
           placeholder="Select form..."
-          onChange={option => {
-            set_state_selected_option(option);
-          }}
-          options={state_options}
+          onChange={hook_select_fn.on_change}
+          options={hook_select_options}
         />
       </div>
       <div className="bar">
