@@ -41,20 +41,19 @@ button:focus {
 }
 
 input {
-  height: 14px;
+  height: auto;
   background-color: rgb(224, 222, 222);
   color: black;
   font-size: 12px;
   border: none;
   position: flex;
   float: left;
-  padding: 0px;
-  margin-left: 1px;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 5px 0px 5px;
+  margin: 0px 5px 0px 5px;
 }
 
 select {
-  height: 14px;
+  height: auto;
   background-color: rgb(224, 222, 222);
   color: black;
   font-size: 12px;
@@ -62,8 +61,8 @@ select {
   position: flex;
   float: left;
   padding: 0px;
-  margin-left: 1px;
-  padding: 0px 10px 0px 10px;
+  margin-right: 5px;
+  padding: 0px 5px 0px 5px;
 }
 
 label {
@@ -73,8 +72,7 @@ label {
   border: none;
   float: left;
   padding: 0px;
-  margin-left: 1px;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 5px 0px 5px;
 }
 
 /* 
@@ -85,6 +83,7 @@ label {
   margin-bottom: 5px;
   width: 100%;
   overflow: auto;
+  position: relative;
 }
 
 .content_body .bar {
@@ -100,4 +99,13 @@ label {
   position: relative;
   top: 0; /* Position the navbar at the top of the page */
   width: calc(100% - 2px);
+}
+
+.content_body .bar .element {
+  height: 100%;
+  width: auto;
+  position: relative;
+  display: inline-block;
+  /* background-color: white; */
+  border-right: 1px solid blue;
 }
