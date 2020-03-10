@@ -34,10 +34,14 @@ When adding, take an example from existing ones.
 1. Create module folder named as module name in [`src/modules`] on the example of existing components.
 2. Add module to [`ModuleWindowsMap`] in [`src/components/gui/index.js`] on the example of existing components.
 
-#### Add component (window)
+#### Add general component
 
-1. Add component to [`src/modules/module_name/components`] on the example of existing components.
-2. Add component(window) to [`src/modules/module_name/index.js`] on the example of existing components.
+Add component to [`src/modules/module_name/components`] on the example of existing components.
+
+#### Add window (component)
+
+1. Add component to [`src/modules/module_name/windows`] on the example of existing windows.
+2. Add component(window) to [`src/modules/module_name/index.js`] on the example of existing windows.
 
 #### Add protocol
 

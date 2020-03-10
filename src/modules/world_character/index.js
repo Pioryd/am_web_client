@@ -1,9 +1,9 @@
-import ViewData from "./components/view_data";
-import ViewSource from "./components/view_source";
-import GraphicalUI from "./components/graphical_ui";
-import Chat from "./components/chat";
-import EditData from "./components/edit_data";
-import VirtualWorld from "./components/virtual_world";
+import ViewData from "./windows/view_data";
+import ViewSource from "./windows/view_source";
+import GraphicalUI from "./windows/graphical_ui";
+import Chat from "./windows/chat";
+import EditData from "./windows/edit_data";
+import VirtualWorld from "./windows/virtual_world";
 
 export default {
   windows_map: {
