@@ -186,9 +186,7 @@ function EditData(props) {
                 className="input_value"
                 key={"actions_additional_args"}
                 type="text"
-                onChange={e => {
-                  set_state_actions_dynamic_args(e.target.value);
-                }}
+                onChange={e => set_state_actions_dynamic_args(e.target.value)}
               ></input>
             </div>
           </SelectRow>
@@ -197,69 +195,69 @@ function EditData(props) {
             row_key="position"
             row_value={state_select_row_position.row_value}
             row_options={state_select_row_position.row_options}
-            on_process={value => {
+            on_process={value =>
               context_packets_fn.send("character_change_position", {
                 position_x: value
-              });
-            }}
+              })
+            }
           />
           <SelectRow
             key="change_land"
             row_key="land"
             row_value={state_select_row_land.row_value}
             row_options={state_select_row_land.row_options}
-            on_process={value => {
+            on_process={value =>
               context_packets_fn.send("character_change_land", {
                 land_id: value
-              });
-            }}
+              })
+            }
           />
           <SelectRow
             key="context_send_add_friend"
             row_key="add friend"
             row_value={state_select_row_characters.row_value}
             row_options={state_select_row_characters.row_options}
-            on_process={value => {
-              context_packets_fn.send("character_add_friend", { name: value });
-            }}
+            on_process={value =>
+              context_packets_fn.send("character_add_friend", { name: value })
+            }
           />
           <SelectRow
             key="context_send_remove_friend"
             row_key="remove friend"
             row_value={state_select_row_friends_list.row_value}
             row_options={state_select_row_friends_list.row_options}
-            on_process={value => {
+            on_process={value =>
               context_packets_fn.send("character_remove_friend", {
                 name: value
-              });
-            }}
+              })
+            }
           />
           <InputRow
             key="change_state"
             row_key="change state"
-            on_process={value => {
+            on_process={value =>
               context_packets_fn.send("character_change_state", {
                 name: value
-              });
-            }}
+              })
+            }
           />
           <InputRow
             key="change_action"
             row_key="change action"
-            on_process={value => {
+            on_process={value =>
               context_packets_fn.send("character_change_action", {
                 name: value
-              });
-            }}
+              })
+            }
           />
           <InputRow
             key="change_activity"
             row_key="change activity"
-            on_process={value => {
+            on_process={value =>
               context_packets_fn.send("character_change_activity", {
                 name: value
-              });
-            }}
+              })
+            }
           />
         </div>
       </div>

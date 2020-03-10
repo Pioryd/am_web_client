@@ -30,12 +30,8 @@ function useParsePacketHook(props) {
         hook_packets_fn._push("data_world", data);
         hook_packets_fn.send("data_world", {});
       },
-      action_message: data => {
-        hook_packets_fn._push("action_message", data);
-      },
-      virtual_world: data => {
-        hook_packets_fn._push("virtual_world", data);
-      }
+      action_message: data => hook_packets_fn._push("action_message", data),
+      virtual_world: data => hook_packets_fn._push("virtual_world", data)
     },
     hook_packets_data,
     hook_packets_fn,

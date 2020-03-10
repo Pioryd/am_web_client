@@ -64,9 +64,7 @@ function ModuleData() {
           name="hello"
           type="checkbox"
           checked={state_auto_sync}
-          onChange={e => {
-            set_state_auto_sync(e.target.checked);
-          }}
+          onChange={e => set_state_auto_sync(e.target.checked)}
         />
         <input
           className="input_value"

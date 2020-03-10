@@ -67,9 +67,9 @@ function CodeEditor() {
             name="basic autocompletion"
             type="checkbox"
             checked={state_enable_basic_autocompletion}
-            onChange={e => {
-              set_state_enable_basic_autocompletion(e.target.checked);
-            }}
+            onChange={e =>
+              set_state_enable_basic_autocompletion(e.target.checked)
+            }
           />
           basic autocompletion
         </label>
@@ -78,9 +78,9 @@ function CodeEditor() {
             name="live autocompletion"
             type="checkbox"
             checked={state_enable_live_autocompletion}
-            onChange={e => {
-              set_state_enable_live_autocompletion(e.target.checked);
-            }}
+            onChange={e =>
+              set_state_enable_live_autocompletion(e.target.checked)
+            }
           />
           live autocompletion
         </label>
@@ -89,9 +89,7 @@ function CodeEditor() {
             name="show gutter"
             type="checkbox"
             checked={state_show_gutter}
-            onChange={e => {
-              set_state_show_gutter(e.target.checked);
-            }}
+            onChange={e => set_state_show_gutter(e.target.checked)}
           />
           show gutter
         </label>
@@ -100,9 +98,7 @@ function CodeEditor() {
             name="show print margin"
             type="checkbox"
             checked={state_show_print_margin}
-            onChange={e => {
-              set_state_show_print_margin(e.target.checked);
-            }}
+            onChange={e => set_state_show_print_margin(e.target.checked)}
           />
           show print margin
         </label>
@@ -111,9 +107,7 @@ function CodeEditor() {
             name="highlight active line"
             type="checkbox"
             checked={state_highlight_active_line}
-            onChange={e => {
-              set_state_highlight_active_line(e.target.checked);
-            }}
+            onChange={e => set_state_highlight_active_line(e.target.checked)}
           />
           highlight active line
         </label>
@@ -122,9 +116,7 @@ function CodeEditor() {
             name="enable snippets"
             type="checkbox"
             checked={state_enable_snippets}
-            onChange={e => {
-              set_state_enable_snippets(e.target.checked);
-            }}
+            onChange={e => set_state_enable_snippets(e.target.checked)}
           />
           enable snippets
         </label>
@@ -133,9 +125,7 @@ function CodeEditor() {
             name="show line numbers"
             type="checkbox"
             checked={state_show_line_numbers}
-            onChange={e => {
-              set_state_show_line_numbers(e.target.checked);
-            }}
+            onChange={e => set_state_show_line_numbers(e.target.checked)}
           />
           show line numbers
         </label>
@@ -183,9 +173,7 @@ function CodeEditor() {
           theme={state_theme}
           name="editor_name"
           onLoad={() => {}}
-          onChange={new_value => {
-            set_state_value(new_value);
-          }}
+          onChange={new_value => set_state_value(new_value)}
           onSelectionChange={() => {}}
           onCursorChange={() => {}}
           onValidate={() => {}}

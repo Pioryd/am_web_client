@@ -39,32 +39,16 @@ function FormEditor() {
   return (
     <div className="content_body">
       <div className="bar">
-        <button
-          onClick={() => {
-            hook_protocol_fn.get_forms(hook_current_form);
-          }}
-        >
+        <button onClick={() => hook_protocol_fn.get_forms(hook_current_form)}>
           refresh
         </button>
-        <button
-          onClick={() => {
-            hook_protocol_fn.new_form(hook_current_form);
-          }}
-        >
+        <button onClick={() => hook_protocol_fn.new_form(hook_current_form)}>
           new
         </button>
-        <button
-          onClick={() => {
-            hook_protocol_fn.save_form(hook_current_form);
-          }}
-        >
+        <button onClick={() => hook_protocol_fn.save_form(hook_current_form)}>
           save
         </button>
-        <button
-          onClick={() => {
-            hook_protocol_fn.remove_form(hook_current_form);
-          }}
-        >
+        <button onClick={() => hook_protocol_fn.remove_form(hook_current_form)}>
           remove
         </button>
       </div>
@@ -91,11 +75,7 @@ function FormEditor() {
         {hook_protocol_action_id !== "" ? (
           <React.Fragment>
             <p>{`Waiting for the end of the action[${hook_protocol_action_id}]`}</p>
-            <button
-              onClick={() => {
-                hook_protocol_fn.cancel_action();
-              }}
-            >
+            <button onClick={() => hook_protocol_fn.cancel_action()}>
               cancel action
             </button>
           </React.Fragment>

@@ -10,9 +10,7 @@ function useDropdownListHook(props) {
 
   return {
     attr: { style: state_enabled ? styles.enabled : styles.disabled },
-    toggle: () => {
-      set_state_enabled(!state_enabled);
-    }
+    toggle: () => set_state_enabled(!state_enabled)
   };
 }
 
