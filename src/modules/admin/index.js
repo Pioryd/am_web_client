@@ -1,8 +1,8 @@
-import FormEditor from "./components/form_editor";
-import CodeEditor from "./components/code_editor";
-import ModuleData from "./components/module_data";
-import RunScript from "./components/run_script";
-import ScriptsList from "./components/scripts_list";
+import FormEditor from "./windows/form_editor";
+import CodeEditor from "./windows/code_editor";
+import ModuleData from "./windows/module_data";
+import RunScript from "./windows/run_script";
+import ScriptsList from "./windows/scripts_list";
 
 export default {
   windows_map: {
