@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { JsonTree } from "react-editable-json-tree";
+import JsonEditor from "../../components/json_editor";
 
 import useEditJson from "./edit_json_hook";
 import useProtocolHook from "./protocol_hook";
@@ -91,6 +92,7 @@ function FormEditor() {
             }}
           />
         )}
+        <JsonEditor />
       </div>
     </div>
   );
