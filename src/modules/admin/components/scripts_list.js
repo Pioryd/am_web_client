@@ -24,9 +24,9 @@ function ScriptsList() {
       buttons_list.push(
         <button
           key={script_name}
-          onClick={() => {
-            context_packets_fn.send("process_script", { script: script_name });
-          }}
+          onClick={() =>
+            context_packets_fn.send("process_script", { script: script_name })
+          }
         >
           {script_name}
         </button>
@@ -43,9 +43,7 @@ function ScriptsList() {
           <button
             key="admin_send_scripts_list_button"
             className="process"
-            onClick={e => {
-              context_packets_fn.send("scripts_list");
-            }}
+            onClick={e => context_packets_fn.send("scripts_list")}
           >
             sync
           </button>

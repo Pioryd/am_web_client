@@ -8,10 +8,6 @@ function Settings() {
   );
   const [state_settings, set_state_settings] = React.useState({});
 
-  const on_edit = data => {
-    context_set_settings({ ...data });
-  };
-
   React.useEffect(() => {
     if (context_settings != null) set_state_settings(context_settings);
   }, [context_settings]);
@@ -23,7 +19,7 @@ function Settings() {
         <JsonTree
           rootName="state_settings"
           data={state_settings}
-          onFullyUpdate={on_edit}
+          onFullyUpdate={data => context_set_settings({ ...data })}
           isCollapsed={() => {
             return false;
           }}

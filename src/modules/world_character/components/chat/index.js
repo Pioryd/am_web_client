@@ -70,9 +70,7 @@ function Chat(props) {
         <button
           key={room_name}
           className="button"
-          onClick={() => {
-            set_current_room(room_name);
-          }}
+          onClick={() => set_current_room(room_name)}
         >
           {room_name} {room.unread === true ? "(!)" : ""}
         </button>
@@ -156,9 +154,7 @@ function Chat(props) {
             key="chat_input"
             type="text"
             value={state_input_value}
-            onChange={e => {
-              set_state_input_value(e.currentTarget.value);
-            }}
+            onChange={e => set_state_input_value(e.currentTarget.value)}
             onKeyDown={e => {
               if (e.key === "Enter") send_action_message();
             }}

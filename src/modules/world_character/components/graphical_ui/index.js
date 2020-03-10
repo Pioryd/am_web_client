@@ -124,11 +124,11 @@ function GraphicalUI() {
             style={style}
             src={src}
             alt={text_info}
-            onClick={() => {
+            onClick={() =>
               context_packets_fn.send("character_change_position", {
                 position_x: i
-              });
-            }}
+              })
+            }
           />
         </Tooltip>
       );
@@ -343,9 +343,7 @@ function GraphicalUI() {
               name="hello"
               type="checkbox"
               checked={state_debug_info}
-              onChange={e => {
-                set_state_debug_info(e.target.checked);
-              }}
+              onChange={e => set_state_debug_info(e.target.checked)}
             />
             Debug info
           </label>

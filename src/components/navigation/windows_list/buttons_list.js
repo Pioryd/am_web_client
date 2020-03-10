@@ -31,14 +31,7 @@ function ButtonsList(props) {
     let elements = [];
     for (const [key] of Object.entries(state_buttons)) {
       elements.push(
-        <button
-          className="button"
-          id={key}
-          key={key}
-          onClick={e => {
-            open(e);
-          }}
-        >
+        <button className="button" id={key} key={key} onClick={e => open(e)}>
           {state_buttons[key].title}
         </button>
       );
@@ -54,9 +47,7 @@ function ButtonsList(props) {
         style={{ color: "red" }}
         id="clear_saved_state"
         key="clear_saved_state"
-        onClick={e => {
-          localStorage.removeItem("saved_state");
-        }}
+        onClick={e => localStorage.removeItem("saved_state")}
       >
         Clear saved state
       </button>
