@@ -13,7 +13,8 @@ function useProtocolHook(props) {
   const [state_last_log, set_state_last_log] = React.useState("");
 
   const update_last_log = message => {
-    set_state_last_log(`"[${Util.get_time_hms()}] ${message}"`);
+    if (message === "") set_state_last_log("");
+    else set_state_last_log(`"[${Util.get_time_hms()}] ${message}"`);
   };
 
   const can_perform_action = () => {
@@ -53,8 +54,9 @@ function useProtocolHook(props) {
     hook_protocol_fn: {
       cancel_action: () => {
         set_state_action_id("");
+        update_last_log("");
       },
-      get_forms: () => {
+      get: () => {
         if (can_perform_action() === false) return;
 
         const action_id = Date.now();
@@ -62,7 +64,7 @@ function useProtocolHook(props) {
         context_packets_fn.send("data_am_form", { action_id });
         set_state_action_id(action_id);
       },
-      new_form: function() {
+      new: function() {
         if (can_perform_action() === false) return;
 
         context_packets_fn.send("update_am_form", {
@@ -71,11 +73,10 @@ function useProtocolHook(props) {
           object: null
         });
 
-        this.get_forms();
+        this.get();
       },
-      save_form: function(current_form) {
+      save: function(current_form) {
         if (can_perform_action() === false) return;
-        if (!("id" in current_form)) return;
 
         context_packets_fn.send("update_am_form", {
           action_id: Date.now(),
@@ -83,11 +84,10 @@ function useProtocolHook(props) {
           object: current_form
         });
 
-        this.get_forms();
+        this.get();
       },
-      remove_form: function(current_form) {
+      remove: function(current_form) {
         if (can_perform_action() === false) return;
-        if (!("id" in current_form)) return;
 
         context_packets_fn.send("update_am_form", {
           action_id: Date.now(),
@@ -95,7 +95,7 @@ function useProtocolHook(props) {
           object: null
         });
 
-        this.get_forms();
+        this.get();
       }
     }
   };
