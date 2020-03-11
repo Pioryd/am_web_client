@@ -1,11 +1,11 @@
 import React from "react";
 import AceEditor from "react-ace";
 
+import Util from "../../../../framework/util";
+
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
-
-import "ace-builds/src-noconflict/mode-jsx";
 
 import "./index.css";
 
@@ -26,8 +26,11 @@ themes.forEach(theme => require(`ace-builds/src-noconflict/theme-${theme}`));
 const mode = "json";
 const parse_modes = ["javascript", "json"];
 
-function JsonEditor() {
-  const [state_value, set_state_value] = React.useState("");
+function JsonEditor(props) {
+  const [state_json, set_state_json] = React.useState("");
+  const [state_draft_mode, set_state_draft_mode] = React.useState(true);
+  const [state_last_log, set_state_last_log] = React.useState("");
+
   const [state_theme, set_state_theme] = React.useState("monokai");
   const [state_parse_mode, set_state_parse_mode] = React.useState("javascript");
 
@@ -47,25 +50,51 @@ function JsonEditor() {
   const [state_tab_size, set_state_tab_size] = React.useState(2);
   const [state_options, set_state_options] = React.useState({});
 
+  const to_json = object => {
+    return JSON.stringify(object, null, state_tab_size);
+  };
+
+  const update_last_log = message => {
+    if (message === "") set_state_last_log("");
+    else
+      set_state_last_log(
+        `[${Util.get_time_hms()}] ${message} >> After fix, press [ctrl + s] again`
+      );
+  };
+
+  const parse = new_value => {
+    try {
+      let object = null;
+      let json = "";
+      if (state_parse_mode === "javascript") eval("object=" + new_value);
+      else object = JSON.parse(new_value);
+
+      json = to_json(object);
+
+      set_state_json(json);
+      set_state_draft_mode(false);
+      update_last_log("");
+
+      if (props.on_parse) props.on_parse(json);
+    } catch (e) {
+      console.log(e);
+      update_last_log("Unable to parse JSON source.");
+    }
+  };
+
   const on_key_down = event => {
     let charCode = String.fromCharCode(event.which).toLowerCase();
 
     // ctrl + s
     if (event.ctrlKey && charCode === "s") {
       event.preventDefault();
-
-      try {
-        if (state_parse_mode === "javascript") {
-          let obj = null;
-          eval("obj=" + state_value);
-          set_state_value(JSON.stringify(obj, null, state_tab_size));
-        } else {
-          set_state_value(
-            JSON.stringify(JSON.parse(state_value), null, state_tab_size)
-          );
-        }
-      } catch {}
+      parse(state_json);
     }
+  };
+
+  const on_change = new_json => {
+    set_state_json(new_json);
+    set_state_draft_mode(true);
   };
 
   React.useEffect(() => {
@@ -78,6 +107,22 @@ function JsonEditor() {
       tabSize: state_tab_size
     });
   }, [state_show_line_numbers, state_tab_size]);
+
+  React.useEffect(() => {
+    let json = "";
+    try {
+      json = to_json(props.init_object);
+    } catch {
+      update_last_log("Wrong init json source");
+    }
+
+    parse(json);
+  }, [props.init_object]);
+
+  React.useEffect(() => {
+    if (props.on_change_draft_mode)
+      props.on_change_draft_mode(state_draft_mode);
+  }, [state_draft_mode]);
 
   return (
     <div className="json_editor" onKeyDown={on_key_down}>
@@ -183,6 +228,14 @@ function JsonEditor() {
           </select>
         </div>
       </div>
+      {state_draft_mode === true && (
+        <div className="bar" style={{ color: "red" }}>
+          Editor: (Draft mode). To leave draft mode press [ctrl + s].
+        </div>
+      )}
+      {state_last_log !== "" && (
+        <div className="bar">Editor: {state_last_log}</div>
+      )}
       <div className="form_editor">
         <AceEditor
           height={"100%"}
@@ -190,8 +243,8 @@ function JsonEditor() {
           mode={mode}
           theme={state_theme}
           name="editor_name"
-          onChange={new_value => set_state_value(new_value)}
-          value={state_value}
+          onChange={on_change}
+          value={state_json}
           fontSize={state_font_size}
           showPrintMargin={state_show_print_margin}
           showGutter={state_show_gutter}
