@@ -76,6 +76,7 @@ function AmEditor(props) {
         update_last_log(error + " Validate fail.");
       } else {
         hook_protocol_fn.save(object);
+        update_last_log("");
       }
     },
     remove: () => {
@@ -96,6 +97,7 @@ function AmEditor(props) {
         update_last_log(error + " Validate fail.");
       } else {
         hook_protocol_fn.remove(object);
+        update_last_log("");
       }
     }
   };
