@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import JsonEditor from "./json_editor";
+
 import Util from "../../../../framework/util";
 
 import useValidate from "./validate_hook";
@@ -8,7 +9,7 @@ import useProtocolHook from "./protocol_hook";
 import useSelectHook from "./select_hook";
 
 function AmEditor(props) {
-  const { hook_validate_last_error, hook_validate } = useValidate({
+  const { hook_validate_last_error, hook_validate_fn } = useValidate({
     mode: props.mode
   });
 
@@ -52,10 +53,12 @@ function AmEditor(props) {
 
       hook_protocol_fn.get(object);
       update_last_log("");
+      hook_validate_fn.clear_last_error();
     },
     new: () => {
       hook_protocol_fn.new();
       update_last_log("");
+      hook_validate_fn.clear_last_error();
     },
     save: () => {
       let error = "Unable to save.";
@@ -72,11 +75,12 @@ function AmEditor(props) {
 
       if (state_draft_mode) {
         update_last_log(error + " Source is in draft mode.");
-      } else if (!hook_validate(object)) {
+      } else if (!hook_validate_fn.validate(object)) {
         update_last_log(error + " Validate fail.");
       } else {
         hook_protocol_fn.save(object);
         update_last_log("");
+        hook_validate_fn.clear_last_error();
       }
     },
     remove: () => {
@@ -93,11 +97,12 @@ function AmEditor(props) {
 
       if (state_draft_mode) {
         update_last_log(error + " Source is in draft mode.");
-      } else if (!hook_validate(object)) {
+      } else if (!hook_validate_fn.validate(object)) {
         update_last_log(error + " Validate fail.");
       } else {
         hook_protocol_fn.remove(object);
         update_last_log("");
+        hook_validate_fn.clear_last_error();
       }
     }
   };
