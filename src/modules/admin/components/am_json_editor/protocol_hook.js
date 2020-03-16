@@ -3,12 +3,13 @@ import Util from "../../../../framework/util";
 import { ProtocolContext } from "../../../../context/protocol";
 
 function useProtocolHook(props) {
+  const [state_mode] = React.useState(props.mode);
   const { context_packets_data, context_packets_fn } = React.useContext(
     ProtocolContext
   );
 
   const [state_action_id, set_state_action_id] = React.useState("");
-  const [state_forms, set_state_forms] = React.useState({});
+  const [state_json_data, set_state_json_data] = React.useState({});
 
   const [state_last_log, set_state_last_log] = React.useState("");
 
@@ -27,28 +28,28 @@ function useProtocolHook(props) {
 
   // Parse packet
   React.useEffect(() => {
-    const data_am_form = context_packets_fn.pop("data_am_form");
+    const data_am = context_packets_fn.pop("data_am_" + state_mode);
 
     if (state_action_id === "") return;
 
     let action_id = null; // For searching needs
-    let forms = null;
+    let json_data_map = null;
 
     // Search for action_id
-    for (const data of data_am_form) {
+    for (const data of data_am) {
       if (data.action_id === state_action_id) {
         action_id = state_action_id;
-        forms = data.forms;
+        json_data_map = data[state_mode + "s"];
         break;
       }
     }
 
     if (action_id != null) set_state_action_id("");
-    if (forms != null) set_state_forms(forms);
+    if (json_data_map != null) set_state_json_data(json_data_map);
   }, [context_packets_data]);
 
   return {
-    hook_protocol_forms: state_forms,
+    hook_protocol_json_data: state_json_data,
     hook_protocol_last_log: state_last_log,
     hook_protocol_action_id: state_action_id,
     hook_protocol_fn: {
@@ -61,13 +62,13 @@ function useProtocolHook(props) {
 
         const action_id = Date.now();
 
-        context_packets_fn.send("data_am_form", { action_id });
+        context_packets_fn.send("data_am_" + state_mode, { action_id });
         set_state_action_id(action_id);
       },
       new: function() {
         if (can_perform_action() === false) return;
 
-        context_packets_fn.send("update_am_form", {
+        context_packets_fn.send("update_am_" + state_mode, {
           action_id: Date.now(),
           id: "",
           object: null
@@ -75,23 +76,23 @@ function useProtocolHook(props) {
 
         this.get();
       },
-      save: function(current_form) {
+      save: function(current_json_data) {
         if (can_perform_action() === false) return;
 
-        context_packets_fn.send("update_am_form", {
+        context_packets_fn.send("update_am_" + state_mode, {
           action_id: Date.now(),
-          id: current_form.id,
-          object: current_form
+          id: current_json_data.id,
+          object: current_json_data
         });
 
         this.get();
       },
-      remove: function(current_form) {
+      remove: function(current_json_data) {
         if (can_perform_action() === false) return;
 
-        context_packets_fn.send("update_am_form", {
+        context_packets_fn.send("update_am_" + state_mode, {
           action_id: Date.now(),
-          id: current_form.id,
+          id: current_json_data.id,
           object: null
         });
 
