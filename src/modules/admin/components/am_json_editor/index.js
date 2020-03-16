@@ -14,11 +14,11 @@ function AmEditor(props) {
   });
 
   const {
-    hook_protocol_forms,
+    hook_protocol_json_data,
     hook_protocol_last_log,
     hook_protocol_action_id,
     hook_protocol_fn
-  } = useProtocolHook();
+  } = useProtocolHook(props.mode);
 
   const {
     hook_current_value,
@@ -109,8 +109,8 @@ function AmEditor(props) {
 
   React.useEffect(() => {
     set_state_json_changed(false);
-    hook_select_fn.update(hook_protocol_forms, state_current_json.id);
-  }, [hook_protocol_forms]);
+    hook_select_fn.update(hook_protocol_json_data, state_current_json.id);
+  }, [hook_protocol_json_data]);
 
   React.useEffect(() => {
     set_state_json_changed(true);
@@ -133,7 +133,7 @@ function AmEditor(props) {
       <div>
         <Select
           value={hook_selected_option}
-          placeholder="Select form..."
+          placeholder="Select json data..."
           onChange={hook_select_fn.on_change}
           options={hook_select_options}
         />
@@ -141,7 +141,7 @@ function AmEditor(props) {
       <div className="bar">
         <label>Validator: {hook_validate_last_error}</label>
       </div>
-      <div className="form_editor">
+      <div className="am_json_editor">
         {state_json_changed === true && hook_selected_option !== "" && (
           <div className="bar">
             <label style={{ color: "red" }}>Save to apply changes</label>
