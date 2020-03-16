@@ -8,6 +8,9 @@ import useValidate from "./validate_hook";
 import useProtocolHook from "./protocol_hook";
 import useSelectHook from "./select_hook";
 
+const note_after_action_processed =
+  "remember to check the data after action being processed.";
+
 function AmEditor(props) {
   const { hook_validate_last_error, hook_validate_fn } = useValidate({
     mode: props.mode
@@ -52,12 +55,12 @@ function AmEditor(props) {
       }
 
       hook_protocol_fn.get(object);
-      update_last_log("");
+      update_last_log(note_after_action_processed);
       hook_validate_fn.clear_last_error();
     },
     new: () => {
       hook_protocol_fn.new();
-      update_last_log("");
+      update_last_log(note_after_action_processed);
       hook_validate_fn.clear_last_error();
     },
     save: () => {
@@ -79,7 +82,7 @@ function AmEditor(props) {
         update_last_log(error + " Validate fail.");
       } else {
         hook_protocol_fn.save(object);
-        update_last_log("");
+        update_last_log(note_after_action_processed);
         hook_validate_fn.clear_last_error();
       }
     },
@@ -101,7 +104,7 @@ function AmEditor(props) {
         update_last_log(error + " Validate fail.");
       } else {
         hook_protocol_fn.remove(object);
-        update_last_log("");
+        update_last_log(note_after_action_processed);
         hook_validate_fn.clear_last_error();
       }
     }
