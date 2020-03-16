@@ -132,6 +132,10 @@ function AmEditor(props) {
       </div>
       <div>
         <Select
+          styles={{
+            // Fixes the overlapping problem of the component
+            menu: provided => ({ ...provided, zIndex: 9999 })
+          }}
           value={hook_selected_option}
           placeholder="Select json data..."
           onChange={hook_select_fn.on_change}
