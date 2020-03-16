@@ -236,7 +236,7 @@ function JsonEditor(props) {
       {state_last_log !== "" && (
         <div className="bar">Editor: {state_last_log}</div>
       )}
-      <div className="form_editor">
+      <div className="am_json_editor">
         <AceEditor
           height={"100%"}
           width={"100%"}

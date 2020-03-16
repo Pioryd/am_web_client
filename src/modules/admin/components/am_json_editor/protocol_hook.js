@@ -10,6 +10,7 @@ function useProtocolHook(props) {
 
   const [state_action_id, set_state_action_id] = React.useState("");
   const [state_json_data, set_state_json_data] = React.useState({});
+  const [state_json_rules, set_state_json_rules] = React.useState({});
 
   const [state_last_log, set_state_last_log] = React.useState("");
 
@@ -33,23 +34,27 @@ function useProtocolHook(props) {
     if (state_action_id === "") return;
 
     let action_id = null; // For searching needs
-    let json_data_map = null;
+    let json_data = null;
+    let json_data_rules = null;
 
     // Search for action_id
     for (const data of data_am) {
       if (data.action_id === state_action_id) {
         action_id = state_action_id;
-        json_data_map = data[state_mode + "s"];
+        json_data = data.list;
+        json_data_rules = data.rules;
         break;
       }
     }
 
     if (action_id != null) set_state_action_id("");
-    if (json_data_map != null) set_state_json_data(json_data_map);
+    if (json_data != null) set_state_json_data(json_data);
+    if (json_data_rules != null) set_state_json_rules(json_data_rules);
   }, [context_packets_data]);
 
   return {
     hook_protocol_json_data: state_json_data,
+    hook_protocol_json_rules: state_json_rules,
     hook_protocol_last_log: state_last_log,
     hook_protocol_action_id: state_action_id,
     hook_protocol_fn: {

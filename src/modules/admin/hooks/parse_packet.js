@@ -19,7 +19,12 @@ function useParsePacketHook(props) {
       module_data: data => hook_packets_fn._push("module_data", data),
       scripts_list: data => hook_packets_fn._push("scripts_list", data),
       data_am_form: data => hook_packets_fn._push("data_am_form", data),
-      update_am_form: data => hook_packets_fn._push("update_am_form", data)
+      data_am_program: data => hook_packets_fn._push("data_am_program", data),
+      data_am_system: data => hook_packets_fn._push("data_am_system", data),
+      update_am_form: data => hook_packets_fn._push("update_am_form", data),
+      update_am_program: data =>
+        hook_packets_fn._push("update_am_program", data),
+      update_am_system: data => hook_packets_fn._push("update_am_system", data)
     },
     hook_packets_data,
     hook_packets_fn,
