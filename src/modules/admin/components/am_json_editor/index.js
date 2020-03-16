@@ -18,10 +18,11 @@ function AmEditor(props) {
 
   const {
     hook_protocol_json_data,
+    hook_protocol_json_rules,
     hook_protocol_last_log,
     hook_protocol_action_id,
     hook_protocol_fn
-  } = useProtocolHook(props.mode);
+  } = useProtocolHook({ mode: props.mode });
 
   const {
     hook_current_value,
@@ -118,6 +119,10 @@ function AmEditor(props) {
   React.useEffect(() => {
     set_state_json_changed(true);
   }, [state_draft_mode]);
+
+  React.useEffect(() => {
+    hook_validate_fn.set_rules(hook_protocol_json_rules);
+  }, [hook_protocol_json_rules]);
 
   return (
     <div className="content_body">

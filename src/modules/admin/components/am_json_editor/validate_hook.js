@@ -3,7 +3,9 @@ import Util from "../../../../framework/util";
 import Validator from "../../../../framework/validator";
 
 function useValidate(props) {
-  const [state_validator] = React.useState(new Validator(props.rules));
+  const [state_validator, set_state_validator] = React.useState(
+    new Validator({})
+  );
   const [state_last_error, set_state_last_error] = React.useState("");
 
   const update_last_error = message => {
@@ -14,6 +16,7 @@ function useValidate(props) {
   return {
     hook_validate_last_error: state_last_error,
     hook_validate_fn: {
+      set_rules: rules => set_state_validator(new Validator(rules)),
       clear_last_error: () => set_state_last_error(""),
       validate: object => {
         try {
