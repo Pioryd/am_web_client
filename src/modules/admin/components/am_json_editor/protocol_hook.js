@@ -27,8 +27,16 @@ function useProtocolHook(props) {
     return true;
   };
 
-  // Parse packet
-  React.useEffect(() => {
+  const parse_update_am = () => {
+    const update_am = context_packets_fn.pop("update_am_" + state_mode);
+
+    let log = "";
+    for (const data of update_am) log += `<${data.action_id}> ${data.message}`;
+
+    if (log !== "") set_state_last_log(log);
+  };
+
+  const parse_data_am = () => {
     const data_am = context_packets_fn.pop("data_am_" + state_mode);
 
     if (state_action_id === "") return;
@@ -50,6 +58,11 @@ function useProtocolHook(props) {
     if (action_id != null) set_state_action_id("");
     if (json_data != null) set_state_json_data(json_data);
     if (json_data_rules != null) set_state_json_rules(json_data_rules);
+  };
+  // Parse packet
+  React.useEffect(() => {
+    parse_update_am();
+    parse_data_am();
   }, [context_packets_data]);
 
   return {
