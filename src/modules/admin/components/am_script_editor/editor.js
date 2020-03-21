@@ -4,7 +4,8 @@ import AceEditor from "react-ace";
 import Util from "../../../../framework/util";
 import AML from "../../../../framework/aml";
 
-import "ace-builds/src-noconflict/mode-javascript";
+// import "ace-builds/src-noconflict/mode-";
+
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 
@@ -24,7 +25,8 @@ const themes = [
 ];
 themes.forEach(theme => require(`ace-builds/src-noconflict/theme-${theme}`));
 
-const mode = "javascript";
+const modes = ["elm", "text", "cirru", "ruby", "tcl"];
+modes.forEach(mode => require(`ace-builds/src-noconflict/mode-${mode}`));
 
 function Editor(props) {
   const [state_script, set_state_script] = React.useState("");
@@ -32,6 +34,7 @@ function Editor(props) {
   const [state_last_log, set_state_last_log] = React.useState("");
 
   const [state_theme, set_state_theme] = React.useState("monokai");
+  const [state_mode, set_state_mode] = React.useState("tcl");
 
   const [state_font_size, set_state_font_size] = React.useState(14);
   const [state_show_gutter, set_state_show_gutter] = React.useState(true);
@@ -204,7 +207,21 @@ function Editor(props) {
           </select>
         </div>
         <div className="element">
-          <label>Parse mode(ctrl + s):</label>
+          <label>Highlight:</label>
+          <select
+            name="Mode"
+            onChange={e => set_state_mode(e.target.value)}
+            value={state_mode}
+          >
+            {modes.map(mode => (
+              <option key={mode} value={mode}>
+                {mode}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="element">
+          <label>Parse mode(ctrl + s)</label>
         </div>
       </div>
       {state_draft_mode === true && (
@@ -219,7 +236,7 @@ function Editor(props) {
         <AceEditor
           height={"100%"}
           width={"100%"}
-          mode={mode}
+          mode={state_mode}
           theme={state_theme}
           name="editor_name"
           onChange={on_change}

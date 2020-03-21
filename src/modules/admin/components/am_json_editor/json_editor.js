@@ -55,8 +55,7 @@ function JsonEditor(props) {
   };
 
   const update_last_log = message => {
-    if (message === "") set_state_last_log("");
-    else
+    if (message !== "")
       set_state_last_log(
         `[${Util.get_time_hms()}] ${message} >> After fix, press [ctrl + s] again`
       );
