@@ -24,15 +24,14 @@ function usePacketManagerHook(props) {
   };
 
   const pop = packet_id => {
-    const packets_data = { ...state_packets_data };
+    // Don't want change signal of state
+    const packets_data = state_packets_data;
 
     if (!(packet_id in packets_data)) return [];
     if (packets_data[packet_id].length === 0) return [];
 
     const packet_data_list = packets_data[packet_id];
     packets_data[packet_id] = [];
-
-    set_state_packets_data(packets_data);
 
     return packet_data_list;
   };
