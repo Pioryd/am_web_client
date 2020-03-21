@@ -2,8 +2,9 @@ import React from "react";
 import AceEditor from "react-ace";
 
 import Util from "../../../../framework/util";
+import AML from "../../../../framework/aml";
 
-import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 
@@ -23,16 +24,14 @@ const themes = [
 ];
 themes.forEach(theme => require(`ace-builds/src-noconflict/theme-${theme}`));
 
-const mode = "json";
-const parse_modes = ["javascript", "json"];
+const mode = "javascript";
 
-function JsonEditor(props) {
-  const [state_json, set_state_json] = React.useState("");
+function Editor(props) {
+  const [state_script, set_state_script] = React.useState("");
   const [state_draft_mode, set_state_draft_mode] = React.useState(true);
   const [state_last_log, set_state_last_log] = React.useState("");
 
   const [state_theme, set_state_theme] = React.useState("monokai");
-  const [state_parse_mode, set_state_parse_mode] = React.useState("javascript");
 
   const [state_font_size, set_state_font_size] = React.useState(14);
   const [state_show_gutter, set_state_show_gutter] = React.useState(true);
@@ -50,13 +49,8 @@ function JsonEditor(props) {
   const [state_tab_size, set_state_tab_size] = React.useState(2);
   const [state_options, set_state_options] = React.useState({});
 
-  const to_json = object => {
-    return JSON.stringify(object, null, state_tab_size);
-  };
-
   const update_last_log = message => {
-    if (message === "") set_state_last_log("");
-    else
+    if (message !== "")
       set_state_last_log(
         `[${Util.get_time_hms()}] ${message} >> After fix, press [ctrl + s] again`
       );
@@ -64,20 +58,14 @@ function JsonEditor(props) {
 
   const parse = new_value => {
     try {
-      let object = null;
-      let json = "";
-      if (state_parse_mode === "javascript") eval("object=" + new_value);
-      else object = JSON.parse(new_value);
+      AML.parse(new_value);
 
-      json = to_json(object);
-
-      set_state_json(json);
+      set_state_script(new_value);
       set_state_draft_mode(false);
       update_last_log("");
 
-      if (props.on_parse) props.on_parse(json);
+      if (props.on_parse) props.on_parse(new_value);
     } catch (e) {
-      console.log(e);
       update_last_log("Unable to parse JSON source.");
     }
   };
@@ -88,12 +76,12 @@ function JsonEditor(props) {
     // ctrl + s
     if (event.ctrlKey && charCode === "s") {
       event.preventDefault();
-      parse(state_json);
+      parse(state_script);
     }
   };
 
-  const on_change = new_json => {
-    set_state_json(new_json);
+  const on_change = new_script => {
+    set_state_script(new_script);
     set_state_draft_mode(true);
   };
 
@@ -109,15 +97,17 @@ function JsonEditor(props) {
   }, [state_show_line_numbers, state_tab_size]);
 
   React.useEffect(() => {
-    let json = "";
+    let source = props.init_source;
+
     try {
-      json = to_json(props.init_object);
+      AML.parse(source);
     } catch {
-      update_last_log("Wrong init json source");
+      source = "";
+      update_last_log("Wrong init script source");
     }
 
-    parse(json);
-  }, [props.init_object]);
+    parse(source);
+  }, [props.init_source]);
 
   React.useEffect(() => {
     if (props.on_change_draft_mode)
@@ -125,7 +115,7 @@ function JsonEditor(props) {
   }, [state_draft_mode]);
 
   return (
-    <div className="json_editor" onKeyDown={on_key_down}>
+    <div className="script_editor" onKeyDown={on_key_down}>
       <div className="bar">
         <div className="element">
           <label>Show gutter:</label>
@@ -215,17 +205,6 @@ function JsonEditor(props) {
         </div>
         <div className="element">
           <label>Parse mode(ctrl + s):</label>
-          <select
-            name="parse_mode"
-            onChange={e => set_state_parse_mode(e.target.value)}
-            value={state_parse_mode}
-          >
-            {parse_modes.map(mode => (
-              <option key={mode} value={mode}>
-                {mode}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
       {state_draft_mode === true && (
@@ -236,7 +215,7 @@ function JsonEditor(props) {
       {state_last_log !== "" && (
         <div className="bar">Editor: {state_last_log}</div>
       )}
-      <div className="am_json_editor">
+      <div className="am_script_editor">
         <AceEditor
           height={"100%"}
           width={"100%"}
@@ -244,7 +223,7 @@ function JsonEditor(props) {
           theme={state_theme}
           name="editor_name"
           onChange={on_change}
-          value={state_json}
+          value={state_script}
           fontSize={state_font_size}
           showPrintMargin={state_show_print_margin}
           showGutter={state_show_gutter}
@@ -256,4 +235,4 @@ function JsonEditor(props) {
   );
 }
 
-export default JsonEditor;
+export default Editor;

@@ -1,14 +1,14 @@
 import React from "react";
 import Select from "react-select";
-import JsonEditor from "./editor";
+import Editor from "./editor";
 import FormattedLogs from "../formatted_logs";
+
+import AML from "../../../../framework/aml";
 
 import useValidate from "./validate_hook";
 import useProtocolHook from "./protocol_hook";
 import useSelectHook from "./select_hook";
 
-const note_after_action_processed =
-  "remember to check the data after action being processed.";
 const CONSOLE_LOGS_HEIGHT = "100px";
 
 function AmEditor(props) {
@@ -17,8 +17,8 @@ function AmEditor(props) {
   });
 
   const {
-    hook_protocol_json_data,
-    hook_protocol_json_rules,
+    hook_protocol_script_data,
+    hook_protocol_script_rules,
     hook_protocol_last_log,
     hook_protocol_action_id,
     hook_protocol_fn
@@ -36,9 +36,12 @@ function AmEditor(props) {
     hook_formatted_logs_fn
   } = FormattedLogs.useHandler();
 
-  const [state_current_json, set_state_current_json] = React.useState("");
+  const [
+    state_current_script_data,
+    set_state_current_script_data
+  ] = React.useState("");
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
-  const [state_json_changed, set_state_json_changed] = React.useState("");
+  const [state_script_changed, set_state_script_changed] = React.useState("");
 
   const [state_logs_height, set_state_logs_height] = React.useState(
     CONSOLE_LOGS_HEIGHT
@@ -48,10 +51,7 @@ function AmEditor(props) {
     refresh: () => {
       let error = "Unable to create.";
 
-      let object = null;
-
       try {
-        object = JSON.parse(state_current_json);
       } catch (e) {
         console.log(e);
         hook_formatted_logs_fn.add({
@@ -61,28 +61,14 @@ function AmEditor(props) {
         return;
       }
 
-      hook_protocol_fn.get(object);
-      hook_formatted_logs_fn.add({
-        type: "Action",
-        text: note_after_action_processed
-      });
-      hook_validate_fn.clear_last_error();
+      hook_protocol_fn.get();
     },
-    new: () => {
-      hook_protocol_fn.new();
-      hook_formatted_logs_fn.add({
-        type: "Action",
-        text: note_after_action_processed
-      });
-      hook_validate_fn.clear_last_error();
-    },
+    new: () => hook_protocol_fn.new(),
     save: () => {
       let error = "Unable to save.";
 
-      let object = null;
-
       try {
-        object = JSON.parse(state_current_json);
+        AML.parse(state_current_script_data.source);
       } catch (e) {
         console.log(e);
         hook_formatted_logs_fn.add({
@@ -97,26 +83,20 @@ function AmEditor(props) {
           type: "Action",
           text: error + " Source is in draft mode."
         });
-      } else if (!hook_validate_fn.validate(object)) {
+      } else if (!hook_validate_fn.validate(state_current_script_data.source)) {
         hook_formatted_logs_fn.add({
           type: "Action",
           text: error + " Validate fail."
         });
       } else {
-        hook_protocol_fn.save(object);
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: note_after_action_processed
-        });
-        hook_validate_fn.clear_last_error();
+        hook_protocol_fn.save(state_current_script_data.source);
       }
     },
     remove: () => {
       let error = "Unable to remove.";
-      let object = null;
 
       try {
-        object = JSON.parse(state_current_json);
+        AML.parse(state_current_script_data.source);
       } catch (e) {
         console.log(e);
         hook_formatted_logs_fn.add({
@@ -131,18 +111,13 @@ function AmEditor(props) {
           type: "Action",
           text: error + " Source is in draft mode."
         });
-      } else if (!hook_validate_fn.validate(object)) {
+      } else if (!hook_validate_fn.validate(state_current_script_data.source)) {
         hook_formatted_logs_fn.add({
           type: "Action",
           text: error + " Validate fail."
         });
       } else {
-        hook_protocol_fn.remove(object);
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: note_after_action_processed
-        });
-        hook_validate_fn.clear_last_error();
+        hook_protocol_fn.remove(state_current_script_data.source);
       }
     },
     clear_log: () => hook_formatted_logs_fn.clear(),
@@ -152,6 +127,16 @@ function AmEditor(props) {
       else logs_height = CONSOLE_LOGS_HEIGHT;
 
       set_state_logs_height(logs_height);
+    }
+  };
+
+  const on_editor_parse = source => {
+    try {
+      const { id } = AML.parse(source);
+      set_state_current_script_data({ id, source });
+    } catch (e) {
+      console.log(e);
+      hook_formatted_logs_fn.add({ type: "Editor", text: "Unable to parse." });
     }
   };
 
@@ -170,25 +155,30 @@ function AmEditor(props) {
   }, [hook_validate_last_error]);
 
   React.useEffect(() => {
-    set_state_json_changed(false);
-    hook_select_fn.update(hook_protocol_json_data, state_current_json.id);
-  }, [hook_protocol_json_data]);
+    set_state_script_changed(false);
+    hook_select_fn.update(
+      hook_protocol_script_data,
+      state_current_script_data.id
+    );
+  }, [hook_protocol_script_data]);
 
-  React.useEffect(() => set_state_json_changed(true), [state_draft_mode]);
+  React.useEffect(() => set_state_script_changed(true), [state_draft_mode]);
 
   React.useEffect(() => {
-    hook_validate_fn.set_rules(hook_protocol_json_rules);
-  }, [hook_protocol_json_rules]);
+    hook_validate_fn.set_rules(hook_protocol_script_rules);
+  }, [hook_protocol_script_rules]);
 
   return (
     <div className="content_body">
       <div className="bar">
+        <label>Actions:</label>
         <button onClick={button.refresh}>refresh</button>
         <button onClick={button.new}>new</button>
         <button onClick={button.save}>save</button>
         <button onClick={button.remove}>remove</button>
-        <button onClick={button.clear_log}>clear log</button>
-        <button onClick={button.resize_logs}>resize logs</button>
+        <label>Logs:</label>
+        <button onClick={button.clear_log}>clear</button>
+        <button onClick={button.resize_logs}>resize</button>
       </div>
       <Select
         styles={{
@@ -196,7 +186,7 @@ function AmEditor(props) {
           menu: provided => ({ ...provided, zIndex: 9999 })
         }}
         value={hook_selected_option}
-        placeholder="Select json data..."
+        placeholder="Select script data..."
         onChange={hook_select_fn.on_change}
         options={hook_select_options}
       />
@@ -206,8 +196,8 @@ function AmEditor(props) {
       >
         <FormattedLogs.List logs={hook_formatted_logs} />
       </div>
-      <div className="am_json_editor">
-        {state_json_changed === true && hook_selected_option !== "" && (
+      <div className="am_script_editor">
+        {state_script_changed === true && hook_selected_option !== "" && (
           <div className="bar">
             <label style={{ color: "red" }}>Save to apply changes</label>
           </div>
@@ -220,9 +210,9 @@ function AmEditor(props) {
             </button>
           </React.Fragment>
         ) : (
-          <JsonEditor
-            init_object={hook_current_value}
-            on_parse={set_state_current_json}
+          <Editor
+            init_source={hook_current_value.source || "data"}
+            on_parse={on_editor_parse}
             on_change_draft_mode={set_state_draft_mode}
           />
         )}
