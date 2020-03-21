@@ -1,4 +1,5 @@
 import React from "react";
+import AML from "../../../../framework/aml";
 
 function useSelectHook(props) {
   const [state_options, set_state_options] = React.useState([]);
@@ -26,16 +27,25 @@ function useSelectHook(props) {
       on_change: option => {
         set_state_selected_option(option);
       },
-      update: (json_data_map, current_id) => {
+      update: (script_data_list, current_id) => {
         let options = [];
-        let current_value = {};
+        let current_value = "";
         let selected_option = "";
 
-        for (const json_data of Object.values(json_data_map))
-          options.push({
-            label: json_data.id + "_" + json_data.name,
-            value: json_data
-          });
+        for (const script_data of script_data_list) {
+          try {
+            const parsed = AML.parse(script_data.source);
+            options.push({
+              label: script_data.id + "_" + parsed.name,
+              value: script_data
+            });
+          } catch (e) {
+            options.push({
+              label: "error - unable to parse data",
+              value: {}
+            });
+          }
+        }
 
         for (const option of options) {
           if (option.value.id === current_id) {

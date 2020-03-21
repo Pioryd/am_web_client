@@ -1,16 +1,18 @@
 import React from "react";
 import Util from "../../../../framework/util";
+import AML from "../../../../framework/aml";
+
 import { ProtocolContext } from "../../../../context/protocol";
 
 function useProtocolHook(props) {
-  const [state_mode] = React.useState(props.mode);
+  const [state_mode] = React.useState("script");
   const { context_packets_data, context_packets_fn } = React.useContext(
     ProtocolContext
   );
 
   const [state_action_id, set_state_action_id] = React.useState("");
-  const [state_json_data, set_state_json_data] = React.useState({});
-  const [state_json_rules, set_state_json_rules] = React.useState({});
+  const [state_script_data, set_state_script_data] = React.useState([]);
+  const [state_script_rules, set_state_script_rules] = React.useState({});
 
   const [state_last_log, set_state_last_log] = React.useState("");
 
@@ -42,23 +44,23 @@ function useProtocolHook(props) {
     if (state_action_id === "") return;
 
     let action_id = null; // For searching needs
-    let json_data = null;
-    let json_data_rules = null;
+    let script_data = null;
+    let script_data_rules = null;
 
     // Search for action_id
     for (const data of data_am) {
       if (data.action_id === state_action_id) {
         action_id = state_action_id;
-        json_data = data.list;
-        json_data_rules = data.rules;
+        script_data = data.list;
         break;
       }
     }
 
     if (action_id != null) set_state_action_id("");
-    if (json_data != null) set_state_json_data(json_data);
-    if (json_data_rules != null) set_state_json_rules(json_data_rules);
+    if (script_data != null) set_state_script_data(script_data);
+    if (script_data_rules != null) set_state_script_rules(script_data_rules);
   };
+
   // Parse packet
   React.useEffect(() => {
     parse_update_am();
@@ -66,19 +68,16 @@ function useProtocolHook(props) {
   }, [context_packets_data]);
 
   return {
-    hook_protocol_json_data: state_json_data,
-    hook_protocol_json_rules: state_json_rules,
+    hook_protocol_script_data: state_script_data,
+    hook_protocol_script_rules: state_script_rules,
     hook_protocol_last_log: state_last_log,
     hook_protocol_action_id: state_action_id,
     hook_protocol_fn: {
-      cancel_action: () => {
-        set_state_action_id("");
-        update_last_log("");
-      },
+      cancel_action: () => set_state_action_id(""),
       get: () => {
         if (can_perform_action() === false) return;
 
-        const action_id = Date.now();
+        const action_id = Date.now() + "_data";
 
         context_packets_fn.send("data_am_" + state_mode, { action_id });
         set_state_action_id(action_id);
@@ -87,34 +86,46 @@ function useProtocolHook(props) {
         if (can_perform_action() === false) return;
 
         context_packets_fn.send("update_am_" + state_mode, {
-          action_id: Date.now(),
+          action_id: Date.now() + "_update",
           id: "",
           object: null
         });
 
         this.get();
       },
-      save: function(current_json_data) {
+      save: function(current_script_source) {
         if (can_perform_action() === false) return;
 
-        context_packets_fn.send("update_am_" + state_mode, {
-          action_id: Date.now(),
-          id: current_json_data.id,
-          object: current_json_data
-        });
+        try {
+          const id = AML.parse(current_script_source).id;
 
-        this.get();
+          context_packets_fn.send("update_am_" + state_mode, {
+            action_id: Date.now() + "_update",
+            id,
+            object: current_script_source
+          });
+
+          this.get();
+        } catch (e) {
+          update_last_log("Unable to save data");
+        }
       },
-      remove: function(current_json_data) {
+      remove: function(current_script_source) {
         if (can_perform_action() === false) return;
 
-        context_packets_fn.send("update_am_" + state_mode, {
-          action_id: Date.now(),
-          id: current_json_data.id,
-          object: null
-        });
+        try {
+          const id = AML.parse(current_script_source).id;
 
-        this.get();
+          context_packets_fn.send("update_am_" + state_mode, {
+            action_id: Date.now() + "_update",
+            id,
+            object: null
+          });
+
+          this.get();
+        } catch (e) {
+          update_last_log("Unable to save data");
+        }
       }
     }
   };
