@@ -73,7 +73,6 @@ function JsonEditor(props) {
 
       set_state_json(json);
       set_state_draft_mode(false);
-      update_last_log("");
 
       if (props.on_parse) props.on_parse(json);
     } catch (e) {

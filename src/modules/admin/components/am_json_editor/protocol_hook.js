@@ -59,6 +59,7 @@ function useProtocolHook(props) {
     if (json_data != null) set_state_json_data(json_data);
     if (json_data_rules != null) set_state_json_rules(json_data_rules);
   };
+
   // Parse packet
   React.useEffect(() => {
     parse_update_am();
@@ -71,10 +72,7 @@ function useProtocolHook(props) {
     hook_protocol_last_log: state_last_log,
     hook_protocol_action_id: state_action_id,
     hook_protocol_fn: {
-      cancel_action: () => {
-        set_state_action_id("");
-        update_last_log("");
-      },
+      cancel_action: () => set_state_action_id(""),
       get: () => {
         if (can_perform_action() === false) return;
 

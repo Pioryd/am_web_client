@@ -7,8 +7,6 @@ import useValidate from "./validate_hook";
 import useProtocolHook from "./protocol_hook";
 import useSelectHook from "./select_hook";
 
-const note_after_action_processed =
-  "remember to check the data after action being processed.";
 const CONSOLE_LOGS_HEIGHT = "100px";
 
 function AmEditor(props) {
@@ -48,10 +46,7 @@ function AmEditor(props) {
     refresh: () => {
       let error = "Unable to create.";
 
-      let object = null;
-
       try {
-        object = JSON.parse(state_current_json);
       } catch (e) {
         console.log(e);
         hook_formatted_logs_fn.add({
@@ -61,21 +56,9 @@ function AmEditor(props) {
         return;
       }
 
-      hook_protocol_fn.get(object);
-      hook_formatted_logs_fn.add({
-        type: "Action",
-        text: note_after_action_processed
-      });
-      hook_validate_fn.clear_last_error();
+      hook_protocol_fn.get();
     },
-    new: () => {
-      hook_protocol_fn.new();
-      hook_formatted_logs_fn.add({
-        type: "Action",
-        text: note_after_action_processed
-      });
-      hook_validate_fn.clear_last_error();
-    },
+    new: () => hook_protocol_fn.new(),
     save: () => {
       let error = "Unable to save.";
 
@@ -104,11 +87,6 @@ function AmEditor(props) {
         });
       } else {
         hook_protocol_fn.save(object);
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: note_after_action_processed
-        });
-        hook_validate_fn.clear_last_error();
       }
     },
     remove: () => {
@@ -138,11 +116,6 @@ function AmEditor(props) {
         });
       } else {
         hook_protocol_fn.remove(object);
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: note_after_action_processed
-        });
-        hook_validate_fn.clear_last_error();
       }
     },
     clear_log: () => hook_formatted_logs_fn.clear(),
@@ -171,7 +144,21 @@ function AmEditor(props) {
 
   React.useEffect(() => {
     set_state_json_changed(false);
-    hook_select_fn.update(hook_protocol_json_data, state_current_json.id);
+
+    if (Object.keys(hook_protocol_json_data).length === 0) return;
+
+    let label = null;
+    try {
+      const { id } = JSON.parse(state_current_json);
+      label = id;
+    } catch (e) {
+      hook_formatted_logs_fn.add({
+        type: "Select",
+        text: "Unable to find data with previously selected id."
+      });
+    }
+
+    hook_select_fn.update(hook_protocol_json_data, label);
   }, [hook_protocol_json_data]);
 
   React.useEffect(() => set_state_json_changed(true), [state_draft_mode]);
@@ -183,12 +170,14 @@ function AmEditor(props) {
   return (
     <div className="content_body">
       <div className="bar">
+        <label>Actions:</label>
         <button onClick={button.refresh}>refresh</button>
         <button onClick={button.new}>new</button>
         <button onClick={button.save}>save</button>
         <button onClick={button.remove}>remove</button>
-        <button onClick={button.clear_log}>clear log</button>
-        <button onClick={button.resize_logs}>resize logs</button>
+        <label>Logs:</label>
+        <button onClick={button.clear_log}>clear</button>
+        <button onClick={button.resize_logs}>resize</button>
       </div>
       <Select
         styles={{
