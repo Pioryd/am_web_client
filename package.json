@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "ace-builds": "^1.4.8",
+    "acorn": ">=7.1.1",
     "golden-layout": "^1.5.9",
     "jquery": "^3.4.1",
+    "minimist": ">=1.2.2",
     "rc-tooltip": "^4.0.0-alpha.3",
     "react": "^16.12.0",
     "react-ace": "^8.0.0",
@@ -15,7 +17,7 @@
     "react-helmet": "^5.2.1",
     "react-json-view": "^1.19.1",
     "react-responsive": "^8.0.3",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^3.4.1",
     "react-select": "^3.0.8",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
