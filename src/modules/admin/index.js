@@ -3,6 +3,7 @@ import AM_FormEditor from "./windows/am_editor_form";
 import AM_ProgramEditor from "./windows/am_editor_program";
 import AM_SystemEditor from "./windows/am_editor_system";
 import ModuleData from "./windows/module_data";
+import ModuleInfo from "./windows/module_info";
 import RunScript from "./windows/run_script";
 import ScriptsList from "./windows/scripts_list";
 
@@ -13,6 +14,7 @@ export default {
     program_editor: { class: AM_ProgramEditor, title: "AM editor - Program" },
     system_editor: { class: AM_SystemEditor, title: "AM editor - System" },
     module_data: { class: ModuleData, title: "Module data" },
+    module_info: { class: ModuleInfo, title: "Module info" },
     admin_run_script: { class: RunScript, title: "Run script" },
     admin_scripts_list: { class: ScriptsList, title: "Scripts list" }
   }

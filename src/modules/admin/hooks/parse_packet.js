@@ -17,6 +17,7 @@ function useParsePacketHook(props) {
         hook_packets_fn.send("scripts_list", {});
       },
       module_data: data => hook_packets_fn._push("module_data", data),
+      module_info: data => hook_packets_fn._push("module_info", data),
       scripts_list: data => hook_packets_fn._push("scripts_list", data),
       data_am_form: data => hook_packets_fn._push("data_am_form", data),
       data_am_program: data => hook_packets_fn._push("data_am_program", data),
