@@ -107,34 +107,32 @@ function Chat(props) {
     {
       let character_data = {};
       const packets = context_packets_fn.peek("data_character");
-      if (packets.length > 0) character_data = packets.pop();
+      if (packets.length > 0) {
+        character_data = packets.pop();
 
-      let virtual_world_enabled =
-        "virtual_world_id" in character_data &&
-        character_data.virtual_world_id !== "";
+        let virtual_world_enabled =
+          "virtual_world_id" in character_data &&
+          character_data.virtual_world_id !== "";
 
-      if (
-        virtual_world_enabled === true &&
-        state_virtual_world_enabled !== true
-      ) {
-        refresh();
+        if (
+          virtual_world_enabled === true &&
+          state_virtual_world_enabled !== true
+        ) {
+          refresh();
+        }
+        set_state_virtual_world_enabled(virtual_world_enabled);
       }
-      set_state_virtual_world_enabled(virtual_world_enabled);
     }
     {
-      let received_messages = null;
       const packets = context_packets_fn.pop("virtual_world");
-      if (packets.length > 0) received_messages = packets.pop();
 
-      if (received_messages != null) {
-        for (const message of received_messages) {
-          const { packet_id, data } = message;
-          if (packet_id === "data") {
-            set_state_virtual_world_data(data);
-            set_state_last_sync(Util.get_time_hms());
-          } else if (packet_id === "message") {
-            add_message({ ...data, date: new Date(), received: true });
-          }
+      if (packets.length > 0) {
+        const { packet_id, data } = packets.pop();
+        if (packet_id === "data") {
+          set_state_virtual_world_data(data);
+          set_state_last_sync(Util.get_time_hms());
+        } else if (packet_id === "message") {
+          add_message({ ...data, date: new Date(), received: true });
         }
 
         update_displayed_message();
