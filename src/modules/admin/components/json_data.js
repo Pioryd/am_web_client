@@ -93,7 +93,7 @@ function JsonData(props) {
         src={state_json_data}
         theme="monokai"
         indentWidth={2}
-        collapsed={false}
+        collapsed={true} // Not collapsed big data is lagging
       />
     </div>
   );
