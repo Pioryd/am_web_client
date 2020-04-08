@@ -9,6 +9,11 @@ npm install
 npm start
 ```
 
+## Errors
+
+- If You cant do nothing. And only errors are displayed.
+  - Clear `[localStorage]`(browser history).
+
 ## Project extension
 
 When adding, take an example from existing ones.
