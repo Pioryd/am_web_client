@@ -4,8 +4,7 @@ import AM_ProgramEditor from "./windows/am_editor_program";
 import AM_SystemEditor from "./windows/am_editor_system";
 import ModuleData from "./windows/module_data";
 import ModuleInfo from "./windows/module_info";
-import RunScript from "./windows/run_script";
-import ScriptsList from "./windows/scripts_list";
+import AdminScripts from "./windows/admin_scripts";
 
 export default {
   windows_map: {
@@ -15,7 +14,6 @@ export default {
     system_editor: { class: AM_SystemEditor, title: "AM editor - System" },
     module_data: { class: ModuleData, title: "Module data" },
     module_info: { class: ModuleInfo, title: "Module info" },
-    admin_run_script: { class: RunScript, title: "Run script" },
-    admin_scripts_list: { class: ScriptsList, title: "Scripts list" }
+    admin_scripts: { class: AdminScripts, title: "Admin scripts" }
   }
 };
