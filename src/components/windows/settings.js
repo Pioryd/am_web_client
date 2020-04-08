@@ -27,6 +27,7 @@ function Settings() {
           editButtonElement={<button>Accept</button>}
           addButtonElement={<button>Add</button>}
           minusMenuElement={<span />}
+          plusMenuElement={<span />}
         />
       </div>
     </React.Fragment>
