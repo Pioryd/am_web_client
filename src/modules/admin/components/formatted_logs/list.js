@@ -2,8 +2,13 @@ import React from "react";
 
 import Util from "../../../../framework/util";
 
+const CONSOLE_LOGS_HEIGHT = "100px";
+
 function List(props) {
   const [state_logs, set_state_logs] = React.useState([]);
+  const [state_logs_height, set_state_logs_height] = React.useState(
+    CONSOLE_LOGS_HEIGHT
+  );
 
   const update_displayed_log = messages => {
     const display_logs = [];
@@ -22,11 +27,41 @@ function List(props) {
     set_state_logs(display_logs);
   };
 
-  React.useEffect(() => {
-    update_displayed_log(props.logs);
-  }, [props.logs]);
+  const resize_logs = () => {
+    let logs_height = state_logs_height;
+    if (logs_height === CONSOLE_LOGS_HEIGHT) logs_height = "100%";
+    else logs_height = CONSOLE_LOGS_HEIGHT;
 
-  return <div>{state_logs}</div>;
+    set_state_logs_height(logs_height);
+  };
+
+  const show_hide = () => {
+    let logs_height = state_logs_height;
+    if (logs_height === "0px") logs_height = CONSOLE_LOGS_HEIGHT;
+    else logs_height = "0px";
+
+    set_state_logs_height(logs_height);
+  };
+
+  React.useEffect(() => {
+    update_displayed_log(props.hook_formatted_logs);
+  }, [props.hook_formatted_logs]);
+
+  return (
+    <React.Fragment>
+      <div className="bar">
+        <button onClick={props.hook_formatted_logs_fn.clear}>clear</button>
+        <button onClick={resize_logs}>resize</button>
+        <button onClick={show_hide}>show/hide</button>
+      </div>
+      <div
+        className="bar"
+        style={{ height: state_logs_height, overflow: "auto" }}
+      >
+        {state_logs}
+      </div>
+    </React.Fragment>
+  );
 }
 
 export default List;

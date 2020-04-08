@@ -9,8 +9,6 @@ import useValidate from "./validate_hook";
 import useProtocolHook from "./protocol_hook";
 import useSelectHook from "./select_hook";
 
-const CONSOLE_LOGS_HEIGHT = "100px";
-
 function AmEditor(props) {
   const { hook_validate_last_error, hook_validate_fn } = useValidate({
     mode: props.mode
@@ -42,10 +40,6 @@ function AmEditor(props) {
   ] = React.useState("");
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
   const [state_script_changed, set_state_script_changed] = React.useState("");
-
-  const [state_logs_height, set_state_logs_height] = React.useState(
-    CONSOLE_LOGS_HEIGHT
-  );
 
   const button = {
     refresh: () => {
@@ -119,14 +113,6 @@ function AmEditor(props) {
       } else {
         hook_protocol_fn.remove(state_current_script_data.source);
       }
-    },
-    clear_log: () => hook_formatted_logs_fn.clear(),
-    resize_logs: () => {
-      let logs_height = state_logs_height;
-      if (logs_height === CONSOLE_LOGS_HEIGHT) logs_height = "100%";
-      else logs_height = CONSOLE_LOGS_HEIGHT;
-
-      set_state_logs_height(logs_height);
     }
   };
 
@@ -176,9 +162,6 @@ function AmEditor(props) {
         <button onClick={button.new}>new</button>
         <button onClick={button.save}>save</button>
         <button onClick={button.remove}>remove</button>
-        <label>Logs:</label>
-        <button onClick={button.clear_log}>clear</button>
-        <button onClick={button.resize_logs}>resize</button>
       </div>
       <Select
         styles={{
@@ -190,12 +173,10 @@ function AmEditor(props) {
         onChange={hook_select_fn.on_change}
         options={hook_select_options}
       />
-      <div
-        className="bar"
-        style={{ height: state_logs_height, overflow: "auto" }}
-      >
-        <FormattedLogs.List logs={hook_formatted_logs} />
-      </div>
+      <FormattedLogs.List
+        hook_formatted_logs={hook_formatted_logs}
+        hook_formatted_logs_fn={hook_formatted_logs_fn}
+      />
       <div className="am_script_editor">
         {state_script_changed === true && hook_selected_option !== "" && (
           <div className="bar">
