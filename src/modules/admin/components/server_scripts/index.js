@@ -41,7 +41,13 @@ function ServerScripts() {
   const [state_script, set_state_script] = React.useState("");
 
   const execute_script = () => {
+    const action_id = Date.now();
+    hook_formatted_logs_fn.add({
+      type: "Send",
+      text: `ActionId: [${action_id}]`
+    });
     context_packets_fn.send("process_script", {
+      action_id,
       command: state_script
     });
     set_state_script("");
@@ -50,10 +56,13 @@ function ServerScripts() {
   const parse_scripts_list = packets => {
     if (packets.length === 0) return;
 
-    const { scripts_list, json } = packets.pop();
+    const { scripts_list } = packets.pop();
 
     if (!Array.isArray(scripts_list)) {
-      console.log("Not array", scripts_list);
+      hook_formatted_logs_fn.add({
+        type: "Parse",
+        text: "Not array " + scripts_list
+      });
       return;
     }
 
@@ -69,12 +78,18 @@ function ServerScripts() {
             border: "1px solid blue"
           }}
           key={name}
-          onClick={() =>
+          onClick={() => {
+            const action_id = Date.now();
+            hook_formatted_logs_fn.add({
+              type: "Send",
+              text: `ActionId: [${action_id}]`
+            });
             context_packets_fn.send("process_script", {
+              action_id,
               script_name: name,
               args: []
-            })
-          }
+            });
+          }}
         >
           Name: {name}
           <br />
@@ -95,6 +110,10 @@ function ServerScripts() {
   return (
     <React.Fragment>
       <div className="content_body">
+        <FormattedLogs.List
+          hook_formatted_logs={hook_formatted_logs}
+          hook_formatted_logs_fn={hook_formatted_logs_fn}
+        />
         <JsonData
           packet_name="process_script"
           auto_sync={false}
