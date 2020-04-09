@@ -39,6 +39,7 @@ function ServerScripts() {
   const [state_last_sync, set_state_last_sync] = React.useState("");
 
   const [state_script, set_state_script] = React.useState("");
+  const [state_args_as_text, set_state_args_as_text] = React.useState("");
 
   const execute_script = () => {
     const action_id = Date.now();
@@ -46,7 +47,7 @@ function ServerScripts() {
       type: "Send",
       text: `ActionId: [${action_id}]`
     });
-    context_packets_fn.send("process_script", {
+    context_packets_fn.send("scripts_process", {
       action_id,
       command: state_script
     });
@@ -56,18 +57,18 @@ function ServerScripts() {
   const parse_scripts_list = packets => {
     if (packets.length === 0) return;
 
-    const { scripts_list } = packets.pop();
+    const { scripts_data } = packets.pop();
 
-    if (!Array.isArray(scripts_list)) {
+    if (!Array.isArray(scripts_data)) {
       hook_formatted_logs_fn.add({
         type: "Parse",
-        text: "Not array " + scripts_list
+        text: "Not array " + scripts_data
       });
       return;
     }
 
     let buttons_list = [];
-    for (const script of scripts_list) {
+    for (const script of scripts_data) {
       const { name, desc, args } = script;
       buttons_list.push(
         <button
@@ -84,10 +85,10 @@ function ServerScripts() {
               type: "Send",
               text: `ActionId: [${action_id}]`
             });
-            context_packets_fn.send("process_script", {
+            context_packets_fn.send("scripts_process", {
               action_id,
               script_name: name,
-              args: []
+              arguments_as_string: state_args_as_text
             });
           }}
         >
@@ -104,7 +105,7 @@ function ServerScripts() {
   };
 
   React.useEffect(() => {
-    parse_scripts_list(context_packets_fn.pop("scripts_list"));
+    parse_scripts_list(context_packets_fn.pop("scripts_data"));
   }, [context_packets_data]);
 
   return (
@@ -115,7 +116,7 @@ function ServerScripts() {
           hook_formatted_logs_fn={hook_formatted_logs_fn}
         />
         <JsonData
-          packet_name="process_script"
+          packet_name="scripts_process"
           auto_sync={false}
           refresh={false}
           clear={true}
@@ -124,13 +125,23 @@ function ServerScripts() {
           <button
             key="admin_send_scripts_list_button"
             className="process"
-            onClick={e => context_packets_fn.send("scripts_list")}
+            onClick={e => context_packets_fn.send("scripts_data")}
           >
             sync
           </button>
           <label key="admin_send_scripts_list_label">
             {"last sync: " + state_last_sync}
           </label>
+        </div>
+        <div className="bar">
+          <input
+            className="input_value"
+            key="interval_value"
+            name="interval_value"
+            type="text"
+            value={state_args_as_text}
+            onChange={e => set_state_args_as_text(e.target.value)}
+          />
         </div>
         <div>{state_buttons}</div>
         <div className="bar">
