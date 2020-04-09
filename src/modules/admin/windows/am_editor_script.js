@@ -1,8 +1,30 @@
 import React from "react";
-import AmEditor from "../components/am_script_editor";
+import SourceEditor from "../components/source_editor";
+
+import AML from "../../../framework/aml";
 
 function AM_ScriptEditor() {
-  return <AmEditor mode="script" />;
+  const parse = source => {
+    return AML.parse(source);
+  };
+
+  return (
+    <SourceEditor
+      protocol_ext_name="am_script"
+      parse={source => {
+        return parse(source);
+      }}
+      create_label={object => {
+        const parsed = parse(object.source);
+        return object.id + "_" + parsed.name;
+      }}
+      editor_options={{
+        modes: ["elm", "text", "cirru", "ruby", "tcl"],
+        default_mode: "tcl",
+        default_source: "data"
+      }}
+    />
+  );
 }
 
 export default AM_ScriptEditor;

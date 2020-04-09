@@ -2,15 +2,14 @@ import React from "react";
 import Select from "react-select";
 import JsonEditor from "./json_editor";
 import FormattedLogs from "../formatted_logs";
+import Ajv from "ajv";
+import Util from "../../../../framework/util";
 
-import useValidate from "./validate_hook";
 import useProtocolHook from "./protocol_hook";
-import useSelectHook from "./select_hook";
+import useSelectHook from "../../../../hooks/select_hook";
 
 function AmEditor(props) {
-  const { hook_validate_last_error, hook_validate_fn } = useValidate({
-    mode: props.mode
-  });
+  const [state_validate_rules, set_state_validate_rules] = React.useState({});
 
   const {
     hook_protocol_json_data,
@@ -21,11 +20,16 @@ function AmEditor(props) {
   } = useProtocolHook({ mode: props.mode });
 
   const {
-    hook_current_value,
+    hook_select_current_value,
     hook_select_options,
-    hook_selected_option,
+    hook_select_selected_option,
     hook_select_fn
-  } = useSelectHook();
+  } = useSelectHook({
+    default_value: {},
+    create_label: object => {
+      return object.id + "_" + object.name;
+    }
+  });
 
   const {
     hook_formatted_logs,
@@ -35,6 +39,21 @@ function AmEditor(props) {
   const [state_current_json, set_state_current_json] = React.useState("");
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
   const [state_json_changed, set_state_json_changed] = React.useState("");
+
+  const validate = object => {
+    const ajv = new Ajv({ allErrors: true });
+    const validate = ajv.compile(state_validate_rules);
+    const valid = validate(Util.shallow_copy(object));
+
+    if (!valid) {
+      hook_formatted_logs_fn.add({
+        type: "Validator",
+        text: "AJV:" + ajv.errorsText(validate.errors)
+      });
+      return false;
+    }
+    return true;
+  };
 
   const button = {
     refresh: () => {
@@ -74,7 +93,7 @@ function AmEditor(props) {
           type: "Action",
           text: error + " Source is in draft mode."
         });
-      } else if (!hook_validate_fn.validate(object)) {
+      } else if (!validate(object)) {
         hook_formatted_logs_fn.add({
           type: "Action",
           text: error + " Validate fail."
@@ -103,7 +122,7 @@ function AmEditor(props) {
           type: "Action",
           text: error + " Source is in draft mode."
         });
-      } else if (!hook_validate_fn.validate(object)) {
+      } else if (!validate(object)) {
         hook_formatted_logs_fn.add({
           type: "Action",
           text: error + " Validate fail."
@@ -120,13 +139,6 @@ function AmEditor(props) {
       text: hook_protocol_last_log
     });
   }, [hook_protocol_last_log]);
-
-  React.useEffect(() => {
-    hook_formatted_logs_fn.add({
-      type: "Validator",
-      text: hook_validate_last_error
-    });
-  }, [hook_validate_last_error]);
 
   React.useEffect(() => {
     set_state_json_changed(false);
@@ -150,7 +162,7 @@ function AmEditor(props) {
   React.useEffect(() => set_state_json_changed(true), [state_draft_mode]);
 
   React.useEffect(() => {
-    hook_validate_fn.set_rules(hook_protocol_json_rules);
+    set_state_validate_rules(hook_protocol_json_rules);
   }, [hook_protocol_json_rules]);
 
   return (
@@ -167,17 +179,18 @@ function AmEditor(props) {
           // Fixes the overlapping problem of the component
           menu: provided => ({ ...provided, zIndex: 9999 })
         }}
-        value={hook_selected_option}
+        value={hook_select_selected_option}
         placeholder="Select json data..."
         onChange={hook_select_fn.on_change}
         options={hook_select_options}
+        isClearable={true}
       />
       <FormattedLogs.List
         hook_formatted_logs={hook_formatted_logs}
         hook_formatted_logs_fn={hook_formatted_logs_fn}
       />
       <div className="am_json_editor">
-        {state_json_changed === true && hook_selected_option !== "" && (
+        {state_json_changed === true && hook_select_selected_option !== "" && (
           <div className="bar">
             <label style={{ color: "red" }}>Save to apply changes</label>
           </div>
@@ -191,7 +204,7 @@ function AmEditor(props) {
           </React.Fragment>
         ) : (
           <JsonEditor
-            init_object={hook_current_value}
+            init_object={hook_select_current_value}
             on_parse={set_state_current_json}
             on_change_draft_mode={set_state_draft_mode}
           />
