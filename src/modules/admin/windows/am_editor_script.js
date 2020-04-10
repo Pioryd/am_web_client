@@ -5,15 +5,20 @@ import AML from "../../../framework/aml";
 
 function AM_ScriptEditor() {
   const parse = source => {
-    return AML.parse(source);
+    const object = AML.parse(source);
+    object.source = source;
+    return object;
+  };
+
+  const format = source => {
+    return source;
   };
 
   return (
     <SourceEditor
       protocol_ext_name="am_script"
-      parse={source => {
-        return parse(source);
-      }}
+      parse={parse}
+      format={format}
       create_label={object => {
         const parsed = parse(object.source);
         return object.id + "_" + parsed.name;

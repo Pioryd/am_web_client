@@ -39,6 +39,7 @@ function useProtocolHook(props) {
         if (packet.action_id === state_action_id) {
           action_id = state_action_id;
           objects = packet.objects;
+          rules = packet.rules;
           break;
         }
       }
@@ -49,7 +50,6 @@ function useProtocolHook(props) {
     }
   };
 
-  // Parse packet
   React.useEffect(() => {
     parse.update();
     parse.data();
@@ -73,7 +73,7 @@ function useProtocolHook(props) {
         if (can_perform_action() === false) return;
 
         context_packets_fn.send("update_" + props.ext_name, {
-          action_id: Date.now() + "_update",
+          action: { id: Date.now() + "_update", type: "new" },
           object: null
         });
 
@@ -84,7 +84,7 @@ function useProtocolHook(props) {
 
         try {
           context_packets_fn.send("update_" + props.ext_name, {
-            action_id: Date.now() + "_update",
+            action: { id: Date.now() + "_update", type: "update" },
             object: object
           });
 
@@ -98,7 +98,7 @@ function useProtocolHook(props) {
 
         try {
           context_packets_fn.send("update_" + props.ext_name, {
-            action_id: Date.now() + "_update",
+            action: { id: Date.now() + "_update", type: "remove" },
             object: { id: object.id }
           });
 
