@@ -22,7 +22,7 @@ const themes = [
 ];
 themes.forEach(theme => require(`ace-builds/src-noconflict/theme-${theme}`));
 
-["elm", "text", "cirru", "ruby", "tcl"].forEach(mode =>
+["javascript", "json", "elm", "text", "cirru", "ruby", "tcl"].forEach(mode =>
   require(`ace-builds/src-noconflict/mode-${mode}`)
 );
 
@@ -66,6 +66,7 @@ function Editor(props) {
   const validate = source => {
     try {
       props.on_validate(source);
+      source = props.format(source, state_ace_mode);
 
       set_state_source(source);
       set_state_draft_mode(false);
@@ -204,7 +205,7 @@ function Editor(props) {
         <div className="element">
           <label>Highlight:</label>
           <select
-            name="Mode"
+            name="ParseMode"
             onChange={e => set_state_ace_mode(e.target.value)}
             value={state_ace_mode}
           >

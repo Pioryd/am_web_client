@@ -39,14 +39,12 @@ function AmEditor(props) {
 
   const [state_current_object, set_state_current_object] = React.useState("");
 
-  const [state_validator_rules, set_state_validator_rules] = React.useState({});
-
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
   const [state_source_changed, set_state_source_changed] = React.useState("");
 
   const validate = source => {
     try {
-      props.parse(source);
+      props.parse(source, hook_protocol_rules);
       return true;
     } catch (e) {
       hook_formatted_logs_fn.add({
@@ -57,94 +55,41 @@ function AmEditor(props) {
     }
   };
 
-  const button = {
-    refresh: () => {
-      let error = "Unable to create.";
-
-      try {
-      } catch (e) {
-        console.log(e);
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: error + " Wrong object format."
-        });
-        return;
-      }
-
-      hook_protocol_fn.get();
-    },
-    new: () => hook_protocol_fn.new(),
-    save: () => {
-      let error = "Unable to save.";
-
-      try {
-        props.parse(state_current_object.source);
-      } catch (e) {
-        console.log(e);
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: error + " Wrong object format."
-        });
-        return;
-      }
-
-      if (state_draft_mode) {
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: error + " Source is in draft mode."
-        });
-      } else if (!validate(state_current_object.source)) {
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: error + " Validate fail."
-        });
-      } else {
-        state_current_object.id = props.parse(state_current_object.source).id;
-        hook_protocol_fn.save(state_current_object);
-      }
-    },
-    remove: () => {
-      let error = "Unable to remove.";
-
-      try {
-        props.parse(state_current_object.source);
-      } catch (e) {
-        console.log(e);
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: error + " Wrong object format. Error: " + e.message
-        });
-        return;
-      }
-
-      if (state_draft_mode) {
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: error + " Source is in draft mode."
-        });
-      } else if (!validate(state_current_object.source)) {
-        hook_formatted_logs_fn.add({
-          type: "Action",
-          text: error + " Validate fail."
-        });
-      } else {
-        state_current_object.id = props.parse(state_current_object.source).id;
-        hook_protocol_fn.remove(state_current_object);
-      }
-    }
-  };
-
-  const on_editor_parse = source => {
+  const update_current_object = source => {
     if (source == null || source === "") return;
 
     try {
-      const { id } = props.parse(source);
-      set_state_current_object({ id, source });
+      set_state_current_object(props.parse(source));
     } catch (e) {
       hook_formatted_logs_fn.add({
         type: "Editor",
         text: `Unable to parse. Error: ${e.message}`
       });
+    }
+  };
+
+  const button = {
+    refresh: () => hook_protocol_fn.get(),
+    new: () => hook_protocol_fn.new(),
+    save: () => {
+      if (state_draft_mode) {
+        hook_formatted_logs_fn.add({
+          type: "Action",
+          text: "Unable to save. Source is in draft mode."
+        });
+      } else {
+        hook_protocol_fn.save(state_current_object);
+      }
+    },
+    remove: () => {
+      if (state_draft_mode) {
+        hook_formatted_logs_fn.add({
+          type: "Action",
+          text: "Unable to remove. Source is in draft mode."
+        });
+      } else {
+        hook_protocol_fn.remove(state_current_object);
+      }
     }
   };
 
@@ -154,10 +99,6 @@ function AmEditor(props) {
   }, [hook_protocol_objects]);
 
   React.useEffect(() => set_state_source_changed(true), [state_draft_mode]);
-
-  React.useEffect(() => {
-    set_state_validator_rules(hook_protocol_rules);
-  }, [hook_protocol_rules]);
 
   return (
     <div className="content_body">
@@ -205,8 +146,9 @@ function AmEditor(props) {
                 props.editor_options.default_source,
               ace_mode: props.editor_options.default_mode
             }}
-            on_validate={on_editor_parse}
+            on_validate={update_current_object}
             on_change_draft_mode={set_state_draft_mode}
+            format={props.format}
           />
         )}
       </div>
