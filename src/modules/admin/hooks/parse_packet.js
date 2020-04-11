@@ -18,17 +18,21 @@ function useParsePacketHook(props) {
       },
       module_data: data => hook_packets_fn._push("module_data", data),
       module_info: data => hook_packets_fn._push("module_info", data),
-      scripts_data: data => hook_packets_fn._push("scripts_data", data),
-      scripts_process: data => hook_packets_fn._push("scripts_process", data),
+      data_admin_script: data =>
+        hook_packets_fn._push("data_admin_script", data),
       data_am_form: data => hook_packets_fn._push("data_am_form", data),
       data_am_program: data => hook_packets_fn._push("data_am_program", data),
       data_am_system: data => hook_packets_fn._push("data_am_system", data),
       data_am_script: data => hook_packets_fn._push("data_am_script", data),
+      update_admin_script: data =>
+        hook_packets_fn._push("update_admin_script", data),
       update_am_form: data => hook_packets_fn._push("update_am_form", data),
       update_am_program: data =>
         hook_packets_fn._push("update_am_program", data),
       update_am_system: data => hook_packets_fn._push("update_am_system", data),
-      update_am_script: data => hook_packets_fn._push("update_am_script", data)
+      update_am_script: data => hook_packets_fn._push("update_am_script", data),
+      process_admin_script: data =>
+        hook_packets_fn._push("process_admin_script", data)
     },
     hook_packets_data,
     hook_packets_fn,
