@@ -1,6 +1,8 @@
 import React from "react";
 import SourceEditor from "../components/source_editor";
 
+import js_beautify from "js-beautify";
+
 function AdminScriptsEditor() {
   const parse = (source, rules) => {
     let object = null;
@@ -16,8 +18,14 @@ function AdminScriptsEditor() {
     );
   };
 
+  // For more options go to "js-beautify" file.
+  // -> interface JsBeautifyOptions...
   const format = (source, mode) => {
-    return source;
+    return js_beautify(source, {
+      indent_size: 2,
+      brace_style: "collapse-preserve-inline",
+      indent_with_tabs: false
+    });
   };
 
   const create_label = object => {

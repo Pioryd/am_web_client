@@ -72,7 +72,7 @@ function Editor(props) {
       set_state_draft_mode(false);
       update_last_log("");
     } catch (e) {
-      update_last_log("Unable to validate JSON source.");
+      update_last_log(`Unable to validate JSON source. Error[${e.message}]`);
     }
   };
 
