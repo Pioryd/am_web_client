@@ -31,21 +31,23 @@ function useProtocolHook(props) {
       if (state_action_id === "") return;
 
       let action_id = null; // For searching needs
-      let objects = null;
+      let db_objects_list = null;
       let rules = null;
 
       // Search for action_id
       for (const packet of packets) {
         if (packet.action_id === state_action_id) {
           action_id = state_action_id;
-          objects = packet.objects;
+          db_objects_list = packet.db_objects_list;
           rules = packet.rules;
+
+          props.log(`<${packet.action_id}> Received data`);
           break;
         }
       }
 
       if (action_id != null) set_state_action_id("");
-      if (objects != null) set_state_objects(objects);
+      if (db_objects_list != null) set_state_objects(db_objects_list);
       if (rules != null) set_state_rules(rules);
     }
   };
@@ -56,7 +58,7 @@ function useProtocolHook(props) {
   }, [context_packets_data]);
 
   return {
-    hook_protocol_objects: state_objects,
+    hook_protocol_objects_list: state_objects,
     hook_protocol_rules: state_rules,
     hook_protocol_action_id: state_action_id,
     hook_protocol_fn: {

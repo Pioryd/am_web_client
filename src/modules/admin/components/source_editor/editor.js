@@ -65,8 +65,9 @@ function Editor(props) {
 
   const validate = source => {
     try {
-      props.on_validate(source);
+      console.log("VALIDATE", source);
       source = props.format(source, state_ace_mode);
+      props.on_validate(source);
 
       set_state_source(source);
       set_state_draft_mode(false);
@@ -103,7 +104,8 @@ function Editor(props) {
   }, [state_ace_show_line_numbers, state_ace_tab_size]);
 
   React.useEffect(() => {
-    validate(props.init.source);
+    set_state_source(props.init.source);
+    set_state_draft_mode(true);
   }, [props.init.source]);
 
   React.useEffect(() => {
