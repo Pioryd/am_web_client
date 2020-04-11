@@ -29,19 +29,19 @@ function useSelectHook(props) {
       on_change: option => {
         set_state_selected_option(option);
       },
-      update: (json_data_map, current_id) => {
+      update: (data_map, current_object) => {
         let options = [];
         let current_value = {};
         let selected_option = "";
 
-        for (const json_data of Object.values(json_data_map))
+        for (const data of Object.values(data_map))
           options.push({
-            label: props.create_label(json_data),
-            value: json_data
+            label: props.create_label(data),
+            value: data
           });
 
         for (const option of options) {
-          if (option.value.id === current_id) {
+          if (option.value === current_object) {
             selected_option = option;
             current_value = option.value;
             break;

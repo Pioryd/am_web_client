@@ -1,8 +1,8 @@
 import React from "react";
-import AmEditor from "../components/am_json_editor";
+import AmEditor from "../components/am_editor";
 
-function AM_ProgramEditor() {
-  return <AmEditor mode="program" />;
+function AM_FormEditor() {
+  return <AmEditor protocol_ext_name="am_program" />;
 }
 
-export default AM_ProgramEditor;
+export default AM_FormEditor;

@@ -8,12 +8,13 @@ import useSelectHook from "../../../../hooks/select_hook";
 
 function AmEditor(props) {
   const {
-    hook_protocol_objects,
+    hook_protocol_objects_list,
     hook_protocol_rules,
     hook_protocol_action_id,
     hook_protocol_fn
   } = useProtocolHook({
     ext_name: props.protocol_ext_name,
+    object_to_source: props.object_to_source,
     log: message => {
       hook_formatted_logs_fn.add({
         type: "Protocol",
@@ -42,29 +43,17 @@ function AmEditor(props) {
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
   const [state_source_changed, set_state_source_changed] = React.useState("");
 
-  const validate = source => {
-    try {
-      props.parse(source, hook_protocol_rules);
-      return true;
-    } catch (e) {
-      hook_formatted_logs_fn.add({
-        type: "Validator",
-        text: e
-      });
-      return false;
-    }
-  };
-
   const update_current_object = source => {
     if (source == null || source === "") return;
 
     try {
-      set_state_current_object(props.parse(source));
+      set_state_current_object(props.parse(source, hook_protocol_rules));
     } catch (e) {
       hook_formatted_logs_fn.add({
         type: "Editor",
         text: `Unable to parse. Error: ${e.message}`
       });
+      throw e;
     }
   };
 
@@ -82,10 +71,10 @@ function AmEditor(props) {
       }
     },
     remove: () => {
-      if (state_draft_mode) {
+      if (Object.keys(hook_select_current_value).length === 0) {
         hook_formatted_logs_fn.add({
           type: "Action",
-          text: "Unable to remove. Source is in draft mode."
+          text: "Unable to remove. No option selected."
         });
       } else {
         hook_protocol_fn.remove(state_current_object);
@@ -95,10 +84,19 @@ function AmEditor(props) {
 
   React.useEffect(() => {
     set_state_source_changed(false);
-    hook_select_fn.update(hook_protocol_objects, state_current_object.id);
-  }, [hook_protocol_objects]);
+
+    let current_object = null;
+    for (const object of hook_protocol_objects_list)
+      if (object.id === state_current_object.id) current_object = object;
+
+    hook_select_fn.update(hook_protocol_objects_list, current_object);
+  }, [hook_protocol_objects_list]);
 
   React.useEffect(() => set_state_source_changed(true), [state_draft_mode]);
+
+  React.useEffect(() => set_state_current_object(hook_select_current_value), [
+    hook_select_current_value
+  ]);
 
   return (
     <div className="content_body">
@@ -138,18 +136,18 @@ function AmEditor(props) {
             </button>
           </React.Fragment>
         ) : (
-          <Editor
-            ace_modes={props.editor_options.modes}
-            init={{
-              source:
-                hook_select_current_value.source ||
-                props.editor_options.default_source,
-              ace_mode: props.editor_options.default_mode
-            }}
-            on_validate={update_current_object}
-            on_change_draft_mode={set_state_draft_mode}
-            format={props.format}
-          />
+          Object.keys(hook_select_current_value).length > 0 && (
+            <Editor
+              ace_modes={props.editor_options.modes}
+              init={{
+                source: props.object_to_source(hook_select_current_value),
+                ace_mode: props.editor_options.default_mode
+              }}
+              on_validate={update_current_object}
+              on_change_draft_mode={set_state_draft_mode}
+              format={props.format}
+            />
+          )
         )}
       </div>
     </div>
