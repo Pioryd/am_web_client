@@ -2,6 +2,8 @@ import React from "react";
 
 import Util from "../../../../framework/util";
 
+import "./index.css";
+
 const CONSOLE_LOGS_HEIGHT = "100px";
 
 function List(props) {
@@ -19,6 +21,7 @@ function List(props) {
 
       display_logs.push(
         <div
+          className="log_element"
           key={text_time + i}
         >{`[${text_time}] (${message.type}): ${message.text}`}</div>
       );
