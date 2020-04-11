@@ -113,7 +113,9 @@ function AmEditor(props) {
           menu: provided => ({ ...provided, zIndex: 9999 })
         }}
         value={hook_select_selected_option}
-        placeholder="Select script data..."
+        placeholder={`Select script data... [${
+          Object.keys(hook_select_options).length
+        }]`}
         onChange={hook_select_fn.on_change}
         options={hook_select_options}
         isClearable={true}

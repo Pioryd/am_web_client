@@ -33,6 +33,7 @@ function useProtocolHook(props) {
       let action_id = null; // For searching needs
       let db_objects_list = null;
       let rules = null;
+      let message = null;
 
       // Search for action_id
       for (const packet of packets) {
@@ -40,8 +41,9 @@ function useProtocolHook(props) {
           action_id = state_action_id;
           db_objects_list = packet.db_objects_list;
           rules = packet.rules;
+          message = packet.message;
 
-          props.log(`<${packet.action_id}> Received data`);
+          props.log(`<${packet.action_id}> Received dat. Message[${message}]`);
           break;
         }
       }

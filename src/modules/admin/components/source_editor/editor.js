@@ -65,7 +65,6 @@ function Editor(props) {
 
   const validate = source => {
     try {
-      console.log("VALIDATE", source);
       source = props.format(source, state_ace_mode);
       props.on_validate(source);
 
