@@ -18,14 +18,24 @@ function useProtocolHook(props) {
     return true;
   };
 
-  const parse = {
-    update: () => {
+  const parse_fn_list = [
+    () => {
+      const packets = context_packets_fn.pop("process_" + props.ext_name);
+
+      for (const packet of packets)
+        props.log(
+          `<${packet.action_id}>\n${JSON.stringify(packet.message, null, 2)}`
+        );
+    },
+    () => {
       const packets = context_packets_fn.pop("update_" + props.ext_name);
 
       for (const packet of packets)
-        props.log(`<${packet.action_id}> ${packet.message}`);
+        props.log(
+          `<${packet.action_id}>\n${JSON.stringify(packet.message, null, 2)}`
+        );
     },
-    data: () => {
+    () => {
       const packets = context_packets_fn.pop("data_" + props.ext_name);
 
       if (state_action_id === "") return;
@@ -43,7 +53,9 @@ function useProtocolHook(props) {
           rules = packet.rules;
           message = packet.message;
 
-          props.log(`<${packet.action_id}> Received dat. Message[${message}]`);
+          props.log(
+            `<${packet.action_id}>\n${JSON.stringify(message, null, 2)}`
+          );
           break;
         }
       }
@@ -52,11 +64,10 @@ function useProtocolHook(props) {
       if (db_objects_list != null) set_state_objects(db_objects_list);
       if (rules != null) set_state_rules(rules);
     }
-  };
+  ];
 
   React.useEffect(() => {
-    parse.update();
-    parse.data();
+    for (const parse_fn of parse_fn_list) parse_fn();
   }, [context_packets_data]);
 
   return {
@@ -109,6 +120,18 @@ function useProtocolHook(props) {
           this.get();
         } catch (e) {
           props.log("Unable to save data");
+        }
+      },
+      process: function(object) {
+        if (can_perform_action() === false) return;
+
+        try {
+          context_packets_fn.send("process_" + props.ext_name, {
+            action_id: Date.now() + "_process",
+            object
+          });
+        } catch (e) {
+          props.log("Unable to process data");
         }
       }
     }

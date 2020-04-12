@@ -43,8 +43,7 @@ function AM_Editor(props) {
       object_to_source={object_to_source}
       editor_options={{
         modes: ["json", "javascript"],
-        default_mode: "json",
-        default_source: "{}"
+        default_mode: "json"
       }}
     />
   );
