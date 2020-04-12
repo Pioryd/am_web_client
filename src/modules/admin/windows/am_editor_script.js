@@ -32,8 +32,7 @@ function AM_ScriptEditor() {
       object_to_source={object_to_source}
       editor_options={{
         modes: ["elm", "text", "cirru", "ruby", "tcl"],
-        default_mode: "tcl",
-        default_source: "data"
+        default_mode: "tcl"
       }}
     />
   );

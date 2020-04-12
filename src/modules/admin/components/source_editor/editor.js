@@ -103,7 +103,9 @@ function Editor(props) {
   }, [state_ace_show_line_numbers, state_ace_tab_size]);
 
   React.useEffect(() => {
-    set_state_source(props.init.source);
+    let source = props.init.source;
+    source = props.format(source, state_ace_mode);
+    set_state_source(source);
     set_state_draft_mode(true);
   }, [props.init.source]);
 
@@ -218,7 +220,7 @@ function Editor(props) {
           </select>
         </div>
         <div className="element">
-          <label>Validate (ctrl + s)</label>
+          <label>Validate/Parse (ctrl + s)</label>
         </div>
       </div>
       {state_draft_mode === true && (

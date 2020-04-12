@@ -79,6 +79,16 @@ function AmEditor(props) {
       } else {
         hook_protocol_fn.remove(state_current_object);
       }
+    },
+    process: () => {
+      if (Object.keys(hook_select_current_value).length === 0) {
+        hook_formatted_logs_fn.add({
+          type: "Action",
+          text: "Unable to process. No option selected."
+        });
+      } else {
+        hook_protocol_fn.process(state_current_object);
+      }
     }
   };
 
@@ -106,6 +116,7 @@ function AmEditor(props) {
         <button onClick={button.new}>new</button>
         <button onClick={button.save}>save</button>
         <button onClick={button.remove}>remove</button>
+        <button onClick={button.process}>process</button>
       </div>
       <Select
         styles={{
