@@ -20,10 +20,9 @@ function List(props) {
       const text_time = Util.get_time_hms(message.date);
 
       display_logs.push(
-        <div
-          className="log_element"
-          key={text_time + i}
-        >{`[${text_time}] (${message.type}): ${message.text}`}</div>
+        <div className="log_element" key={text_time + i}>
+          <pre>{`[${text_time}] (${message.type}) ${message.text}`}</pre>
+        </div>
       );
     }
 
