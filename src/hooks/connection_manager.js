@@ -111,8 +111,7 @@ const useConnectionManager = props => {
         _this.set_state_connection_status("Logging in...");
         _this.state_client.ext.logged_in = null;
         props.on_connected(_this.state_client, {
-          login: _this.state_settings.login,
-          password: _this.state_settings.password
+          ..._this.state_settings.accept_connection_data
         });
       };
       client.events.disconnected = () => {

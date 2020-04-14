@@ -12,7 +12,7 @@ npm start
 ## Errors
 
 - If You cant do nothing. And only errors are displayed.
-  - Clear `[localStorage]`(browser history).
+  - Clear `[localStorage]`(Developer Tools or browser history).
 
 ## Project extension
 

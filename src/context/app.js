@@ -1,12 +1,10 @@
 import React from "react";
-import Util from "../framework/util";
 
 export const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [state_settings, set_state_settings] = React.useState({
-    login: "admin",
-    password: "123",
+    accept_connection_data: {},
     main_loop_sleep: 500,
     reconnect_attempts_interval: 1000,
     packet_send_delay: 0,
@@ -14,8 +12,7 @@ const AppProvider = ({ children }) => {
     host: "localhost",
     port: "3000",
     module: "admin",
-    start_as_connection_enabled: 1,
-    ...Util.get_formatted_url_path()
+    start_as_connection_enabled: 1
   });
 
   const value = {
