@@ -2,8 +2,6 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useMediaQuery } from "react-responsive";
 
-import Util from "../../framework/util";
-
 import { GoldenLayoutComponent } from "../layout/goldenLayoutComponent";
 
 import { AppContext } from "../../context/app";
@@ -20,14 +18,6 @@ import WorldCharacter from "../../modules/world_character";
 
 import "./index.css";
 
-let ModuleWindowsMap = [];
-const module_name = Util.get_formatted_url_path().module;
-if (module_name === "admin") {
-  ModuleWindowsMap = WorldAdmin.windows_map;
-} else if (module_name === "world_character") {
-  ModuleWindowsMap = WorldCharacter.windows_map;
-}
-
 const DEFAULT_CONFIG = {
   content: [
     {
@@ -38,39 +28,30 @@ const DEFAULT_CONFIG = {
   ]
 };
 
-const load_windows_config = () => {
-  let config = DEFAULT_CONFIG;
+// Windows map
+let module_windows_map = {};
+module_windows_map["admin"] = WorldAdmin.windows_map;
+module_windows_map["world_character"] = WorldCharacter.windows_map;
 
-  let saved_state = localStorage.getItem("saved_state");
-  try {
-    if (saved_state != null) {
-      saved_state = JSON.parse(saved_state);
-      if (
-        module_name === saved_state.module_name &&
-        saved_state.config.content.length > 0
-      )
-        config = saved_state.config;
-    }
-  } catch (e) {
-    localStorage.removeItem("saved_state");
-  }
-
-  return config;
-};
-const windows_config = load_windows_config();
-
-function Gui() {
+function Gui(props) {
   const hook_is_desktop_or_laptop = useMediaQuery({ minWidth: 992 });
   const [
     state_is_desktop_or_laptop,
     set_state_is_desktop_or_laptop
   ] = React.useState(false);
-  const windows_map = {
+  const [state_windows_config, set_state_windows_config] = React.useState(
+    DEFAULT_CONFIG
+  );
+  const [state_windows_map] = React.useState({
     ...RootWindows.windows_map,
-    ...ModuleWindowsMap
-  };
+    ...module_windows_map[props.login_data.module]
+  });
 
-  const { context_settings } = React.useContext(AppContext);
+  // In this file use [get_merged_settings] instead of [context_settings]
+  // For more info go to: [get_merged_settings]
+  const { context_settings, context_set_settings } = React.useContext(
+    AppContext
+  );
 
   const ref_golden_layout = React.createRef();
 
@@ -118,13 +99,13 @@ function Gui() {
         selected_column = column_2;
 
       selected_column.addChild({
-        title: windows_map[window_name].title,
+        title: state_windows_map[window_name].title,
         type: "react-component",
         component: window_name,
         props: {
           id: { window_name },
           key: window_name,
-          title: windows_map[window_name].title
+          title: state_windows_map[window_name].title
         }
       });
     } else {
@@ -133,20 +114,51 @@ function Gui() {
       }
 
       root.contentItems[0].contentItems[0].addChild({
-        title: windows_map[window_name].title,
+        title: state_windows_map[window_name].title,
         type: "react-component",
         component: window_name,
         props: {
           id: { window_name },
           key: window_name,
-          title: windows_map[window_name].title
+          title: state_windows_map[window_name].title
         }
       });
     }
   };
 
+  // In this file use [get_merged_settings] instead of [context_settings]
+  // Because most functionality need [context_settings] at initialization, when
+  // is not merged yet(merge in useEffect is after first render-initialization),
+  // so we have to force it.
+  const get_merged_settings = () => {
+    return { ...context_settings, ...props.login_data };
+  };
+
   React.useEffect(() => {
-    const set_desktop_or_laptop = () => {
+    // Set login_data
+    context_set_settings(get_merged_settings());
+
+    // Set GUI
+    const load_windows_config = () => {
+      let config = DEFAULT_CONFIG;
+
+      let saved_state = localStorage.getItem("saved_state");
+      try {
+        if (saved_state != null) {
+          saved_state = JSON.parse(saved_state);
+          if (
+            props.login_data.module === saved_state.module_name &&
+            saved_state.config.content.length > 0
+          )
+            config = saved_state.config;
+        }
+      } catch (e) {
+        localStorage.removeItem("saved_state");
+      }
+
+      return config;
+    };
+    const set_desktop_or_laptop = windows_config => {
       let is_desktop_or_laptop = hook_is_desktop_or_laptop;
 
       if (!("content" in windows_config.content[0])) {
@@ -159,8 +171,12 @@ function Gui() {
       }
 
       set_state_is_desktop_or_laptop(is_desktop_or_laptop);
+      return windows_config;
     };
-    set_desktop_or_laptop();
+    let windows_config = load_windows_config();
+    windows_config = set_desktop_or_laptop(windows_config);
+
+    set_state_windows_config(windows_config);
   }, []);
 
   React.useLayoutEffect(() => {
@@ -179,14 +195,16 @@ function Gui() {
     <React.Fragment>
       <Helmet>
         <title>
-          {`[${context_settings.module}]<${context_settings.login}> - AM`}
+          {`[${get_merged_settings().module}]<${
+            get_merged_settings().accept_connection_data.login
+          }> - AM`}
         </title>
       </Helmet>
       <GuiProvider
-        windows_list={windows_map}
+        windows_list={state_windows_map}
         on_add_window={name => add_window(name)}
       >
-        <ProtocolProvider settings={context_settings}>
+        <ProtocolProvider settings={get_merged_settings()}>
           <Navigation />
           <div className="main-window-content">
             <GoldenLayoutComponent
@@ -199,16 +217,18 @@ function Gui() {
                   width: "100%"
                 }
               }}
-              config={windows_config}
+              config={state_windows_config}
               registerComponents={myLayout => {
-                for (const [window_name, values] of Object.entries(windows_map))
+                for (const [window_name, values] of Object.entries(
+                  state_windows_map
+                ))
                   myLayout.registerComponent(window_name, values.class);
 
                 myLayout.on("stateChanged", function() {
                   if (myLayout.isInitialised) {
                     const saved_state = {
                       config: myLayout.toConfig(),
-                      module_name
+                      module_name: get_merged_settings().module
                     };
 
                     localStorage.setItem(

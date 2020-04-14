@@ -21,7 +21,7 @@ function Navigation(props) {
         trigger={["click"]}
         overlay={
           <React.Fragment>
-            <span>{`Login[${context_settings.login}]`}</span>
+            <span>{`Login[${context_settings.accept_connection_data.login}]`}</span>
             <br />
             <span>{`Module[${context_settings.module}]`}</span>
           </React.Fragment>

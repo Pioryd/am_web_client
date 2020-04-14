@@ -1,28 +1,21 @@
 import React from "react";
 
 import Gui from "./components/gui";
+import LoginPanel from "./components/login_panel";
 import AppProvider from "./context/app";
-import Util from "./framework/util";
-
-const args = Util.get_formatted_url_path();
-const correct_args =
-  args.login != null &&
-  args.password != null &&
-  args.host != null &&
-  args.port != null &&
-  args.module != null;
-
-const error_info = (
-  <React.Fragment>
-    <p>[ERROR] Wrong arguments. You need to put correct args. For example:</p>
-    <p>
-      http://localhost:3000/login:admin/password:123/host:localhost/port:3101/module:admin
-    </p>
-  </React.Fragment>
-);
 
 function App() {
-  return <AppProvider> {correct_args ? <Gui /> : error_info}</AppProvider>;
+  const [state_login_data, set_state_login_data] = React.useState({});
+
+  return (
+    <AppProvider>
+      {Object.keys(state_login_data).length > 0 ? (
+        <Gui login_data={state_login_data} />
+      ) : (
+        <LoginPanel set_login_data={set_state_login_data} />
+      )}
+    </AppProvider>
+  );
 }
 
 export default App;
