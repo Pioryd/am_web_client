@@ -68,6 +68,7 @@ function Chat(props) {
     });
 
     context_packets_fn.send("virtual_world", {
+      character_id: context_packets_fn.get_client_ext().character_id,
       packet_id: "message",
       packet_data: { text }
     });
@@ -82,11 +83,14 @@ function Chat(props) {
   };
 
   const leave_virtual_world = () => {
-    context_packets_fn.send("leave_virtual_world");
+    context_packets_fn.send("leave_virtual_world", {
+      character_id: context_packets_fn.get_client_ext().character_id
+    });
   };
 
   const refresh = () => {
     context_packets_fn.send("virtual_world", {
+      character_id: context_packets_fn.get_client_ext().character_id,
       packet_id: "data",
       packet_data: {}
     });
@@ -127,12 +131,13 @@ function Chat(props) {
       const packets = context_packets_fn.pop("virtual_world");
 
       if (packets.length > 0) {
-        const { packet_id, data } = packets.pop();
+        const { packet_id, packet_data } = packets.pop().packet_data;
         if (packet_id === "data") {
-          set_state_virtual_world_data(data);
+          set_state_virtual_world_data(packet_data);
           set_state_last_sync(Util.get_time_hms());
+          refresh();
         } else if (packet_id === "message") {
-          add_message({ ...data, date: new Date(), received: true });
+          add_message({ ...packet_data, date: new Date(), received: true });
         }
 
         update_displayed_message();
