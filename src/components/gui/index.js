@@ -39,9 +39,7 @@ function Gui(props) {
     state_is_desktop_or_laptop,
     set_state_is_desktop_or_laptop
   ] = React.useState(false);
-  const [state_windows_config, set_state_windows_config] = React.useState(
-    DEFAULT_CONFIG
-  );
+  const [state_windows_config, set_state_windows_config] = React.useState(null);
   const [state_windows_map] = React.useState({
     ...RootWindows.windows_map,
     ...module_windows_map[props.login_data.module]
@@ -134,6 +132,15 @@ function Gui(props) {
     return { ...context_settings, ...props.login_data };
   };
 
+  const get_saved_states = () => {
+    let saved_states = localStorage.getItem("saved_states");
+    try {
+      if (saved_states != null) return JSON.parse(saved_states);
+    } catch (e) {
+      localStorage.removeItem("saved_states");
+    }
+  };
+
   React.useEffect(() => {
     // Set login_data
     context_set_settings(get_merged_settings());
@@ -141,19 +148,16 @@ function Gui(props) {
     // Set GUI
     const load_windows_config = () => {
       let config = DEFAULT_CONFIG;
+      let saved_states = get_saved_states();
 
-      let saved_state = localStorage.getItem("saved_state");
-      try {
-        if (saved_state != null) {
-          saved_state = JSON.parse(saved_state);
-          if (
-            props.login_data.module === saved_state.module_name &&
-            saved_state.config.content.length > 0
-          )
-            config = saved_state.config;
-        }
-      } catch (e) {
-        localStorage.removeItem("saved_state");
+      if (saved_states != null) {
+        const saved_state = saved_states[get_merged_settings().id];
+        if (
+          saved_state != null &&
+          props.login_data.id === saved_state.login_data_id &&
+          saved_state.config.content.length > 0
+        )
+          config = saved_state.config;
       }
 
       return config;
@@ -207,38 +211,43 @@ function Gui(props) {
         <ProtocolProvider settings={get_merged_settings()}>
           <Navigation />
           <div className="main-window-content">
-            <GoldenLayoutComponent
-              ref={ref_golden_layout}
-              htmlAttrs={{
-                style: {
-                  display: "inline-block",
-                  position: "fixed",
-                  height: "100%",
-                  width: "100%"
-                }
-              }}
-              config={state_windows_config}
-              registerComponents={myLayout => {
-                for (const [window_name, values] of Object.entries(
-                  state_windows_map
-                ))
-                  myLayout.registerComponent(window_name, values.class);
-
-                myLayout.on("stateChanged", function() {
-                  if (myLayout.isInitialised) {
-                    const saved_state = {
-                      config: myLayout.toConfig(),
-                      module_name: get_merged_settings().module
-                    };
-
-                    localStorage.setItem(
-                      "saved_state",
-                      JSON.stringify(saved_state)
-                    );
+            {state_windows_config != null && (
+              <GoldenLayoutComponent
+                ref={ref_golden_layout}
+                htmlAttrs={{
+                  style: {
+                    display: "inline-block",
+                    position: "fixed",
+                    height: "100%",
+                    width: "100%"
                   }
-                });
-              }}
-            />
+                }}
+                config={state_windows_config}
+                registerComponents={myLayout => {
+                  for (const [window_name, values] of Object.entries(
+                    state_windows_map
+                  ))
+                    myLayout.registerComponent(window_name, values.class);
+
+                  myLayout.on("stateChanged", function() {
+                    if (myLayout.isInitialised) {
+                      const login_data_id = get_merged_settings().id;
+                      const saved_state = {
+                        config: myLayout.toConfig(),
+                        login_data_id
+                      };
+
+                      let saved_states = get_saved_states() || {};
+                      saved_states[login_data_id] = saved_state;
+                      localStorage.setItem(
+                        "saved_states",
+                        JSON.stringify(saved_states)
+                      );
+                    }
+                  });
+                }}
+              />
+            )}
           </div>
         </ProtocolProvider>
       </GuiProvider>
