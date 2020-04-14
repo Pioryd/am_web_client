@@ -50,7 +50,8 @@ const ProtocolProvider = ({ settings, children }) => {
     context_packets_fn: {
       send: (packet_id, packet_data) =>
         hook_packets_fn.send(packet_id, packet_data),
-      ...hook_packets_fn
+      ...hook_packets_fn,
+      get_client_ext: () => hook_client.ext
     },
     context_ref_client: hook_ref_client,
 

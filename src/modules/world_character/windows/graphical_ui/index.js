@@ -126,6 +126,7 @@ function GraphicalUI() {
             alt={text_info}
             onClick={() =>
               context_packets_fn.send("character_change_position", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 position_x: i
               })
             }
@@ -152,6 +153,7 @@ function GraphicalUI() {
           if (data.actions_list.length > 0) {
             on_click = () => {
               context_packets_fn.send("script_action", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 object_id: id,
                 action_id: 0,
                 dynamic_args: {}
@@ -275,6 +277,7 @@ function GraphicalUI() {
     else return;
 
     context_packets_fn.send("character_change_position", {
+      character_id: context_packets_fn.get_client_ext().character_id,
       position_x: index_position
     });
   };

@@ -171,6 +171,7 @@ function EditData(props) {
             row_options={state_select_row_actions.row_options}
             on_process={value => {
               context_packets_fn.send("script_action", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 object_id: value.object_id,
                 action_id: value.action_id,
                 dynamic_args:
@@ -197,6 +198,7 @@ function EditData(props) {
             row_options={state_select_row_position.row_options}
             on_process={value =>
               context_packets_fn.send("character_change_position", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 position_x: value
               })
             }
@@ -208,6 +210,7 @@ function EditData(props) {
             row_options={state_select_row_land.row_options}
             on_process={value =>
               context_packets_fn.send("character_change_land", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 land_id: value
               })
             }
@@ -218,7 +221,10 @@ function EditData(props) {
             row_value={state_select_row_characters.row_value}
             row_options={state_select_row_characters.row_options}
             on_process={value =>
-              context_packets_fn.send("character_add_friend", { name: value })
+              context_packets_fn.send("character_add_friend", {
+                character_id: context_packets_fn.get_client_ext().character_id,
+                name: value
+              })
             }
           />
           <SelectRow
@@ -228,6 +234,7 @@ function EditData(props) {
             row_options={state_select_row_friends_list.row_options}
             on_process={value =>
               context_packets_fn.send("character_remove_friend", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 name: value
               })
             }
@@ -237,6 +244,7 @@ function EditData(props) {
             row_key="change state"
             on_process={value =>
               context_packets_fn.send("character_change_state", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 name: value
               })
             }
@@ -246,6 +254,7 @@ function EditData(props) {
             row_key="change action"
             on_process={value =>
               context_packets_fn.send("character_change_action", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 name: value
               })
             }
@@ -255,6 +264,7 @@ function EditData(props) {
             row_key="change activity"
             on_process={value =>
               context_packets_fn.send("character_change_activity", {
+                character_id: context_packets_fn.get_client_ext().character_id,
                 name: value
               })
             }

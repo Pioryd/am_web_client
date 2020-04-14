@@ -94,6 +94,7 @@ function Chat(props) {
     });
 
     context_packets_fn.send("action_message", {
+      character_id: context_packets_fn.get_client_ext().character_id,
       name: name,
       text: text
     });
