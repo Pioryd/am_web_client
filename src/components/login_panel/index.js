@@ -79,9 +79,11 @@ function LoginPanel(props) {
       try {
         set_error("");
         const login_data_map = { ...state_login_data_map };
-        login_data_map[state_current_login_data.id] = format_json(
-          state_current_login_data
-        );
+
+        if (hook_select_selected_option !== "")
+          login_data_map[state_current_login_data.id] = format_json(
+            state_current_login_data
+          );
         set_state_login_data_map(login_data_map);
         set_state_draft_mode(false);
       } catch (e) {
