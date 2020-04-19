@@ -7,9 +7,9 @@
   color: white;
   cursor: pointer;
   z-index: 2000000;
-  background-color: black;
+  background-color: #1e1e1e;
   float: left;
-  border: 1px solid red;
+  border: 1px solid #cccccc;
 }
 
 .main-window-bar .button {

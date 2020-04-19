@@ -3,7 +3,7 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
-  background: black;
+  background: #1e1e1e;
 }
 
 div {
@@ -67,7 +67,6 @@ select {
 
 label {
   color: green;
-  background-color: black;
   font-size: 12px;
   border: none;
   float: left;
@@ -93,7 +92,6 @@ label {
   text-align: left;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   cursor: move;
-  background-color: black;
   border: 1px solid blue;
   position: relative;
   top: 0; /* Position the navbar at the top of the page */

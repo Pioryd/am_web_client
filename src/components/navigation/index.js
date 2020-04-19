@@ -14,23 +14,33 @@ function Navigation(props) {
 
   return (
     <div id="main-window-bar_1" className="main-window-bar">
-      <WindowsList />
-      <SyncButton />
-      <Tooltip
-        placement="bottom"
-        trigger={["click"]}
-        overlay={
-          <React.Fragment>
-            <span>{`Login[${context_settings.accept_connection_data.login}]`}</span>
-            <br />
-            <span>{`Module[${context_settings.module}]`}</span>
-          </React.Fragment>
-        }
-      >
-        <button style={{ float: "right" }}>Info(?)</button>
-      </Tooltip>
+      {props.enabled_windows_list === true && <WindowsList {...props} />}
+      {props.enabled_sync_button === true && <SyncButton />}
+      {props.enabled_info_button === true && (
+        <Tooltip
+          placement="bottom"
+          trigger={["click"]}
+          overlay={
+            <React.Fragment>
+              <span>{`Login[${context_settings.accept_connection_data.login}]`}</span>
+              <br />
+              <span>{`Module[${context_settings.module}]`}</span>
+            </React.Fragment>
+          }
+        >
+          <button style={{ float: "right" }}>Info(?)</button>
+        </Tooltip>
+      )}
     </div>
   );
 }
+
+Navigation.defaultProps = {
+  enabled_windows_list: true,
+  enabled_sync_button: true,
+  enabled_info_button: true,
+  windows_list: {},
+  on_add_window: () => {}
+};
 
 export default Navigation;

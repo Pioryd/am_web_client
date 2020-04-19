@@ -8,7 +8,7 @@ function WindowsList(props) {
   return (
     <React.Fragment>
       <button
-        onClick={e => {
+        onClick={(e) => {
           e.preventDefault();
           hook_dropdown_list.toggle();
         }}
@@ -16,7 +16,7 @@ function WindowsList(props) {
         Windows manager
       </button>
       <div className="dropdown-buttons-list" {...hook_dropdown_list.attr}>
-        <ButtonsList />
+        <ButtonsList {...props} />
       </div>
     </React.Fragment>
   );

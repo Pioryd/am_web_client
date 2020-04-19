@@ -1,14 +1,12 @@
 import React from "react";
-import { GuiContext } from "../../../context/gui";
+
 import "./index.css";
+
 function ButtonsList(props) {
-  const { context_windows_list, context_on_add_window } = React.useContext(
-    GuiContext
-  );
   const [state_buttons, set_state_buttons] = React.useState({});
   const [state_elements, set_state_elements] = React.useState([]);
 
-  const open = e => {
+  const open = (e) => {
     e.preventDefault();
 
     let buttons = { ...state_buttons };
@@ -20,18 +18,18 @@ function ButtonsList(props) {
 
     set_state_buttons(buttons);
 
-    context_on_add_window(button_id);
+    props.on_add_window(button_id);
   };
 
   React.useEffect(() => {
-    set_state_buttons(context_windows_list);
+    set_state_buttons(props.windows_list);
   }, []);
 
   React.useEffect(() => {
     let elements = [];
     for (const [key] of Object.entries(state_buttons)) {
       elements.push(
-        <button className="button" id={key} key={key} onClick={e => open(e)}>
+        <button className="button" id={key} key={key} onClick={(e) => open(e)}>
           {state_buttons[key].title}
         </button>
       );
@@ -47,7 +45,7 @@ function ButtonsList(props) {
         style={{ color: "red" }}
         id="clear_saved_state"
         key="clear_saved_state"
-        onClick={e => localStorage.removeItem("saved_state")}
+        onClick={(e) => localStorage.removeItem("saved_state")}
       >
         Clear saved state
       </button>
