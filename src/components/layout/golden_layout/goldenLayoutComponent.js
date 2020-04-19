@@ -26,14 +26,14 @@ export class GoldenLayoutComponent extends React.Component {
   }
 
   componentRender(reactComponentHandler) {
-    this.setState(state => {
+    this.setState((state) => {
       let newRenderPanels = new Set(state.renderPanels);
       newRenderPanels.add(reactComponentHandler);
       return { renderPanels: newRenderPanels };
     });
   }
   componentDestroy(reactComponentHandler) {
-    this.setState(state => {
+    this.setState((state) => {
       let newRenderPanels = new Set(state.renderPanels);
       newRenderPanels.delete(reactComponentHandler);
       return { renderPanels: newRenderPanels };

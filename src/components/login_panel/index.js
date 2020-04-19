@@ -15,7 +15,7 @@ function LoginPanel(props) {
     hook_select_fn
   } = useSelectHook({
     default_value: "",
-    create_label: object => object.id + "_" + object.name
+    create_label: (object) => object.id + "_" + object.name
   });
 
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
@@ -26,13 +26,13 @@ function LoginPanel(props) {
   ] = React.useState(null);
   const [state_login_data_map, set_state_login_data_map] = React.useState(null);
 
-  const set_error = message => {
+  const set_error = (message) => {
     set_state_error(
       message === "" ? "" : `[${Util.get_time_hms(new Date())}] ${message}`
     );
   };
 
-  const format_json = current_login_data => {
+  const format_json = (current_login_data) => {
     if (
       current_login_data != null &&
       Object.keys(current_login_data).length > 0
@@ -66,7 +66,7 @@ function LoginPanel(props) {
       try {
         set_error("");
         const login_data_map = JSON.parse(
-          localStorage.getItem("login_data") || "{}"
+          localStorage.getItem("am_login_data") || "{}"
         );
         for (const [key, login_data] of Object.entries(login_data_map))
           login_data_map[key] = format_json(login_data);
@@ -152,7 +152,7 @@ function LoginPanel(props) {
 
     hook_select_fn.update(state_login_data_map, current_object);
     set_state_current_login_data(current_object);
-    localStorage.setItem("login_data", JSON.stringify(state_login_data_map));
+    localStorage.setItem("am_login_data", JSON.stringify(state_login_data_map));
   }, [state_login_data_map]);
 
   React.useEffect(
@@ -175,7 +175,7 @@ function LoginPanel(props) {
         <Select
           styles={{
             // Fixes the overlapping problem of the component
-            menu: provided => ({ ...provided, zIndex: 9999 })
+            menu: (provided) => ({ ...provided, zIndex: 9999 })
           }}
           value={hook_select_selected_option}
           placeholder={`Select login data... [${
