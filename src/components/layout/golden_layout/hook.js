@@ -168,8 +168,8 @@ function useGoldenLayout(props) {
           config = saved_state.config;
       }
 
-      if (!("content" in windows_config.content[0]))
-        windows_config.content[0].content = DEFAULT_CONFIG.content;
+      if (!("content" in config.content[0]))
+        config.content[0].content = DEFAULT_CONFIG.content;
 
       return config;
     };
