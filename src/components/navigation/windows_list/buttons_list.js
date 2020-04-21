@@ -45,10 +45,11 @@ function ButtonsList(props) {
         style={{ color: "red" }}
         id="clear_saved_state"
         key="clear_saved_state"
-        onClick={(e) => localStorage.removeItem("saved_state")}
+        onClick={(e) => localStorage.removeItem("am_gl_saved_states")}
       >
         Clear saved state
       </button>
+      <label>Display mode [{props.display_mode}]</label>
     </React.Fragment>
   );
 }
