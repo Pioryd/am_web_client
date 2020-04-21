@@ -10,7 +10,8 @@ import "./index.css";
 function Gui_MultiWindow(props) {
   const {
     hook_golden_layout_fn,
-    hook_windows_config,
+    hook_golden_layout_config,
+    hook_golden_layout_display_mode,
     hook_golden_layout_ref
   } = useGoldenLayout({
     windows_map: props.windows_map,
@@ -22,12 +23,13 @@ function Gui_MultiWindow(props) {
     <React.Fragment>
       <Navigation
         windows_list={props.windows_map}
+        display_mode={hook_golden_layout_display_mode}
         on_add_window={hook_golden_layout_fn.add_window}
       />
       <div className="main-window-content">
         <GoldenLayout
           golden_layout_fn={hook_golden_layout_fn}
-          windows_config={hook_windows_config}
+          windows_config={hook_golden_layout_config}
           golden_layout_ref={hook_golden_layout_ref}
         />
       </div>

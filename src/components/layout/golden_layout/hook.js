@@ -1,5 +1,14 @@
 import React from "react";
 
+/**
+ * Display modes:
+ *  - desktop: [row]->[column_1, column_2, column_3]
+ *    windows added to each column one by one
+ *  - mobile: [stack]
+ *    windows added to same stack
+ *  - custom:
+ *    any other configuration
+ */
 const DEFAULT_CONFIG = {
   content: [
     {
@@ -12,10 +21,7 @@ const DEFAULT_CONFIG = {
 
 function useGoldenLayout(props) {
   const [state_windows_config, set_state_windows_config] = React.useState(null);
-  const [
-    state_is_desktop_or_laptop,
-    set_state_is_desktop_or_laptop
-  ] = React.useState(false);
+  const [state_display_mode, set_state_display_mode] = React.useState("custom");
 
   const ref_golden_layout = React.createRef();
 
@@ -45,39 +51,84 @@ function useGoldenLayout(props) {
     const root = helper.get_layout_root();
     if (root == null) return;
 
-    if (state_is_desktop_or_laptop) {
+    let display_mode = state_display_mode;
+
+    if (display_mode === "desktop") {
       if (root.contentItems[0].contentItems.length === 0) {
         root.contentItems[0].addChild({
           type: "row",
           content: [{ type: "column" }, { type: "column" }, { type: "column" }]
         });
       }
-      const column_0 = root.contentItems[0].contentItems[0].contentItems[0];
-      const column_1 = root.contentItems[0].contentItems[0].contentItems[1];
-      const column_2 = root.contentItems[0].contentItems[0].contentItems[2];
 
-      let selected_column = column_0;
-      if (column_0.contentItems.length > column_1.contentItems.length)
-        selected_column = column_1;
-      else if (column_1.contentItems.length > column_2.contentItems.length)
-        selected_column = column_2;
+      const row_content_item = root.contentItems[0].contentItems[0];
+      const column_0 = row_content_item.contentItems[0];
+      const column_1 = row_content_item.contentItems[1];
+      const column_2 = row_content_item.contentItems[2];
 
-      selected_column.addChild({
-        title: props.windows_map[window_name].title,
-        type: "react-component",
-        component: window_name,
-        props: {
-          id: { window_name },
-          key: window_name,
-          title: props.windows_map[window_name].title
-        }
-      });
-    } else {
+      if (
+        row_content_item.contentItems.length > 3 ||
+        column_0 == null ||
+        column_1 == null ||
+        column_2 == null
+      )
+        display_mode = "custom";
+
+      if (display_mode === "desktop") {
+        let selected_column = column_0;
+        if (column_0.contentItems.length > column_1.contentItems.length)
+          selected_column = column_1;
+        else if (column_1.contentItems.length > column_2.contentItems.length)
+          selected_column = column_2;
+
+        selected_column.addChild({
+          title: props.windows_map[window_name].title,
+          type: "react-component",
+          component: window_name,
+          props: {
+            id: { window_name },
+            key: window_name,
+            title: props.windows_map[window_name].title
+          }
+        });
+      }
+    }
+
+    if (display_mode === "mobile") {
       if (root.contentItems[0].contentItems.length === 0) {
         root.contentItems[0].addChild({ type: "stack" });
+        console.log("add stack");
       }
 
-      root.contentItems[0].contentItems[0].addChild({
+      const stack_content_item = root.contentItems[0].contentItems[0];
+
+      if (
+        root.contentItems[0].contentItems.length > 1 ||
+        stack_content_item.type !== "stack"
+      )
+        display_mode = "custom";
+
+      if (display_mode === "mobile") {
+        stack_content_item.addChild({
+          title: props.windows_map[window_name].title,
+          type: "react-component",
+          component: window_name,
+          props: {
+            id: { window_name },
+            key: window_name,
+            title: props.windows_map[window_name].title
+          }
+        });
+      }
+    }
+
+    if (display_mode === "custom") {
+      if (root.contentItems[0].contentItems.length === 0)
+        root.contentItems[0].addChild({ type: "stack" });
+
+      const stack_content_item = root.contentItems[0].contentItems[0];
+
+      stack_content_item.addChild({
         title: props.windows_map[window_name].title,
         type: "react-component",
         component: window_name,
@@ -88,6 +139,9 @@ function useGoldenLayout(props) {
         }
       });
     }
+
+    if (state_display_mode !== display_mode)
+      set_state_display_mode(display_mode);
   };
 
   const get_saved_states = () => {
@@ -114,25 +168,27 @@ function useGoldenLayout(props) {
           config = saved_state.config;
       }
 
+      if (!("content" in windows_config.content[0]))
+        windows_config.content[0].content = DEFAULT_CONFIG.content;
+
       return config;
     };
-    const set_desktop_or_laptop = (windows_config) => {
-      let is_desktop_or_laptop = props.is_desktop_or_laptop;
-
-      if (!("content" in windows_config.content[0])) {
-        windows_config.content[0].content = DEFAULT_CONFIG.content;
-      }
+    const set_display_mode = (windows_config) => {
+      let display_mode = props.is_desktop_or_laptop ? "desktop" : "mobile";
 
       if (windows_config.content[0].content.length > 0) {
-        is_desktop_or_laptop =
-          windows_config.content[0].content[0].type === "row";
+        display_mode =
+          windows_config.content[0].content[0].type === "row"
+            ? "desktop"
+            : "mobile";
       }
 
-      set_state_is_desktop_or_laptop(is_desktop_or_laptop);
+      set_state_display_mode(display_mode);
+
       return windows_config;
     };
     let windows_config = load_windows_config();
-    windows_config = set_desktop_or_laptop(windows_config);
+    set_display_mode(windows_config);
 
     set_state_windows_config(windows_config);
   };
@@ -161,7 +217,8 @@ function useGoldenLayout(props) {
 
   return {
     hook_golden_layout_ref: ref_golden_layout,
-    hook_windows_config: state_windows_config,
+    hook_golden_layout_config: state_windows_config,
+    hook_golden_layout_display_mode: state_display_mode,
     hook_golden_layout_fn: {
       register_components,
       set_gui,

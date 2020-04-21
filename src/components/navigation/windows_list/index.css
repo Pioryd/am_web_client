@@ -16,3 +16,8 @@
   clear: both;
   min-width: calc(100% - 2px);
 }
+
+.main-window-bar label {
+  clear: both;
+  min-width: calc(100% - 2px);
+}
