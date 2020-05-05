@@ -1,4 +1,5 @@
-const stringify = require("json-stringify-safe");
+import stringify from "json-stringify-safe";
+import Util from "./util";
 
 // NOTE:
 // This WEB class is not fully working because of not support [bson-objectid]
@@ -103,7 +104,11 @@ function parse_header(start_index, lines) {
       break;
   }
 
-  eval(`parsed_header.data = {${parsed_header.data}}`);
+  eval(
+    `parsed_header.data = {${Util.command_args_to_array(
+      parsed_header.data
+    ).join()}}`
+  );
 
   if (
     header_data_found.id === false ||
@@ -183,31 +188,29 @@ function parse_source(source) {
 }
 
 function merge_if_statements(parsed_instructions_list) {
-  const merge = list => {
+  const merge = (list) => {
     const statement_if_merger = {
       _current_if_object: null,
       _current_elif_object_list: [],
-      handle: function(object, parent_list) {
+      handle: function (object, parent_list) {
         try {
           if (object.type === "if") {
+            this._close_if_statement(parent_list);
+
             object.conditions = {};
             object.conditions[`${object.condition}`] = [...object.instructions];
+
             delete object.condition;
             delete object.instructions;
+
             this._current_if_object = object;
-          } else if (object.type === "elif") {
-            this._current_if_object.conditions[`${object.condition}`] = [
+            this._current_elif_object_list = [];
+          } else if (["elif", "else"].includes(object.type)) {
+            const condition = object.type === "elif" ? object.condition : "";
+            this._current_if_object.conditions[condition] = [
               ...object.instructions
             ];
             this._current_elif_object_list.push(object);
-          } else if (object.type === "else") {
-            this._current_if_object.conditions[""] = [...object.instructions];
-            this._current_elif_object_list.push(object);
-            for (var i = parent_list.length - 1; i >= 0; i--)
-              if (this._current_elif_object_list.includes(parent_list[i]))
-                parent_list.splice(i, 1);
-            this._current_if_object = null;
-            this._current_elif_object_list = [];
           }
         } catch (e) {
           throw new Error(
@@ -215,6 +218,13 @@ function merge_if_statements(parsed_instructions_list) {
               `\n${e.stack}\n${e.message}`
           );
         }
+      },
+      _close_if_statement: function (parent_list) {
+        for (let i = parent_list.length - 1; i >= 0; i--)
+          if (this._current_elif_object_list.includes(parent_list[i]))
+            parent_list.splice(i, 1);
+        this._current_if_object = null;
+        this._current_elif_object_list = [];
       }
     };
 
@@ -222,6 +232,9 @@ function merge_if_statements(parsed_instructions_list) {
       if ("instructions" in object) merge(object["instructions"]);
       statement_if_merger.handle(object, list);
     }
+
+    // When there is not next "IF"
+    statement_if_merger._close_if_statement(list);
   };
 
   merge(parsed_instructions_list);
@@ -230,11 +243,11 @@ function merge_if_statements(parsed_instructions_list) {
 function parse_instructions(start_index, lines) {
   const instructions_info = {
     _info_list: [],
-    get: function(object) {
+    get: function (object) {
       for (const info of this._info_list)
         if (info.object === object) return info.data;
     },
-    set: function(object, data) {
+    set: function (object, data) {
       if (this.get(object) == null) this._info_list.push({ object, data });
     }
   };
@@ -304,7 +317,7 @@ function parse_instructions(start_index, lines) {
 }
 
 export default {
-  parse: source => {
+  parse: (source) => {
     const lines = source.split("\r\n");
     const header_start_index = 0;
 
