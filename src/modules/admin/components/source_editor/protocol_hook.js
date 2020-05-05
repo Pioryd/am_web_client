@@ -77,6 +77,20 @@ function useProtocolHook(props) {
       } catch (e) {
         props.log("Unable to process data");
       }
+    },
+    replace_id(old_id, new_id) {
+      if (can_perform_action() === false) return;
+
+      try {
+        context_packets_fn.send("editor_update", {
+          action: { id: Date.now() + "_update", type: "replace_id" },
+          old_id,
+          new_id,
+          type: props.ext_name
+        });
+      } catch (e) {
+        props.log("Unable to replace id");
+      }
     }
   };
 

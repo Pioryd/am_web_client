@@ -26,11 +26,11 @@ function AM_Editor(props) {
     return JSON.stringify(object, null, 2);
   };
 
-  const create_label = object => {
-    return object.id + "_" + object.name;
+  const create_label = (object) => {
+    return object.id;
   };
 
-  const object_to_source = object => {
+  const object_to_source = (object) => {
     return JSON.stringify(object, null, 2);
   };
 

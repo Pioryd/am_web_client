@@ -14,12 +14,11 @@ function AM_ScriptEditor() {
     return source;
   };
 
-  const create_label = object => {
-    const parsed = AML.parse(object.source);
-    return object.id + "_" + parsed.name;
+  const create_label = (object) => {
+    return object.id;
   };
 
-  const object_to_source = object => {
+  const object_to_source = (object) => {
     return object.source;
   };
 

@@ -9,7 +9,7 @@ function AdminScriptsEditor() {
   const parse = (source, rules) => {
     let object = null;
     eval(`object = ${source}`);
-    ["id", "type", "name", "desc", "args", "fn"].map(value => {
+    ["id", "type", "name", "desc", "args", "fn"].map((value) => {
       if (!(value in object))
         throw new Error(`Object doesn't contains key[${value}]`);
     });
@@ -34,11 +34,11 @@ function AdminScriptsEditor() {
     return source;
   };
 
-  const create_label = object => {
-    return object.type + "@" + object.name;
+  const create_label = (object) => {
+    return object.type + "@" + object.id;
   };
 
-  const object_to_source = object => {
+  const object_to_source = (object) => {
     const hash = "+@!)(%&#$%#*@$&@*#(&$!+@#$!)&$@+*!&$%*#%&+@$##!)$&@+&$!";
     const new_obj = { ...object };
     new_obj.fn = hash;
@@ -61,7 +61,7 @@ function AdminScriptsEditor() {
       additional_actions={[
         {
           name: "process",
-          callback: object => {
+          callback: (object) => {
             const action_id = Date.now() + "_process";
             context_packets_fn.send("process_admin_script", {
               action_id,

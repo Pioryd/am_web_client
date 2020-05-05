@@ -15,7 +15,7 @@ function AmEditor(props) {
   } = useProtocolHook({
     ext_name: props.protocol_ext_name,
     object_to_source: props.object_to_source,
-    log: message => {
+    log: (message) => {
       hook_formatted_logs_fn.add({
         type: "Protocol",
         text: message
@@ -39,11 +39,12 @@ function AmEditor(props) {
   } = FormattedLogs.useHandler();
 
   const [state_current_object, set_state_current_object] = React.useState("");
+  const [state_new_id, set_state_new_id] = React.useState("");
 
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
   const [state_source_changed, set_state_source_changed] = React.useState("");
 
-  const update_current_object = source => {
+  const update_current_object = (source) => {
     if (source == null || source === "") return;
 
     try {
@@ -58,9 +59,13 @@ function AmEditor(props) {
   };
 
   const button = {
-    refresh: () => hook_protocol_fn.get(),
-    new: () => hook_protocol_fn.new(),
-    save: () => {
+    refresh() {
+      hook_protocol_fn.get();
+    },
+    new() {
+      hook_protocol_fn.new();
+    },
+    save() {
       if (state_draft_mode) {
         hook_formatted_logs_fn.add({
           type: "Action",
@@ -70,7 +75,7 @@ function AmEditor(props) {
         hook_protocol_fn.save(state_current_object);
       }
     },
-    remove: () => {
+    remove() {
       if (Object.keys(hook_select_current_value).length === 0) {
         hook_formatted_logs_fn.add({
           type: "Action",
@@ -80,7 +85,7 @@ function AmEditor(props) {
         hook_protocol_fn.remove(state_current_object);
       }
     },
-    process: () => {
+    process() {
       if (Object.keys(hook_select_current_value).length === 0) {
         hook_formatted_logs_fn.add({
           type: "Action",
@@ -88,6 +93,22 @@ function AmEditor(props) {
         });
       } else {
         hook_protocol_fn.process(state_current_object);
+      }
+    },
+    replace_id() {
+      if (Object.keys(hook_select_current_value).length === 0) {
+        hook_formatted_logs_fn.add({
+          type: "Action",
+          text: "Unable to replace id. No option selected."
+        });
+      } else if (state_new_id === "") {
+        hook_formatted_logs_fn.add({
+          type: "Action",
+          text: "Unable to replace id. No new_id provided."
+        });
+      } else {
+        hook_protocol_fn.replace_id(state_current_object.id, state_new_id);
+        set_state_new_id("");
       }
     }
   };
@@ -117,11 +138,20 @@ function AmEditor(props) {
         <button onClick={button.save}>save</button>
         <button onClick={button.remove}>remove</button>
         <button onClick={button.process}>process</button>
+        <button onClick={button.replace_id}>replace id</button>
+        <input
+          className="input_value"
+          key="new_id"
+          name="new_id"
+          type="text"
+          value={state_new_id}
+          onChange={(e) => set_state_new_id(e.target.value)}
+        />
       </div>
       <Select
         styles={{
           // Fixes the overlapping problem of the component
-          menu: provided => ({ ...provided, zIndex: 9999 })
+          menu: (provided) => ({ ...provided, zIndex: 9999 })
         }}
         value={hook_select_selected_option}
         placeholder={`Select script data... [${
