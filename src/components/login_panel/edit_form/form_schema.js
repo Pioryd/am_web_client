@@ -22,10 +22,6 @@ export default {
         type: "string",
         title: "ID"
       },
-      name: {
-        type: "string",
-        title: "Name"
-      },
       module: {
         type: "string",
         title: "Module",

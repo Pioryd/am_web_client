@@ -9,50 +9,14 @@
   margin-right: auto;
 }
 
+.login-panel .switch_button {
+  border: 1px solid blue;
+}
+
 .login-panel .buttons {
   width: 100%;
   padding: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.login-panel .select_data {
-  padding: 2px;
-  width: 100%;
-}
-
-.login-panel .error-text {
-  color: red;
-}
-
-.login-panel .edit_data {
-  width: 100%;
-}
-
-.login-panel .edit_data label {
-  padding: 5px 0px 0px 0px;
-  width: 100%;
-}
-
-.login-panel .edit_data textarea {
-  resize: both;
-}
-
-.login-panel .edit_data .form-control {
-  padding: 2px 0px 2px 3px;
-  margin: 5px 0px 5px 0px;
-  width: 100%;
-  background-color: white;
-}
-
-.login-panel .edit_data .form-group {
-  width: 100%;
-}
-
-.login-panel .big-button {
-  padding: 0px;
-  margin: 0px;
-  font-size: 26px;
-  height: 40px;
 }

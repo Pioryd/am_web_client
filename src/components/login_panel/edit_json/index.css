@@ -1,0 +1,9 @@
+.login-panel .source_editor {
+  max-width: 500px;
+  position: relative;
+  border: 1px solid white;
+}
+
+.login-panel .error_text {
+  color: red;
+}
