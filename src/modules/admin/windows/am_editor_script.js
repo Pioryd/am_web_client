@@ -4,10 +4,9 @@ import SourceEditor from "../components/source_editor";
 import AML from "../../../framework/aml";
 
 function AM_ScriptEditor() {
-  const parse = (source, rules) => {
-    const object = AML.parse(source);
-    object.source = source;
-    return { id: object.id, source };
+  const parse = (source, rules, selected_data) => {
+    AML.parse(selected_data.id, source);
+    return { id: selected_data.id, source };
   };
 
   const format = (source, mode) => {

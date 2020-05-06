@@ -67,11 +67,9 @@ function get_instruction_source(start_index, lines) {
 }
 
 function parse_header(start_index, lines) {
-  const parsed_header = { id: ObjectID().toHexString(), name: "", data: {} };
+  const parsed_header = { data: {} };
 
   const header_data_found = {
-    id: false,
-    name: false,
     data: false
   };
 
@@ -96,12 +94,7 @@ function parse_header(start_index, lines) {
     // Iterate loop
     index = index_list[index_list.length - 1] + 1;
 
-    if (
-      header_data_found.id !== false &&
-      header_data_found.name !== false &&
-      header_data_found.data !== false
-    )
-      break;
+    if (header_data_found.data !== false) break;
   }
 
   eval(
@@ -110,11 +103,7 @@ function parse_header(start_index, lines) {
     ).join()}}`
   );
 
-  if (
-    header_data_found.id === false ||
-    header_data_found.name === false ||
-    header_data_found.data === false
-  )
+  if (header_data_found.data === false)
     throw new Error(`Not found header data. [${header_data_found}]`);
 
   if (index >= lines.length)
@@ -147,7 +136,7 @@ function _parse_api_source(source) {
     }
   }
 
-  parsed_api.name = splitted[index];
+  parsed_api.api = splitted[index];
   index++;
   parsed_api.args = source;
 
@@ -317,7 +306,7 @@ function parse_instructions(start_index, lines) {
 }
 
 export default {
-  parse: (source) => {
+  parse: (id, source) => {
     const lines = source.split("\r\n");
     const header_start_index = 0;
 
@@ -328,7 +317,7 @@ export default {
 
     const { root_scope } = parse_instructions(instructions_start_index, lines);
 
-    return { ...parsed_header, root_scope };
+    return { id, ...parsed_header, root_scope };
   },
   validate: () => {}
 };

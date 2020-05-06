@@ -48,7 +48,9 @@ function AmEditor(props) {
     if (source == null || source === "") return;
 
     try {
-      set_state_current_object(props.parse(source, hook_protocol_rules));
+      set_state_current_object(
+        props.parse(source, hook_protocol_rules, hook_select_current_value)
+      );
     } catch (e) {
       hook_formatted_logs_fn.add({
         type: "Editor",

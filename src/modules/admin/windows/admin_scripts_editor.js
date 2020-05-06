@@ -9,7 +9,7 @@ function AdminScriptsEditor() {
   const parse = (source, rules) => {
     let object = null;
     eval(`object = ${source}`);
-    ["id", "type", "name", "desc", "args", "fn"].map((value) => {
+    ["id", "type", "desc", "args", "fn"].map((value) => {
       if (!(value in object))
         throw new Error(`Object doesn't contains key[${value}]`);
     });
