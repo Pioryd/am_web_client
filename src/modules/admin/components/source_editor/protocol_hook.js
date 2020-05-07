@@ -26,7 +26,7 @@ function useProtocolHook(props) {
 
       context_packets_fn.send("editor_data", {
         action_id,
-        type: props.ext_name
+        name: props.ext_name
       });
       set_state_action_id(action_id);
     },
@@ -36,7 +36,7 @@ function useProtocolHook(props) {
       context_packets_fn.send("editor_update", {
         action: { id: Date.now() + "_update", type: "new" },
         object: null,
-        type: props.ext_name
+        name: props.ext_name
       });
     },
     save(object) {
@@ -46,7 +46,7 @@ function useProtocolHook(props) {
         context_packets_fn.send("editor_update", {
           action: { id: Date.now() + "_update", type: "update" },
           object: object,
-          type: props.ext_name
+          name: props.ext_name
         });
       } catch (e) {
         props.log("Unable to save data");
@@ -59,7 +59,7 @@ function useProtocolHook(props) {
         context_packets_fn.send("editor_update", {
           action: { id: Date.now() + "_update", type: "remove" },
           object: { id: object.id },
-          type: props.ext_name
+          name: props.ext_name
         });
       } catch (e) {
         props.log("Unable to save data");
@@ -72,7 +72,7 @@ function useProtocolHook(props) {
         context_packets_fn.send("editor_process", {
           action_id: Date.now() + "_process",
           object,
-          type: props.ext_name
+          name: props.ext_name
         });
       } catch (e) {
         props.log("Unable to process data");
@@ -86,7 +86,7 @@ function useProtocolHook(props) {
           action: { id: Date.now() + "_update", type: "replace_id" },
           old_id,
           new_id,
-          type: props.ext_name
+          name: props.ext_name
         });
       } catch (e) {
         props.log("Unable to replace id");
