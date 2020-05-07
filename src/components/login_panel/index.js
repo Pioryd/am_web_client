@@ -6,7 +6,7 @@ import EditJson from "./edit_json";
 import "./index.css";
 
 function LoginPanel(props) {
-  const [state_mode, set_state_mode] = React.useState("json");
+  const [state_mode, set_state_mode] = React.useState("form");
 
   const toggle_mode = () => {
     set_state_mode(state_mode === "form" ? "json" : "form");
@@ -19,7 +19,9 @@ function LoginPanel(props) {
         {state_mode === "form" && "Switch to JSON editor"}
         {state_mode === "json" && "Switch to FORM editor"}
       </button>
-      {state_mode === "form" && <EditForm />}
+      {state_mode === "form" && (
+        <EditForm set_login_data={props.set_login_data} />
+      )}
       {state_mode === "json" && <EditJson />}
     </div>
   );
