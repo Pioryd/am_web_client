@@ -129,14 +129,14 @@ function useProtocolHook(props) {
       if (state_action_id === "") return;
 
       let action_id = null; // For searching needs
-      let db_objects_list = null;
+      let objects_list = null;
       let rules = null;
 
       // Search for action_id
       for (const packet of packets) {
         if (packet.action_id === state_action_id) {
           action_id = state_action_id;
-          db_objects_list = packet.db_objects_list;
+          objects_list = packet.objects_list;
           rules = packet.rules;
 
           props.log(
@@ -151,7 +151,7 @@ function useProtocolHook(props) {
       }
 
       if (action_id != null) set_state_action_id("");
-      if (db_objects_list != null) set_state_objects(db_objects_list);
+      if (objects_list != null) set_state_objects(objects_list);
       if (rules != null) set_state_rules(rules);
     }
   ];
