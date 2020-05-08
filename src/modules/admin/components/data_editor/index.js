@@ -93,7 +93,10 @@ function DataEditor(props) {
         <EditorJS type={hook_select_current_value.id} />
       )}
       {state_data_type === "json" && (
-        <EditorJSON type={hook_select_current_value.id} />
+        <EditorJSON
+          rules={hook_select_current_value.value.validate}
+          type={hook_select_current_value.id}
+        />
       )}
     </React.Fragment>
   );

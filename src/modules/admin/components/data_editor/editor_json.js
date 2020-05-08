@@ -5,12 +5,12 @@ import Ajv from "ajv";
 import Util from "../../../../framework/util";
 
 function EditorJSON(props) {
-  const parse = (source, rules) => {
+  const parse = (source) => {
     let object = null;
     eval("object=" + source);
 
     const ajv = new Ajv({ allErrors: true });
-    const validate = ajv.compile(rules);
+    const validate = ajv.compile(props.rules);
     const valid = validate(Util.shallow_copy(object));
     if (!valid) throw new Error("AJV:" + ajv.errorsText(validate.errors));
 
