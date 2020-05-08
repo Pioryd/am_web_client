@@ -1,9 +1,9 @@
 import React from "react";
-import SourceEditor from "../components/source_editor";
+import SourceEditor from "../source_editor";
 
-import AML from "../../../framework/aml";
+import AML from "../../../../framework/aml";
 
-function AM_ScriptEditor() {
+function EditorAML(props) {
   const parse = (source, rules, selected_data) => {
     AML.parse(selected_data.id, source);
     return { id: selected_data.id, source };
@@ -23,7 +23,7 @@ function AM_ScriptEditor() {
 
   return (
     <SourceEditor
-      protocol_ext_name="am_script"
+      protocol_ext_name={props.type}
       parse={parse}
       format={format}
       create_label={create_label}
@@ -36,4 +36,4 @@ function AM_ScriptEditor() {
   );
 }
 
-export default AM_ScriptEditor;
+export default EditorAML;

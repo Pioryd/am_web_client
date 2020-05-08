@@ -1,9 +1,9 @@
 import React from "react";
+import SourceEditor from "../source_editor";
 import js_beautify from "js-beautify";
-import SourceEditor from "../components/source_editor";
-import { ProtocolContext } from "../../../context/protocol";
+import { ProtocolContext } from "../../../../context/protocol";
 
-function AdminScriptsEditor() {
+function EditorJS(props) {
   const { context_packets_fn } = React.useContext(ProtocolContext);
 
   const parse = (source, rules) => {
@@ -49,7 +49,7 @@ function AdminScriptsEditor() {
 
   return (
     <SourceEditor
-      protocol_ext_name="admin_script"
+      protocol_ext_name={props.type}
       parse={parse}
       format={format}
       create_label={create_label}
@@ -75,4 +75,4 @@ function AdminScriptsEditor() {
   );
 }
 
-export default AdminScriptsEditor;
+export default EditorJS;

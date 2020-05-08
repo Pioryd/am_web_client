@@ -115,6 +115,13 @@ function AmEditor(props) {
     }
   };
 
+  const reset = () => {
+    set_state_new_id("");
+    set_state_current_object("");
+    hook_select_fn.update([]);
+    hook_formatted_logs_fn.clear();
+  };
+
   React.useEffect(() => {
     set_state_source_changed(false);
 
@@ -130,6 +137,8 @@ function AmEditor(props) {
   React.useEffect(() => set_state_current_object(hook_select_current_value), [
     hook_select_current_value
   ]);
+
+  React.useEffect(reset, [props.protocol_ext_name]);
 
   return (
     <div className="content_body">

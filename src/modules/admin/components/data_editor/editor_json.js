@@ -1,10 +1,10 @@
 import React from "react";
-import SourceEditor from "./source_editor";
+import SourceEditor from "../source_editor";
 
 import Ajv from "ajv";
-import Util from "../../../framework/util";
+import Util from "../../../../framework/util";
 
-function AM_Editor(props) {
+function EditorJSON(props) {
   const parse = (source, rules) => {
     let object = null;
     eval("object=" + source);
@@ -36,7 +36,7 @@ function AM_Editor(props) {
 
   return (
     <SourceEditor
-      protocol_ext_name={props.protocol_ext_name}
+      protocol_ext_name={props.type}
       parse={parse}
       format={format}
       create_label={create_label}
@@ -49,4 +49,4 @@ function AM_Editor(props) {
   );
 }
 
-export default AM_Editor;
+export default EditorJSON;
