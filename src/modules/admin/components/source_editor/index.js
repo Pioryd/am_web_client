@@ -120,6 +120,7 @@ function AmEditor(props) {
     set_state_current_object("");
     hook_select_fn.update([]);
     hook_formatted_logs_fn.clear();
+    hook_protocol_fn.get();
   };
 
   React.useEffect(() => {
