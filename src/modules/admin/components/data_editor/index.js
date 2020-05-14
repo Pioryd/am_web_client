@@ -23,8 +23,8 @@ function DataEditor(props) {
   });
 
   const [state_data_config, set_state_data_config] = React.useState("");
-
   const [state_data_type, set_state_data_type] = React.useState("");
+  const [state_action_id, set_state_action_id] = React.useState("");
 
   const ref_data_config = React.useRef(state_data_config);
   ref_data_config.current = state_data_config;
@@ -46,7 +46,7 @@ function DataEditor(props) {
 
   React.useEffect(() => {
     let data_config = null;
-    for (const packet of context_packets_fn.pop("editor_config"))
+    for (const packet of context_packets_fn.peek("editor_config"))
       data_config = packet.data_config;
 
     if (data_config != null) {
@@ -86,17 +86,19 @@ function DataEditor(props) {
         isClearable={false}
         isLoading={state_data_config === ""}
       />
-      {state_data_type === "aml" && (
+      {state_data_type === "aml" && hook_select_current_value.value != null && (
         <EditorAML type={hook_select_current_value.id} />
       )}
-      {state_data_type === "js" && (
+      {state_data_type === "js" && hook_select_current_value.value != null && (
         <EditorJS type={hook_select_current_value.id} />
       )}
-      {state_data_type === "json" && (
-        <EditorJSON
-          rules={hook_select_current_value.value.validate}
-          type={hook_select_current_value.id}
-        />
+      {state_data_type === "json" && hook_select_current_value.value != null && (
+        <React.Fragment>
+          <EditorJSON
+            rules={hook_select_current_value.value.validate}
+            type={hook_select_current_value.id}
+          />
+        </React.Fragment>
       )}
     </React.Fragment>
   );

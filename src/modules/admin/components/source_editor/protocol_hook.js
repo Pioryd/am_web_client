@@ -96,7 +96,7 @@ function useProtocolHook(props) {
 
   const parse_fn_list = [
     () => {
-      const packets = context_packets_fn.pop(
+      const packets = context_packets_fn.peek(
         "editor_process_" + props.ext_name
       );
 
@@ -110,7 +110,9 @@ function useProtocolHook(props) {
         );
     },
     () => {
-      const packets = context_packets_fn.pop("editor_update_" + props.ext_name);
+      const packets = context_packets_fn.peek(
+        "editor_update_" + props.ext_name
+      );
 
       for (const packet of packets)
         props.log(
@@ -124,7 +126,7 @@ function useProtocolHook(props) {
       if (packets.length > 0) send_map.get();
     },
     () => {
-      const packets = context_packets_fn.pop("editor_data_" + props.ext_name);
+      const packets = context_packets_fn.peek("editor_data_" + props.ext_name);
 
       if (state_action_id === "") return;
 
