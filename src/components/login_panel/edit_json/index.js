@@ -67,7 +67,7 @@ function EditJson(props) {
       <div className="source_editor">
         <AceEditor
           mode="json"
-          theme="monokai"
+          theme="bright:inverted"
           name="editor_name"
           onChange={set_state_source}
           value={state_source}

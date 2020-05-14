@@ -15,7 +15,7 @@
   max-width: 100px;
   width: 100px;
   height: 100%;
-  border: 1px solid blue;
+  border: 1px solid #ffffff;
   overflow: auto;
 }
 
@@ -29,7 +29,7 @@
   max-width: calc(100% - 2px);
   width: calc(100% - 2px);
   height: 100%;
-  border: 1px solid blue;
+  border: 1px solid #ffffff;
   overflow: auto;
 }
 

@@ -112,21 +112,21 @@ function ViewData() {
         <ReactJson
           name="CharacterData"
           src={state_formatted_data_character}
-          theme="monokai"
+          theme="bright:inverted"
           indentWidth={2}
           collapsed={false}
         />
         <ReactJson
           name="WorldLand"
           src={state_formatted_data_land}
-          theme="monokai"
+          theme="bright:inverted"
           indentWidth={2}
           collapsed={false}
         />
         <ReactJson
           name="WorldData"
           src={state_formatted_data_world}
-          theme="monokai"
+          theme="bright:inverted"
           indentWidth={2}
           collapsed={true}
         />

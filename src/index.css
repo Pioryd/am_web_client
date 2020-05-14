@@ -3,11 +3,7 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
-  background: #1e1e1e;
-}
-
-div {
-  color: green;
+  background: #000000;
 }
 
 pre {
@@ -82,6 +78,7 @@ label {
  * Windows
  */
 .content_body {
+  background-color: #ffffff;
   height: calc(100% - 20px);
   margin-bottom: 5px;
   width: 100%;
@@ -90,6 +87,7 @@ label {
 }
 
 .content_body .bar {
+  background-color: #000000;
   height: auto;
   display: inline-block;
   overflow: hidden;
@@ -97,7 +95,7 @@ label {
   text-align: left;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   cursor: move;
-  border: 1px solid blue;
+  border: 1px solid #ffffff;
   position: relative;
   top: 0; /* Position the navbar at the top of the page */
   width: calc(100% - 2px);
@@ -109,5 +107,5 @@ label {
   position: relative;
   display: inline-block;
   /* background-color: white; */
-  border-right: 1px solid blue;
+  border-right: 1px solid ffffff;
 }

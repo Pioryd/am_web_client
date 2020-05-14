@@ -2,6 +2,8 @@ import React from "react";
 import { JsonTree } from "react-editable-json-tree";
 import { AppContext } from "../../context/app";
 
+import "./index.css";
+
 function Settings() {
   const { context_settings, context_set_settings } = React.useContext(
     AppContext
@@ -14,18 +16,18 @@ function Settings() {
 
   return (
     <React.Fragment>
+      <div className="bar">Click value to edit</div>
       <div className="content_body">
-        <div className="bar"></div>
         <JsonTree
           rootName="state_settings"
           data={state_settings}
-          onFullyUpdate={data => context_set_settings({ ...data })}
+          onFullyUpdate={(data) => context_set_settings({ ...data })}
           isCollapsed={() => {
             return false;
           }}
-          cancelButtonElement={<button>Cancel</button>}
-          editButtonElement={<button>Accept</button>}
-          addButtonElement={<button>Add</button>}
+          cancelButtonElement={<button className="json-button">Cancel</button>}
+          editButtonElement={<button className="json-button">Accept</button>}
+          addButtonElement={<button className="json-button">Add</button>}
           minusMenuElement={<span />}
           plusMenuElement={<span />}
         />

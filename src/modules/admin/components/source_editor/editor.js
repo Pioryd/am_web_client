@@ -20,9 +20,9 @@ const themes = [
   "solarized_light",
   "terminal"
 ];
-themes.forEach(theme => require(`ace-builds/src-noconflict/theme-${theme}`));
+themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
 
-["javascript", "json", "elm", "text", "cirru", "ruby", "tcl"].forEach(mode =>
+["javascript", "json", "elm", "text", "cirru", "ruby", "tcl"].forEach((mode) =>
   require(`ace-builds/src-noconflict/mode-${mode}`)
 );
 
@@ -31,7 +31,7 @@ function Editor(props) {
   const [state_draft_mode, set_state_draft_mode] = React.useState(true);
   const [state_last_log, set_state_last_log] = React.useState("");
 
-  const [state_ace_theme, set_state_ace_theme] = React.useState("monokai");
+  const [state_ace_theme, set_state_ace_theme] = React.useState("textmate");
   const [state_ace_mode, set_state_ace_mode] = React.useState(
     props.init.ace_mode
   );
@@ -55,7 +55,7 @@ function Editor(props) {
   const [state_ace_tab_size, set_state_ace_tab_size] = React.useState(2);
   const [state_ace_options, set_state_ace_options] = React.useState({});
 
-  const update_last_log = message => {
+  const update_last_log = (message) => {
     if (message !== "")
       set_state_last_log(
         `[${Util.get_time_hms()}] ${message} >> After fix, press [ctrl + s] again`
@@ -63,7 +63,7 @@ function Editor(props) {
     else set_state_last_log("");
   };
 
-  const validate = source => {
+  const validate = (source) => {
     try {
       source = props.format(source, state_ace_mode);
       props.on_validate(source);
@@ -76,7 +76,7 @@ function Editor(props) {
     }
   };
 
-  const on_key_down = event => {
+  const on_key_down = (event) => {
     const charCode = String.fromCharCode(event.which).toLowerCase();
 
     // ctrl + s
@@ -86,7 +86,7 @@ function Editor(props) {
     }
   };
 
-  const on_change = source => {
+  const on_change = (source) => {
     set_state_source(source);
     set_state_draft_mode(true);
   };
@@ -123,7 +123,7 @@ function Editor(props) {
             name="show gutter"
             type="checkbox"
             checked={state_ace_show_gutter}
-            onChange={e => set_state_ace_show_gutter(e.target.checked)}
+            onChange={(e) => set_state_ace_show_gutter(e.target.checked)}
           />
         </div>
         <div className="element">
@@ -132,7 +132,7 @@ function Editor(props) {
             name="show print margin"
             type="checkbox"
             checked={state_ace_show_print_margin}
-            onChange={e => set_state_ace_show_print_margin(e.target.checked)}
+            onChange={(e) => set_state_ace_show_print_margin(e.target.checked)}
           />
         </div>
         <div className="element">
@@ -141,7 +141,7 @@ function Editor(props) {
             name="highlight active line"
             type="checkbox"
             checked={state_ace_highlight_active_line}
-            onChange={e =>
+            onChange={(e) =>
               set_state_ace_highlight_active_line(e.target.checked)
             }
           />
@@ -152,7 +152,7 @@ function Editor(props) {
             name="show line numbers"
             type="checkbox"
             checked={state_ace_show_line_numbers}
-            onChange={e => set_state_ace_show_line_numbers(e.target.checked)}
+            onChange={(e) => set_state_ace_show_line_numbers(e.target.checked)}
           />
         </div>
         <div className="element">
@@ -166,7 +166,7 @@ function Editor(props) {
             min={1}
             max={30}
             step={1}
-            onChange={e => {
+            onChange={(e) => {
               const value = e.target.value;
               if (value >= 1 && value <= 30)
                 set_state_ace_font_size(parseInt(value));
@@ -184,7 +184,7 @@ function Editor(props) {
             min={1}
             max={30}
             step={1}
-            onChange={e => {
+            onChange={(e) => {
               const value = e.target.value;
               if (value >= 1 && value <= 30)
                 set_state_ace_tab_size(parseInt(value));
@@ -195,10 +195,10 @@ function Editor(props) {
           <label>Theme:</label>
           <select
             name="Theme"
-            onChange={e => set_state_ace_theme(e.target.value)}
+            onChange={(e) => set_state_ace_theme(e.target.value)}
             value={state_ace_theme}
           >
-            {themes.map(theme => (
+            {themes.map((theme) => (
               <option key={theme} value={theme}>
                 {theme}
               </option>
@@ -209,10 +209,10 @@ function Editor(props) {
           <label>Highlight:</label>
           <select
             name="ParseMode"
-            onChange={e => set_state_ace_mode(e.target.value)}
+            onChange={(e) => set_state_ace_mode(e.target.value)}
             value={state_ace_mode}
           >
-            {props.ace_modes.map(mode => (
+            {props.ace_modes.map((mode) => (
               <option key={mode} value={mode}>
                 {mode}
               </option>

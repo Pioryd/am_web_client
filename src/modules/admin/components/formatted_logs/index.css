@@ -1,5 +1,6 @@
 .log_element {
-  border: 1px solid blue;
+  background-color: #ffffff;
+  border: 1px solid #000000;
   white-space: pre-line;
 }
 

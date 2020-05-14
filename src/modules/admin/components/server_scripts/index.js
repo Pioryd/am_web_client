@@ -23,7 +23,7 @@ const themes = [
   "solarized_light",
   "terminal"
 ];
-themes.forEach(theme => require(`ace-builds/src-noconflict/theme-${theme}`));
+themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
 
 function ServerScripts() {
   const { context_packets_data, context_packets_fn } = React.useContext(
@@ -54,7 +54,7 @@ function ServerScripts() {
     set_state_script("");
   };
 
-  const parse_scripts_list = packets => {
+  const parse_scripts_list = (packets) => {
     if (packets.length === 0) return;
 
     const { scripts_data } = packets.pop();
@@ -125,7 +125,7 @@ function ServerScripts() {
           <button
             key="admin_send_scripts_list_button"
             className="process"
-            onClick={e => context_packets_fn.send("scripts_data")}
+            onClick={(e) => context_packets_fn.send("scripts_data")}
           >
             sync
           </button>
@@ -140,7 +140,7 @@ function ServerScripts() {
             name="interval_value"
             type="text"
             value={state_args_as_text}
-            onChange={e => set_state_args_as_text(e.target.value)}
+            onChange={(e) => set_state_args_as_text(e.target.value)}
           />
         </div>
         <div>{state_buttons}</div>
@@ -154,9 +154,9 @@ function ServerScripts() {
           height={"100%"}
           width={"100%"}
           mode={"javascript"}
-          theme={"monokai"}
+          theme={"textmate"}
           name="editor_name"
-          onChange={new_script => set_state_script(new_script)}
+          onChange={(new_script) => set_state_script(new_script)}
           value={state_script}
           fontSize={14}
           showPrintMargin={true}

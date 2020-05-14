@@ -78,7 +78,7 @@ function JsonData(props) {
               name="auto_sync"
               type="checkbox"
               checked={state_auto_sync}
-              onChange={e => set_state_auto_sync(e.target.checked)}
+              onChange={(e) => set_state_auto_sync(e.target.checked)}
             />
             <input
               className="input_value"
@@ -89,7 +89,7 @@ function JsonData(props) {
               min={MIN_INTERVAL}
               max={MAX_INTERVAL}
               step={100}
-              onChange={e => {
+              onChange={(e) => {
                 const value = e.target.value;
                 if (value >= MIN_INTERVAL && value <= MAX_INTERVAL)
                   set_state_sync_interval(value);
@@ -112,7 +112,7 @@ function JsonData(props) {
       <ReactJson
         name="JsonData"
         src={state_json_data}
-        theme="monokai"
+        theme="bright:inverted"
         indentWidth={2}
         collapsed={true} // Not collapsed big data is lagging
       />

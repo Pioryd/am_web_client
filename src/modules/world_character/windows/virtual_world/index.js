@@ -100,7 +100,7 @@ function Chat(props) {
     const messages = state_messages;
 
     messages.push({ text, date, received });
-    messages.sort(function(a, b) {
+    messages.sort(function (a, b) {
       return b.date - a.date;
     });
 
@@ -155,7 +155,7 @@ function Chat(props) {
                 ref={ref_text_input}
                 key="console_input"
                 type="text"
-                onKeyDown={e => {
+                onKeyDown={(e) => {
                   if (e.key === "Enter") send_virtual_world();
                 }}
               />
@@ -179,7 +179,7 @@ function Chat(props) {
                 <ReactJson
                   name="context_virtual_world_data"
                   src={state_virtual_world_data}
-                  theme="monokai"
+                  theme="bright:inverted"
                   indentWidth={2}
                   collapsed={true}
                 />

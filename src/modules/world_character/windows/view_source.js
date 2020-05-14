@@ -34,21 +34,21 @@ function ViewSource() {
           <ReactJson
             name="CharacterData"
             src={state_data_character}
-            theme="monokai"
+            theme="bright:inverted"
             indentWidth={2}
             collapsed={true}
           />
           <ReactJson
             name="LandData"
             src={state_data_land}
-            theme="monokai"
+            theme="bright:inverted"
             indentWidth={2}
             collapsed={true}
           />
           <ReactJson
             name="WorldData"
             src={state_data_world}
-            theme="monokai"
+            theme="bright:inverted"
             indentWidth={2}
             collapsed={true}
           />
