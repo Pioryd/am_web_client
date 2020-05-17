@@ -9,6 +9,10 @@
   margin-right: auto;
 }
 
+.login-panel p {
+  color: #ffffff;
+}
+
 .login-panel .switch_button {
   border: 1px solid #ffffff;
 }
