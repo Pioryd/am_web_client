@@ -2,6 +2,8 @@
 
 ![Node.js CI](https://github.com/Pioryd/am_web_client/workflows/Node.js%20CI/badge.svg?branch=master)
 
+![Web Client GUI](https://github.com/Pioryd/am_web_client/blob/master/.github/web_client.png)
+
 ## Install and run
 
 ```powershell
