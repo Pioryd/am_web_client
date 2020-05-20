@@ -3,7 +3,7 @@ import Select from "react-select";
 import useSelectHook from "../../../../hooks/select_hook";
 import { ProtocolContext } from "../../../../context/protocol";
 
-import EditorAML from "./editor_aml";
+import EditorScript from "./editor_script";
 import EditorJS from "./editor_js";
 import EditorJSON from "./editor_json";
 
@@ -38,7 +38,7 @@ function DataEditor(props) {
 
     const data_config = hook_select_current_value.value;
 
-    if (data_config.validate === "aml") set_state_data_type("aml");
+    if (data_config.validate === "script") set_state_data_type("script");
     else if (data_config.validate === "js") set_state_data_type("js");
     else if (typeof data_config.validate === "object")
       set_state_data_type("json");
@@ -86,9 +86,10 @@ function DataEditor(props) {
         isClearable={false}
         isLoading={state_data_config === ""}
       />
-      {state_data_type === "aml" && hook_select_current_value.value != null && (
-        <EditorAML type={hook_select_current_value.id} />
-      )}
+      {state_data_type === "script" &&
+        hook_select_current_value.value != null && (
+          <EditorScript type={hook_select_current_value.id} />
+        )}
       {state_data_type === "js" && hook_select_current_value.value != null && (
         <EditorJS type={hook_select_current_value.id} />
       )}

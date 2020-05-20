@@ -1,11 +1,11 @@
 import React from "react";
 import SourceEditor from "../source_editor";
 
-import AML from "../../../../framework/aml";
+import Script from "../../../../framework/script";
 
-function EditorAML(props) {
+function EditorScript(props) {
   const parse = (source, rules, selected_data) => {
-    AML.parse(selected_data.id, source);
+    Script.parse(selected_data.id, source);
     return { id: selected_data.id, source };
   };
 
@@ -36,4 +36,4 @@ function EditorAML(props) {
   );
 }
 
-export default EditorAML;
+export default EditorScript;
