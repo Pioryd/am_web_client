@@ -24,7 +24,6 @@ function DataEditor(props) {
 
   const [state_data_config, set_state_data_config] = React.useState("");
   const [state_data_type, set_state_data_type] = React.useState("");
-  const [state_action_id, set_state_action_id] = React.useState("");
 
   const ref_data_config = React.useRef(state_data_config);
   ref_data_config.current = state_data_config;
@@ -57,7 +56,7 @@ function DataEditor(props) {
     for (const packet of context_packets_fn.peek("editor_config"))
       data_config = packet.data_config;
 
-    if (data_config != null) {
+    if (state_data_config === "" && data_config != null) {
       set_state_data_config(data_config);
 
       const data_map = {};
