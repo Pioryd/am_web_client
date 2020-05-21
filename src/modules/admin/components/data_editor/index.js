@@ -29,6 +29,12 @@ function DataEditor(props) {
   const ref_data_config = React.useRef(state_data_config);
   ref_data_config.current = state_data_config;
 
+  const set_title = (text) => {
+    if (props != null && props.glContainer != null) {
+      props.glContainer.setTitle(`Data editor - ${text}`);
+    }
+  };
+
   React.useEffect(() => {
     if (
       typeof hook_select_current_value !== "object" ||
@@ -42,6 +48,8 @@ function DataEditor(props) {
     else if (data_config.validate === "js") set_state_data_type("js");
     else if (typeof data_config.validate === "object")
       set_state_data_type("json");
+
+    set_title(hook_select_current_value.id);
   }, [hook_select_current_value]);
 
   React.useEffect(() => {
@@ -68,6 +76,8 @@ function DataEditor(props) {
       }
     };
     get_config();
+
+    set_title("[Not set]");
   }, []);
 
   return (
