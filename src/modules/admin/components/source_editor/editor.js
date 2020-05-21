@@ -116,6 +116,16 @@ function Editor(props) {
 
   return (
     <div onKeyDown={on_key_down}>
+      {state_draft_mode === true && (
+        <div className="bar" style={{ color: "red" }}>
+          Editor: (Draft mode). To leave draft mode press [ctrl + s].
+        </div>
+      )}
+      {state_last_log !== "" && (
+        <div className="bar" style={{ color: "red" }}>
+          Editor: {state_last_log}
+        </div>
+      )}
       <div className="bar">
         <div className="element">
           <label>Show gutter:</label>
@@ -223,14 +233,6 @@ function Editor(props) {
           <label>Validate/Parse (ctrl + s)</label>
         </div>
       </div>
-      {state_draft_mode === true && (
-        <div className="bar" style={{ color: "red" }}>
-          Editor: (Draft mode). To leave draft mode press [ctrl + s].
-        </div>
-      )}
-      {state_last_log !== "" && (
-        <div className="bar">Editor: {state_last_log}</div>
-      )}
       <div className="source_editor">
         <AceEditor
           height={"100%"}

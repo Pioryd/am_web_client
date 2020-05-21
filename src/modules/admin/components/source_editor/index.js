@@ -63,6 +63,7 @@ function AmEditor(props) {
   const button = {
     refresh() {
       hook_protocol_fn.get();
+      set_state_source_changed(false);
     },
     new() {
       hook_protocol_fn.new();
@@ -76,6 +77,7 @@ function AmEditor(props) {
       } else {
         hook_protocol_fn.save(state_current_object);
       }
+      set_state_source_changed(false);
     },
     remove() {
       if (Object.keys(hook_select_current_value).length === 0) {
@@ -86,6 +88,7 @@ function AmEditor(props) {
       } else {
         hook_protocol_fn.remove(state_current_object);
       }
+      set_state_source_changed(false);
     },
     process() {
       if (Object.keys(hook_select_current_value).length === 0) {
@@ -178,11 +181,6 @@ function AmEditor(props) {
         hook_formatted_logs_fn={hook_formatted_logs_fn}
       />
       <div className="am_source_editor">
-        {state_source_changed === true && hook_select_selected_option !== "" && (
-          <div className="bar">
-            <label style={{ color: "red" }}>Save to apply changes</label>
-          </div>
-        )}
         {hook_protocol_action_id !== "" ? (
           <React.Fragment>
             <p>{`Waiting for the end of the action[${hook_protocol_action_id}]`}</p>
@@ -192,16 +190,27 @@ function AmEditor(props) {
           </React.Fragment>
         ) : (
           Object.keys(hook_select_current_value).length > 0 && (
-            <Editor
-              ace_modes={props.editor_options.modes}
-              init={{
-                source: props.object_to_source(hook_select_current_value),
-                ace_mode: props.editor_options.default_mode
-              }}
-              on_validate={update_current_object}
-              on_change_draft_mode={set_state_draft_mode}
-              format={props.format}
-            />
+            <React.Fragment>
+              {state_source_changed === true &&
+                hook_select_selected_option !== "" &&
+                state_draft_mode === false && (
+                  <div className="bar">
+                    <label style={{ color: "red" }}>
+                      Save to apply changes
+                    </label>
+                  </div>
+                )}
+              <Editor
+                ace_modes={props.editor_options.modes}
+                init={{
+                  source: props.object_to_source(hook_select_current_value),
+                  ace_mode: props.editor_options.default_mode
+                }}
+                on_validate={update_current_object}
+                on_change_draft_mode={set_state_draft_mode}
+                format={props.format}
+              />{" "}
+            </React.Fragment>
           )
         )}
       </div>
