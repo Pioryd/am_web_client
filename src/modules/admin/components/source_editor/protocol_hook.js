@@ -30,12 +30,12 @@ function useProtocolHook(props) {
       });
       set_state_action_id(action_id);
     },
-    new() {
+    new(new_id) {
       if (can_perform_action() === false) return;
 
       context_packets_fn.send("editor_update", {
         action: { id: Date.now() + "_update", type: "new" },
-        object: null,
+        object: { id: new_id },
         name: props.ext_name
       });
     },

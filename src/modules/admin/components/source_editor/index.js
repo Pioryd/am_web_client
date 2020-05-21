@@ -66,7 +66,8 @@ function AmEditor(props) {
       set_state_source_changed(false);
     },
     new() {
-      hook_protocol_fn.new();
+      hook_protocol_fn.new(state_new_id);
+      set_state_new_id("");
     },
     save() {
       if (state_draft_mode) {
@@ -154,6 +155,7 @@ function AmEditor(props) {
         <button onClick={button.remove}>remove</button>
         <button onClick={button.process}>process</button>
         <button onClick={button.replace_id}>replace id</button>
+        <label>New ID:</label>
         <input
           className="input_value"
           key="new_id"
