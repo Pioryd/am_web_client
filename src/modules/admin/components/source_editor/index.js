@@ -6,6 +6,8 @@ import FormattedLogs from "../formatted_logs";
 import useProtocolHook from "./protocol_hook";
 import useSelectHook from "../../../../hooks/select_hook";
 
+import "./index.css";
+
 function AmEditor(props) {
   const {
     hook_protocol_objects_list,
@@ -146,75 +148,77 @@ function AmEditor(props) {
   React.useEffect(reset, [props.protocol_ext_name]);
 
   return (
-    <div className="content_body">
-      <div className="bar">
-        <label>Actions:</label>
-        <button onClick={button.refresh}>refresh</button>
-        <button onClick={button.new}>new</button>
-        <button onClick={button.save}>save</button>
-        <button onClick={button.remove}>remove</button>
-        <button onClick={button.process}>process</button>
-        <button onClick={button.replace_id}>replace id</button>
-        <label>New ID:</label>
-        <input
-          className="input_value"
-          key="new_id"
-          name="new_id"
-          type="text"
-          value={state_new_id}
-          onChange={(e) => set_state_new_id(e.target.value)}
+    <div className="editor_content_body">
+      <div className="content_body">
+        <div className="bar">
+          <label>Actions:</label>
+          <button onClick={button.refresh}>refresh</button>
+          <button onClick={button.new}>new</button>
+          <button onClick={button.save}>save</button>
+          <button onClick={button.remove}>remove</button>
+          <button onClick={button.process}>process</button>
+          <button onClick={button.replace_id}>replace id</button>
+          <label>New ID:</label>
+          <input
+            className="input_value"
+            key="new_id"
+            name="new_id"
+            type="text"
+            value={state_new_id}
+            onChange={(e) => set_state_new_id(e.target.value)}
+          />
+        </div>
+        <Select
+          styles={{
+            // Fixes the overlapping problem of the component
+            menu: (provided) => ({ ...provided, zIndex: 9999 })
+          }}
+          value={hook_select_selected_option}
+          placeholder={`Select script data... [${
+            Object.keys(hook_select_options).length
+          }]`}
+          onChange={hook_select_fn.on_change}
+          options={hook_select_options}
+          isClearable={true}
         />
-      </div>
-      <Select
-        styles={{
-          // Fixes the overlapping problem of the component
-          menu: (provided) => ({ ...provided, zIndex: 9999 })
-        }}
-        value={hook_select_selected_option}
-        placeholder={`Select script data... [${
-          Object.keys(hook_select_options).length
-        }]`}
-        onChange={hook_select_fn.on_change}
-        options={hook_select_options}
-        isClearable={true}
-      />
-      <FormattedLogs.List
-        hook_formatted_logs={hook_formatted_logs}
-        hook_formatted_logs_fn={hook_formatted_logs_fn}
-      />
-      <div className="am_source_editor">
-        {hook_protocol_action_id !== "" ? (
-          <React.Fragment>
-            <p>{`Waiting for the end of the action[${hook_protocol_action_id}]`}</p>
-            <button onClick={() => hook_protocol_fn.cancel_action()}>
-              cancel action
-            </button>
-          </React.Fragment>
-        ) : (
-          Object.keys(hook_select_current_value).length > 0 && (
+        <FormattedLogs.List
+          hook_formatted_logs={hook_formatted_logs}
+          hook_formatted_logs_fn={hook_formatted_logs_fn}
+        />
+        <div className="am_source_editor">
+          {hook_protocol_action_id !== "" ? (
             <React.Fragment>
-              {state_source_changed === true &&
-                hook_select_selected_option !== "" &&
-                state_draft_mode === false && (
-                  <div className="bar">
-                    <label style={{ color: "red" }}>
-                      Save to apply changes
-                    </label>
-                  </div>
-                )}
-              <Editor
-                ace_modes={props.editor_options.modes}
-                init={{
-                  source: props.object_to_source(hook_select_current_value),
-                  ace_mode: props.editor_options.default_mode
-                }}
-                on_validate={update_current_object}
-                on_change_draft_mode={set_state_draft_mode}
-                format={props.format}
-              />{" "}
+              <p>{`Waiting for the end of the action[${hook_protocol_action_id}]`}</p>
+              <button onClick={() => hook_protocol_fn.cancel_action()}>
+                cancel action
+              </button>
             </React.Fragment>
-          )
-        )}
+          ) : (
+            Object.keys(hook_select_current_value).length > 0 && (
+              <React.Fragment>
+                {state_source_changed === true &&
+                  hook_select_selected_option !== "" &&
+                  state_draft_mode === false && (
+                    <div className="bar">
+                      <label style={{ color: "red" }}>
+                        Save to apply changes
+                      </label>
+                    </div>
+                  )}
+                <Editor
+                  ace_modes={props.editor_options.modes}
+                  init={{
+                    source: props.object_to_source(hook_select_current_value),
+                    ace_mode: props.editor_options.default_mode
+                  }}
+                  on_validate={update_current_object}
+                  on_change_draft_mode={set_state_draft_mode}
+                  format={props.format}
+                />
+              </React.Fragment>
+            )
+          )}
+        </div>{" "}
       </div>
     </div>
   );

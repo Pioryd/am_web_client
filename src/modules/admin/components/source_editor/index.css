@@ -1,5 +1,14 @@
+.editor_content_body {
+  background-color: #ffffff;
+  height: calc(100% - 35px);
+  margin-bottom: 5px;
+  width: 100%;
+  overflow: auto;
+  position: relative;
+}
+
 .source_editor {
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: relative;
 }

@@ -235,7 +235,6 @@ function Editor(props) {
       </div>
       <div className="source_editor">
         <AceEditor
-          height={"100%"}
           width={"100%"}
           mode={state_ace_mode}
           theme={state_ace_theme}
