@@ -70,7 +70,8 @@ function parse_header(start_index, lines) {
   const parsed_header = { data: {} };
 
   const header_data_found = {
-    data: false
+    data: false,
+    name: false
   };
 
   let index = start_index;
@@ -97,14 +98,16 @@ function parse_header(start_index, lines) {
     if (header_data_found.data !== false) break;
   }
 
+  for (const [name, found] of Object.entries(header_data_found))
+    if (found === false) throw new Error(`Not found header key[${name}].`);
+
   eval(
     `parsed_header.data = {${Util.command_args_to_array(
       parsed_header.data
     ).join()}}`
   );
 
-  if (header_data_found.data === false)
-    throw new Error(`Not found header data. [${header_data_found}]`);
+  if (parsed_header.name === "") throw new Error("No script name");
 
   if (index >= lines.length)
     throw new Error(`Not found instructions while parse header.`);
@@ -177,7 +180,7 @@ function parse_source(source) {
       type: instruction_type
     };
   } else {
-    throw `Unknown type. Unable to parse source[${source}].`;
+    throw new Error(`Unknown type. Unable to parse source[${source}].`);
   }
 
   return parsed_source;
