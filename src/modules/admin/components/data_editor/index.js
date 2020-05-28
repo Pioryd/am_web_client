@@ -5,7 +5,7 @@ import { ProtocolContext } from "../../../../context/protocol";
 
 import EditorScript from "./editor_script";
 import EditorJS from "./editor_js";
-import EditorJSON from "./editor_json";
+import EditorYAML from "./editor_yaml";
 
 function DataEditor(props) {
   const { context_packets_data, context_packets_fn } = React.useContext(
@@ -104,7 +104,8 @@ function DataEditor(props) {
       )}
       {state_data_type === "json" && hook_select_current_value.value != null && (
         <React.Fragment>
-          <EditorJSON
+          {/* <EditorJSON */}
+          <EditorYAML
             rules={hook_select_current_value.value.validate}
             type={hook_select_current_value.id}
           />

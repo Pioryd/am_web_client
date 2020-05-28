@@ -9,6 +9,7 @@
     "golden-layout": "^1.5.9",
     "jquery": "^3.5.1",
     "js-beautify": "^1.11.0",
+    "js-yaml": "^3.14.0",
     "minimist": ">=1.2.2",
     "rc-tooltip": "^4.0.0-alpha.3",
     "react": "^16.12.0",

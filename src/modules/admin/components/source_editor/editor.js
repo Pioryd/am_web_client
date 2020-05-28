@@ -22,9 +22,16 @@ const themes = [
 ];
 themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
 
-["javascript", "json", "elm", "text", "cirru", "ruby", "tcl"].forEach((mode) =>
-  require(`ace-builds/src-noconflict/mode-${mode}`)
-);
+[
+  "yaml",
+  "javascript",
+  "json",
+  "elm",
+  "text",
+  "cirru",
+  "ruby",
+  "tcl"
+].forEach((mode) => require(`ace-builds/src-noconflict/mode-${mode}`));
 
 function Editor(props) {
   const [state_source, set_state_source] = React.useState("");
