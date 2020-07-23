@@ -14,7 +14,7 @@ function Gui_MultiWindow(props) {
     hook_golden_layout_display_mode,
     hook_golden_layout_ref
   } = useGoldenLayout({
-    windows_map: props.windows_map,
+    windows_map: props.module_data.windows_map,
     is_desktop_or_laptop: props.is_desktop_or_laptop,
     settings: props.settings
   });
@@ -22,7 +22,7 @@ function Gui_MultiWindow(props) {
   return (
     <React.Fragment>
       <Navigation
-        windows_list={props.windows_map}
+        windows_list={props.module_data.windows_map}
         display_mode={hook_golden_layout_display_mode}
         on_add_window={hook_golden_layout_fn.add_window}
       />

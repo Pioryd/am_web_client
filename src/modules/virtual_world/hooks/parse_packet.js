@@ -13,7 +13,7 @@ function useParsePacketHook(props) {
 
       hook_ref_client.current.ext.logged_in = true;
 
-      hook_packets_fn.send("scripts_list", {});
+      hook_packets_fn.send("data_mirror", {});
     }
   };
 

@@ -1,3 +1,9 @@
+.main-window-content {
+  position: fixed;
+  height: calc(100% - 15px);
+  overflow: auto;
+}
+
 .form-panel {
   width: 100%;
   height: 100%;
@@ -8,10 +14,9 @@
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  overflow: auto;
   border-radius: 10px;
-  border-color: transparent;
-  background-color: #2d2d2d;
+  border: 2px solid #ffffff;
+  background-color: #000000;
 }
 
 .form-panel .buttons {
@@ -20,6 +25,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.form-panel .title {
+  width: 100%;
+  height: 20px;
+  color: white;
+  text-align: center;
+  border-bottom: 1px solid #ffffff;
 }
 
 .form-panel .select_data {
@@ -33,9 +46,10 @@
 
 .form-panel .edit_data {
   width: 100%;
-  height: 100%;
-  min-height: 100%;
+  height: calc(100% - 20px - 1px);
+  min-height: calc(100% - 20px - 1px);
   border-radius: 10px;
+  overflow: auto;
 }
 
 /* 
@@ -66,4 +80,13 @@
   margin: 0px;
   font-size: 26px;
   height: 40px;
+}
+
+/**/
+.content_body {
+  background-color: black;
+}
+
+label {
+  margin-left: 5px;
 }

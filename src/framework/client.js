@@ -48,10 +48,10 @@ class Client {
     // Events for debugging
     this._socket_io_events = {
       connect: () => {},
-      connect_error: error => {},
-      connect_timeout: timeout => {},
-      error: error => {},
-      disconnect: reason => {
+      connect_error: (error) => {},
+      connect_timeout: (timeout) => {},
+      error: (error) => {},
+      disconnect: (reason) => {
         /**
          * TODO
          *  It cannot be here, because it's faster then reconnect, so
@@ -67,7 +67,7 @@ class Client {
       // // reconnect_error: error => {},
       // // reconnect_failed: () => {},
       ping: () => {},
-      pong: latency => {}
+      pong: (latency) => {}
     };
 
     this.events = {
@@ -179,11 +179,11 @@ class Client {
     });
 
     for (const [packet_id] of Object.entries(this.parse_packet_dict)) {
-      this.socket.on(packet_id, data => {
+      this.socket.on(packet_id, (data) => {
         this.pending_parse_packets_queue_async.push({
           packet_id: packet_id,
           date: new Date(),
-          data: data
+          data
         });
       });
     }

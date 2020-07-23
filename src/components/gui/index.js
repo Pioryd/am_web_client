@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 import React from "react";
 import { Helmet } from "react-helmet";
 import { useMediaQuery } from "react-responsive";
@@ -16,18 +18,16 @@ import WorldCharacter from "../../modules/world_character";
 import VirtualWorld from "../../modules/virtual_world";
 
 // Windows map
-const module_windows_map = {};
-module_windows_map["admin"] = WorldAdmin.windows_map;
-module_windows_map["world_character"] = WorldCharacter.windows_map;
-module_windows_map["virtual_world"] = VirtualWorld.windows_map;
+const modules_data = {};
+modules_data["admin"] = WorldAdmin;
+modules_data["world_character"] = WorldCharacter;
+modules_data["virtual_world"] = VirtualWorld;
 
 function Gui(props) {
   const hook_is_desktop_or_laptop = useMediaQuery({ minWidth: 992 });
-
-  const [state_windows_map] = React.useState({
-    ...RootWindows.windows_map,
-    ...module_windows_map[props.login_data.module]
-  });
+  const [state_module_data] = React.useState(
+    _.merge(RootWindows, modules_data[props.login_data.module])
+  );
 
   // In this file use [get_merged_settings] instead of [context_settings]
   // For more info go to: [get_merged_settings]
@@ -58,14 +58,14 @@ function Gui(props) {
       <ProtocolProvider settings={get_merged_settings()}>
         {props.type === "multi_window" && (
           <MultiWindow
-            windows_map={state_windows_map}
+            module_data={state_module_data}
             is_desktop_or_laptop={hook_is_desktop_or_laptop}
             settings={get_merged_settings()}
           />
         )}
         {props.type === "grid" && (
           <Grid
-            windows_map={state_windows_map}
+            module_data={state_module_data}
             is_desktop_or_laptop={hook_is_desktop_or_laptop}
             settings={get_merged_settings()}
           />

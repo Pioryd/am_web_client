@@ -95,10 +95,8 @@ function useGoldenLayout(props) {
     }
 
     if (display_mode === "mobile") {
-      if (root.contentItems[0].contentItems.length === 0) {
+      if (root.contentItems[0].contentItems.length === 0)
         root.contentItems[0].addChild({ type: "stack" });
-        console.log("add stack");
-      }
 
       const stack_content_item = root.contentItems[0].contentItems[0];
 

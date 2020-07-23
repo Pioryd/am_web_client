@@ -13,17 +13,15 @@ function usePacketManagerHook(props) {
 
   const send = (packet_id, data) => {
     if (get_client() == null) return;
-
     if (
       packet_id !== "accept_connection" &&
       get_client().ext.logged_in !== true
     )
       return;
-
     get_client().send(packet_id, data);
   };
 
-  const pop = packet_id => {
+  const pop = (packet_id) => {
     // Don't want change signal of state
     const packets_data = state_packets_data;
 
@@ -36,7 +34,7 @@ function usePacketManagerHook(props) {
     return packet_data_list;
   };
 
-  const peek = packet_id => {
+  const peek = (packet_id) => {
     const packets_data = { ...state_packets_data };
 
     if (!(packet_id in packets_data)) return [];
