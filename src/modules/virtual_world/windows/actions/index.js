@@ -1,7 +1,5 @@
 import React from "react";
 import Table from "rc-table";
-import Select from "react-select";
-import useSelectHook from "../../../../hooks/select_hook";
 import { ProtocolContext } from "../../../../context/protocol";
 import Util from "../../../../framework/util";
 
@@ -9,28 +7,34 @@ import "./index.css";
 
 const columns = [
   {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
+    title: "Time",
+    dataIndex: "time",
+    key: "time",
     width: 100
   },
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
+    title: "Area",
+    dataIndex: "area",
+    key: "area",
     width: 100
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "Object_ID",
+    dataIndex: "object_id",
+    key: "object_id",
     width: 100
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-    width: 200
+    title: "API",
+    dataIndex: "api",
+    key: "api",
+    width: 100
+  },
+  {
+    title: "Data",
+    dataIndex: "data",
+    key: "data",
+    width: 300
   }
 ];
 
@@ -41,19 +45,6 @@ function Actions(props) {
     ProtocolContext
   );
 
-  const {
-    hook_select_current_value,
-    hook_select_options,
-    hook_select_selected_option,
-    hook_select_fn
-  } = useSelectHook({
-    default_value: "",
-    create_label: (object) => {
-      return object.id;
-    }
-  });
-
-  const [state_current_object, set_state_current_object] = React.useState("");
   const [state_last_sync, set_state_last_sync] = React.useState("");
   const [state_data, set_state_data] = React.useState([]);
 
@@ -64,57 +55,28 @@ function Actions(props) {
     const packet = packets.pop();
     set_state_last_sync(Util.get_time_hms());
 
-    const select_objects = [];
-    for (const id of Object.keys(packet.mirror.objects))
-      select_objects.push({
-        id
+    const data = [];
+    let index = 0;
+    for (const action of packet.mirror.actions) {
+      data.push({
+        ...action,
+        time: new Date(action.time).toLocaleTimeString(),
+        data: JSON.stringify(action.data, null, 2),
+        key: index + "_" + action.time
       });
-
-    let current_object = null;
-    for (const object of select_objects)
-      if (object.id === state_current_object.id) current_object = object;
-
-    hook_select_fn.update(select_objects, current_object);
+      index++;
+    }
+    data.reverse();
+    set_state_data(data);
   };
 
-  React.useEffect(() => {
-    if (state_current_object == null || state_current_object.id == null) return;
-
-    const data = [];
-    for (let i = 0; i < 10; i++)
-      data.push({
-        date: new Date().toISOString(),
-        name: i + "_" + state_current_object.id,
-        age: 36 + "_" + state_current_object.id,
-        address: "some where" + "_" + state_current_object.id,
-        key: i + "_" + state_current_object.id
-      });
-    set_state_data(data);
-  }, [state_current_object]);
-
   React.useEffect(() => parse_packet(), [context_packets_data]);
-  React.useEffect(() => set_state_current_object(hook_select_current_value), [
-    hook_select_current_value
-  ]);
 
   return (
     <React.Fragment>
       <div className="bar">
         <label>{`Last sync: ${state_last_sync}`}</label>
       </div>
-      <Select
-        styles={{
-          // Fixes the overlapping problem of the component
-          menu: (provided) => ({ ...provided, zIndex: 9999 })
-        }}
-        value={hook_select_selected_option}
-        placeholder={`Select object... [${
-          Object.keys(hook_select_options).length
-        }]`}
-        onChange={hook_select_fn.on_change}
-        options={hook_select_options}
-        isClearable={true}
-      />
       <Table columns={columns} data={state_data} />
     </React.Fragment>
   );
