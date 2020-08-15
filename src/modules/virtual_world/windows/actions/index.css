@@ -1,5 +1,5 @@
-.rc-table-cell {
+.no-data {
+  font-size: large;
   color: white;
-  border: 1px solid #ffffff;
   text-align: center;
 }

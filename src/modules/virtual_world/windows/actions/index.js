@@ -1,42 +1,9 @@
 import React from "react";
-import Table from "rc-table";
+import Table from "./table";
 import { ProtocolContext } from "../../../../context/protocol";
 import Util from "../../../../framework/util";
 
 import "./index.css";
-
-const columns = [
-  {
-    title: "Time",
-    dataIndex: "time",
-    key: "time",
-    width: 100
-  },
-  {
-    title: "Area",
-    dataIndex: "area",
-    key: "area",
-    width: 100
-  },
-  {
-    title: "Object_ID",
-    dataIndex: "object_id",
-    key: "object_id",
-    width: 100
-  },
-  {
-    title: "API",
-    dataIndex: "api",
-    key: "api",
-    width: 100
-  },
-  {
-    title: "Data",
-    dataIndex: "data",
-    key: "data",
-    width: 300
-  }
-];
 
 const PACKET_NAME = "data_mirror";
 
@@ -61,7 +28,7 @@ function Actions(props) {
       data.push({
         ...action,
         time: new Date(action.time).toLocaleTimeString(),
-        data: JSON.stringify(action.data, null, 2),
+        data: action.data,
         key: index + "_" + action.time
       });
       index++;
@@ -77,7 +44,11 @@ function Actions(props) {
       <div className="bar">
         <label>{`Last sync: ${state_last_sync}`}</label>
       </div>
-      <Table columns={columns} data={state_data} />
+      {state_data.length > 0 ? (
+        <Table data={state_data} />
+      ) : (
+        <div className="no-data">No data</div>
+      )}
     </React.Fragment>
   );
 }
