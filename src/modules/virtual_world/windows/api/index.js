@@ -158,8 +158,11 @@ function Api(props) {
           Object.keys(hook_select_options).length
         }]`}
         onChange={hook_select_fn.on_change}
-        options={hook_select_options}
+        options={hook_select_options.sort((a, b) =>
+          a.value.id.localeCompare(b.value.id)
+        )}
         isClearable={true}
+        maxMenuHeight={150}
       />
       {state_validate_error !== "" && (
         <label class="error">{state_validate_error}</label>
