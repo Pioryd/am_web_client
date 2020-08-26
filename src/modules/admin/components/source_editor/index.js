@@ -187,12 +187,14 @@ function AmEditor(props) {
         />
         <div className="am_source_editor">
           {hook_protocol_action_id !== "" ? (
-            <React.Fragment>
-              <p>{`Waiting for the end of the action[${hook_protocol_action_id}]`}</p>
+            <div className="error_box">
+              <label>
+                Waiting for the end of the action[{hook_protocol_action_id}]
+              </label>
               <button onClick={() => hook_protocol_fn.cancel_action()}>
                 cancel action
               </button>
-            </React.Fragment>
+            </div>
           ) : (
             Object.keys(hook_select_current_value).length > 0 && (
               <React.Fragment>

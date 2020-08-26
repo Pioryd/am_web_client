@@ -12,3 +12,22 @@
   width: 100%;
   position: relative;
 }
+
+.am_source_editor .error_box {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.error_box label {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block;
+  text-align: center;
+  font-style: 15px;
+}
+
+.error_box button {
+  width: 100%;
+}
