@@ -14,13 +14,11 @@ import ProtocolProvider from "../../context/protocol";
 import RootWindows from "../windows";
 
 import WorldAdmin from "../../modules/admin";
-import WorldCharacter from "../../modules/world_character";
 import VirtualWorld from "../../modules/virtual_world";
 
 // Windows map
 const modules_data = {};
 modules_data["admin"] = WorldAdmin;
-modules_data["world_character"] = WorldCharacter;
 modules_data["virtual_world"] = VirtualWorld;
 
 function Gui(props) {

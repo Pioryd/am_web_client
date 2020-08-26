@@ -2,12 +2,10 @@ import React from "react";
 import useConnectionManager from "../hooks/connection_manager";
 
 import admin_useParsePacketHook from "../modules/admin/hooks/parse_packet";
-import world_character_useParsePacketHook from "../modules/world_character/hooks/parse_packet";
 import virtual_world_useParsePacketHook from "../modules/virtual_world/hooks/parse_packet";
 
 let useParsePacketHook = {};
 useParsePacketHook["admin"] = admin_useParsePacketHook;
-useParsePacketHook["world_character"] = world_character_useParsePacketHook;
 useParsePacketHook["virtual_world"] = virtual_world_useParsePacketHook;
 
 export const ProtocolContext = React.createContext();

@@ -9,7 +9,7 @@ function App() {
   const [state_selected_gui, set_state_selected_gui] = React.useState(null);
 
   React.useEffect(() => {
-    if (["admin", "world_character"].includes(state_login_data.module))
+    if (["admin"].includes(state_login_data.module))
       set_state_selected_gui("multi_window");
     else if (["virtual_world"].includes(state_login_data.module))
       set_state_selected_gui("grid");

@@ -25,7 +25,7 @@ export default {
       module: {
         type: "string",
         title: "Module",
-        enum: ["admin", "world_character", "virtual_world"]
+        enum: ["admin", "virtual_world"]
       },
       accept_connection_data: {
         type: "string",
