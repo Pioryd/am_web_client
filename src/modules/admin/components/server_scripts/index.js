@@ -109,63 +109,61 @@ function ServerScripts() {
   }, [context_packets_data]);
 
   return (
-    <React.Fragment>
-      <div className="content_body">
-        <FormattedLogs.List
-          hook_formatted_logs={hook_formatted_logs}
-          hook_formatted_logs_fn={hook_formatted_logs_fn}
-        />
-        <JsonData
-          packet_name="scripts_process"
-          auto_sync={false}
-          refresh={false}
-          clear={true}
-        />
-        <div className="bar">
-          <button
-            key="admin_send_scripts_list_button"
-            className="process"
-            onClick={(e) => context_packets_fn.send("scripts_data")}
-          >
-            sync
-          </button>
-          <label key="admin_send_scripts_list_label">
-            {"last sync: " + state_last_sync}
-          </label>
-        </div>
-        <div className="bar">
-          <input
-            className="input_value"
-            key="interval_value"
-            name="interval_value"
-            type="text"
-            value={state_args_as_text}
-            onChange={(e) => set_state_args_as_text(e.target.value)}
-          />
-        </div>
-        <div>{state_buttons}</div>
-        <div className="bar">
-          <button className="process" onClick={execute_script}>
-            execute
-          </button>
-          <label>{"(app, args) => { <script> }"}</label>
-        </div>
-        <AceEditor
-          height={"100%"}
-          width={"100%"}
-          mode={"javascript"}
-          theme={"textmate"}
-          name="editor_name"
-          onChange={(new_script) => set_state_script(new_script)}
-          value={state_script}
-          fontSize={14}
-          showPrintMargin={true}
-          showGutter={true}
-          highlightActiveLine={true}
-          //setOptions={{}}
+    <div className="content_body">
+      <FormattedLogs.List
+        hook_formatted_logs={hook_formatted_logs}
+        hook_formatted_logs_fn={hook_formatted_logs_fn}
+      />
+      <JsonData
+        packet_name="scripts_process"
+        auto_sync={false}
+        refresh={false}
+        clear={true}
+      />
+      <div className="bar">
+        <button
+          key="admin_send_scripts_list_button"
+          className="process"
+          onClick={(e) => context_packets_fn.send("scripts_data")}
+        >
+          sync
+        </button>
+        <label key="admin_send_scripts_list_label">
+          {"last sync: " + state_last_sync}
+        </label>
+      </div>
+      <div className="bar">
+        <input
+          className="input_value"
+          key="interval_value"
+          name="interval_value"
+          type="text"
+          value={state_args_as_text}
+          onChange={(e) => set_state_args_as_text(e.target.value)}
         />
       </div>
-    </React.Fragment>
+      <div>{state_buttons}</div>
+      <div className="bar">
+        <button className="process" onClick={execute_script}>
+          execute
+        </button>
+        <label>{"(app, args) => { <script> }"}</label>
+      </div>
+      <AceEditor
+        height={"100%"}
+        width={"100%"}
+        mode={"javascript"}
+        theme={"textmate"}
+        name="editor_name"
+        onChange={(new_script) => set_state_script(new_script)}
+        value={state_script}
+        fontSize={14}
+        showPrintMargin={true}
+        showGutter={true}
+        highlightActiveLine={true}
+        //setOptions={{}}
+      />
+    </div>
   );
 }
 
