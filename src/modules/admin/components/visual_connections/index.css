@@ -1,0 +1,79 @@
+.bi.bi-diagram {
+  background-color: #ffffff;
+}
+
+.bi.bi-diagram .bi-link-canvas-layer {
+  z-index: 50;
+}
+
+.bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link .bi-link-path {
+  stroke: #00000020;
+  stroke-width: 0.3rem;
+  stroke-linecap: round;
+  stroke-dasharray: 2;
+}
+
+/* connections_area */
+.connections_area {
+  height: 100%;
+  width: 100%;
+}
+
+.connections_area .error_box .text {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  color: red;
+}
+
+/* visual_module */
+.visual_module {
+  background: #000000;
+  border-radius: 10px;
+  border-top: 1px solid #ffffff;
+}
+
+.visual_module .name {
+  padding: 0px 10px 0px 10px;
+  margin: 0px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.visual_module .remove {
+  float: right;
+  color: red;
+  margin: 2px 2px 2px 2px;
+  border: 1px solid #ffffff;
+  border-radius: 25px;
+}
+
+.visual_module .visual_ports {
+  margin-top: 5px;
+  padding: 5px 2px 5px 2px;
+  z-index: 100;
+}
+
+.visual_module .visual_ports .name {
+  margin: 5px 5px 0px 5px;
+  padding: 0px;
+  text-align: center;
+  color: black;
+  font-size: 16px;
+  z-index: 100;
+}
+
+/* Bar */
+.bar_area {
+  display: flex;
+}
+
+.bar_area .button {
+  border: solid 1px #ffffff;
+  height: auto;
+  margin: 0px 2px 2px 2px;
+}
+
+.bar_area .select_area {
+  width: 100%;
+}

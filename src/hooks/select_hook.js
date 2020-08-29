@@ -26,7 +26,7 @@ function useSelectHook(props) {
     hook_select_options: state_options,
     hook_select_selected_option: state_selected_option,
     hook_select_fn: {
-      on_change: option => {
+      on_change: (option) => {
         set_state_selected_option(option);
       },
       update: (data_map, current_object) => {
@@ -34,11 +34,14 @@ function useSelectHook(props) {
         let current_value = {};
         let selected_option = "";
 
-        for (const data of Object.values(data_map))
-          options.push({
+        for (const data of Object.values(data_map)) {
+          const option = {
             label: props.create_label(data),
             value: data
-          });
+          };
+          if (data._color != null) option.color = data._color;
+          options.push(option);
+        }
 
         for (const option of options) {
           if (option.value === current_object) {
