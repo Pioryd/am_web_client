@@ -77,6 +77,11 @@ function LoginPanel(props) {
         set_error("");
         const login_data_map = { ...state_login_data_map };
 
+        if (
+          hook_select_selected_option.value.id !== state_current_login_data.id
+        )
+          delete login_data_map[hook_select_selected_option.value.id];
+
         if (hook_select_selected_option !== "")
           login_data_map[
             state_current_login_data.id

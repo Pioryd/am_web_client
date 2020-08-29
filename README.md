@@ -11,6 +11,66 @@ npm install
 npm start
 ```
 
+## Example login data of [Artificial mind example project](https://github.com/Pioryd/am_web_client)
+
+```json
+{
+  "World - Admin": {
+    "id": "World - Admin",
+    "module": "admin",
+    "accept_connection_data": {
+      "login": "World",
+      "password": "123"
+    },
+    "host": "localhost",
+    "port": 3101,
+    "settings": {
+      "client_timeout": 0
+    }
+  },
+  "Editor - Admin": {
+    "id": "Editor - Admin",
+    "module": "admin",
+    "accept_connection_data": {
+      "login": "editor",
+      "password": "123"
+    },
+    "host": "localhost",
+    "port": 3104,
+    "settings": {
+      "client_timeout": 0
+    }
+  },
+  "MAM - Admin": {
+    "id": "MAM - Admin",
+    "module": "admin",
+    "accept_connection_data": {
+      "login": "MAM",
+      "password": "123"
+    },
+    "host": "localhost",
+    "port": 3106,
+    "settings": {
+      "client_timeout": 0
+    }
+  },
+  "World - Virtual World": {
+    "id": "World - Virtual World",
+    "module": "virtual_world",
+    "accept_connection_data": {
+      "login": "World",
+      "password": "123",
+      "admin": true
+    },
+    "host": "localhost",
+    "port": 3103,
+    "settings": {
+      "client_timeout": 0
+    }
+  }
+}
+```
+
 ## Errors
 
 - If You cant do nothing. And only errors are displayed.
