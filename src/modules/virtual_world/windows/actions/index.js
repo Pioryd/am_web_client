@@ -26,30 +26,36 @@ function Actions(props) {
     let index = 0;
     for (const action of packet.mirror.actions) {
       data.push({
-        ...action,
-        time: new Date(action.time).toLocaleTimeString(),
+        info: { ...action, time: new Date(action.time).toLocaleTimeString() },
         data: action.data,
         key: index + "_" + action.time
       });
       index++;
     }
     data.reverse();
+
     set_state_data(data);
   };
 
   React.useEffect(() => parse_packet(), [context_packets_data]);
 
   return (
-    <React.Fragment>
+    <div className="action-window">
       <div className="bar">
         <label>{`Last sync: ${state_last_sync}`}</label>
+        <label>
+          Legend:[<span className="time">Time </span>
+          <span className="area">Area </span>
+          <span className="object">ObjectID </span>
+          <span className="api">API</span>]
+        </label>
       </div>
       {state_data.length > 0 ? (
         <Table data={state_data} />
       ) : (
         <div className="no-data">No data</div>
       )}
-    </React.Fragment>
+    </div>
   );
 }
 

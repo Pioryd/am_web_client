@@ -1,26 +1,24 @@
 import React from "react";
 import { useTable } from "react-table";
-import JSONPretty from "react-json-pretty";
-const theme_monikai = require("react-json-pretty/dist/monikai");
+import { ObjectInspector, ObjectLabel } from "react-inspector";
+
+const react_inspector_node_renderer = (args) => {
+  const { depth, name, data, isNonenumerable, expanded } = args;
+  if (depth === 0) {
+    return <label>Data</label>;
+  } else {
+    return (
+      <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />
+    );
+  }
+};
 
 function Table(props) {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Time",
-        accessor: "time"
-      },
-      {
-        Header: "Area",
-        accessor: "area"
-      },
-      {
-        Header: "Object_ID",
-        accessor: "object_id"
-      },
-      {
-        Header: "API",
-        accessor: "api"
+        Header: "Info",
+        accessor: "info"
       },
       {
         Header: "Data",
@@ -70,25 +68,38 @@ function Table(props) {
                   <td
                     {...cell.getCellProps()}
                     style={{
-                      padding: cell.column.Header === "Data" ? "0px" : "10px",
+                      padding: cell.column.Header === "Data" ? "0px" : "2px",
                       border: "solid 1px white",
                       background: "black",
                       color: "white"
                     }}
                   >
-                    {cell.column.Header === "Data" ? (
-                      <JSONPretty
-                        id="json-pretty"
-                        theme={{
-                          ...theme_monikai,
-                          main:
-                            "line-height:1.3;color:#66d9ef;background:#000;overflow:auto;"
-                        }}
-                        data={cell.row.values.data}
-                      ></JSONPretty>
-                    ) : (
-                      <div>{cell.render("Cell")}</div>
-                    )}
+                    {(() => {
+                      const value =
+                        cell.row.values[cell.column.Header.toLowerCase()];
+                      switch (cell.column.Header) {
+                        case "Data":
+                          return (
+                            <ObjectInspector
+                              expandLevel={10}
+                              theme="chromeDark"
+                              data={value}
+                              nodeRenderer={react_inspector_node_renderer}
+                            />
+                          );
+                        case "Info":
+                          return (
+                            <div className="table-column-info">
+                              <p className="time">{value.time}</p>
+                              <p className="area">{value.area}</p>
+                              <p className="object">{value.object_id}</p>
+                              <p className="api">{value.api}</p>
+                            </div>
+                          );
+                        default:
+                          return <div>{cell.render("Cell")}</div>;
+                      }
+                    })()}
                   </td>
                 );
               })}

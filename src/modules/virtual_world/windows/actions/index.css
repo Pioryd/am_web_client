@@ -3,3 +3,24 @@
   color: white;
   text-align: center;
 }
+
+.table-column-info p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.action-window .time {
+  color: white;
+}
+
+.action-window .area {
+  color: green;
+}
+
+.action-window .object {
+  color: orange;
+}
+
+.action-window .api {
+  color: red;
+}
