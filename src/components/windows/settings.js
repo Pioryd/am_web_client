@@ -5,7 +5,7 @@ import { AppContext } from "../../context/app";
 import "./index.css";
 
 function Settings() {
-  const { context_settings, context_set_settings } = React.useContext(
+  const { context_settings, context_update_settings } = React.useContext(
     AppContext
   );
   const [state_settings, set_state_settings] = React.useState({});
@@ -21,7 +21,7 @@ function Settings() {
         <JsonTree
           rootName="state_settings"
           data={state_settings}
-          onFullyUpdate={(data) => context_set_settings({ ...data })}
+          onFullyUpdate={context_update_settings}
           isCollapsed={() => {
             return false;
           }}

@@ -17,7 +17,7 @@ const AppProvider = ({ children }) => {
 
   const value = {
     context_settings: state_settings,
-    context_set_settings: set_state_settings
+    context_update_settings: (settings) => set_state_settings({ ...settings })
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

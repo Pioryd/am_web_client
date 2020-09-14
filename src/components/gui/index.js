@@ -29,7 +29,7 @@ function Gui(props) {
 
   // In this file use [get_merged_settings] instead of [context_settings]
   // For more info go to: [get_merged_settings]
-  const { context_settings, context_set_settings } = React.useContext(
+  const { context_settings, context_update_settings } = React.useContext(
     AppContext
   );
 
@@ -41,7 +41,7 @@ function Gui(props) {
     return { ...context_settings, ...props.login_data };
   };
 
-  React.useEffect(() => context_set_settings(get_merged_settings()), []);
+  React.useEffect(() => context_update_settings(get_merged_settings()), []);
 
   return (
     <React.Fragment>
