@@ -17,3 +17,7 @@
 .system {
   color: red;
 }
+
+.map-list-element {
+  padding: 0px 0px 0px 10px;
+}

@@ -161,7 +161,7 @@ function Statistic(props) {
       <Creatable
         styles={react_select_custom_styles}
         value={hook_select_selected_option}
-        placeholder={`Select to show/hide or enter to add prop. [${
+        placeholder={`Select to show/hide, enter to add prop [${
           Object.keys(hook_select_options).length
         }]`}
         onChange={hook_select_fn.on_change}

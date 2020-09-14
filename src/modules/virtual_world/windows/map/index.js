@@ -54,7 +54,9 @@ function Map(props) {
                       "[System]"}
                   </span>
                   {name}
-                  <ul>{get_objects_by_area(name)}</ul>
+                  <ul className="map-list-element">
+                    {get_objects_by_area(name)}
+                  </ul>
                 </li>
               );
             }
@@ -62,11 +64,18 @@ function Map(props) {
           return rendered;
         };
 
-        const root = <ul>{get_objects_by_area("")}</ul>;
+        const root = (
+          <ul className="map-list-element">{get_objects_by_area("")}</ul>
+        );
 
         return root;
       }
-      set_state_json_data(create_list(packet.mirror.objects));
+
+      set_state_json_data(
+        <ul className="map-list-element">
+          {create_list(packet.mirror.objects)}
+        </ul>
+      );
     }
   };
 
