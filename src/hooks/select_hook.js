@@ -6,6 +6,7 @@ function useSelectHook(props) {
     props.default_value
   );
   const [state_current_value, set_state_current_value] = React.useState({});
+  const [state_new_created, set_state_new_created] = React.useState({});
 
   // Handle select
   React.useEffect(() => {
@@ -22,12 +23,17 @@ function useSelectHook(props) {
   }, [state_selected_option]);
 
   return {
+    hook_select_new_created: state_new_created,
     hook_select_current_value: state_current_value,
     hook_select_options: state_options,
     hook_select_selected_option: state_selected_option,
     hook_select_fn: {
-      on_change: (option) => {
-        set_state_selected_option(option);
+      on_change: (option, { action }) => {
+        if (action === "create-option") {
+          set_state_new_created({ value: option.value });
+        } else {
+          set_state_selected_option(option);
+        }
       },
       update: (data_map, current_object) => {
         let options = [];

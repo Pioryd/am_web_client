@@ -21,6 +21,7 @@
     "react-editable-json-tree": "^2.2.1",
     "react-grid-layout": "^0.18.3",
     "react-helmet": "^5.2.1",
+    "react-inspector": "^5.1.0",
     "react-json-pretty": "^2.2.0",
     "react-json-view": "^1.19.1",
     "react-jsonschema-form": "^1.8.1",
