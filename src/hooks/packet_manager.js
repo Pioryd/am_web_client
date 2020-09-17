@@ -1,21 +1,16 @@
 import React from "react";
 import Util from "../framework/util";
 
-const QUEUE_SIZE = 10;
-
-function usePacketManagerHook(props) {
+function usePacketManagerHook({ settings }) {
   const ref_client = React.useRef();
   const [state_packets_data, set_state_packets_data] = React.useState({});
 
-  const get_client = () => {
-    return ref_client.current;
-  };
+  const get_client = () => ref_client.current;
 
   const send = (packet_id, data) => {
-    if (get_client() == null) return;
     if (
-      packet_id !== "accept_connection" &&
-      get_client().ext.logged_in !== true
+      get_client() == null ||
+      (packet_id !== "accept_connection" && get_client().ext.logged_in !== true)
     )
       return;
     get_client().send(packet_id, data);
@@ -50,7 +45,7 @@ function usePacketManagerHook(props) {
 
     if (!(packet_id in packets_data)) packets_data[packet_id] = [];
 
-    while (packets_data[packet_id].length >= QUEUE_SIZE)
+    while (packets_data[packet_id].length >= settings.packet_queue_size)
       packets_data[packet_id].shift();
 
     packets_data[packet_id].push(data);
@@ -58,10 +53,21 @@ function usePacketManagerHook(props) {
     set_state_packets_data(packets_data);
   };
 
+  const accept_connection = (data) => {
+    ref_client.current.ext.logged_in = true;
+  };
+
+  const parse_root = (data) => {
+    const { packet_id, packet_data } = data;
+    _push(packet_id, packet_data);
+
+    if (packet_id === "accept_connection") accept_connection(packet_data);
+  };
+
   return {
-    hook_packets_data: state_packets_data,
-    hook_packets_fn: { pop, peek, send, _push },
-    hook_ref_client: ref_client
+    hook_packet_manager_data: state_packets_data,
+    hook_packet_manager_ref_client: ref_client,
+    hook_packet_manager_fn: { pop, peek, send, _push, parse_root }
   };
 }
 

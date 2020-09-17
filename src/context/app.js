@@ -10,6 +10,7 @@ const CORE_SETTINGS = {
   accept_connection_data: {},
   main_loop_sleep: 500,
   reconnect_attempts_interval: 1000,
+  packet_queue_size: 10,
   packet_send_delay: 0,
   packet_timeout: 0,
   host: "localhost",

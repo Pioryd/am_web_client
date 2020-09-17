@@ -1,15 +1,15 @@
 import React from "react";
 import useConnectionManager from "../hooks/connection_manager";
+import usePacketManagerHook from "../hooks/packet_manager";
 
 export const ConnectionContext = React.createContext();
 
-const ConnectionProvider = ({ parse_packet_hook, settings, children }) => {
+const ConnectionProvider = ({ settings, children }) => {
   const {
-    hook_parse_root_packet,
-    hook_packets_data,
-    hook_packets_fn,
-    hook_ref_client
-  } = parse_packet_hook();
+    hook_packet_manager_data,
+    hook_packet_manager_ref_client,
+    hook_packet_manager_fn
+  } = usePacketManagerHook(settings);
 
   const {
     hook_connection_manager_fn,
@@ -17,13 +17,13 @@ const ConnectionProvider = ({ parse_packet_hook, settings, children }) => {
     hook_client
   } = useConnectionManager({
     settings: settings,
-    parse_root_packet: hook_parse_root_packet,
+    parse_root_packet: hook_packet_manager_fn.parse_root,
     on_connected: (client, data) =>
-      hook_packets_fn.send("accept_connection", data)
+      hook_packet_manager_fn.send("accept_connection", data)
   });
 
   const parse_packet = () => {
-    const packets = hook_packets_fn.pop("accept_connection");
+    const packets = hook_packet_manager_fn.pop("accept_connection");
     if (packets.length === 0) return;
 
     hook_connection_manager_fn.set_logged_as(
@@ -32,20 +32,20 @@ const ConnectionProvider = ({ parse_packet_hook, settings, children }) => {
   };
 
   const set_client = (client) => {
-    hook_ref_client.current = client;
+    hook_packet_manager_ref_client.current = client;
   };
 
   React.useEffect(() => set_client(hook_client), [hook_client]);
-  React.useEffect(() => parse_packet(), [hook_packets_data]);
+  React.useEffect(() => parse_packet(), [hook_packet_manager_data]);
 
   const value = {
-    context_connection_packets_data: hook_packets_data,
+    context_connection_packets_data: hook_packet_manager_data,
     context_connection_info: hook_connection_info,
     context_connection_client: hook_client,
     context_connection_fn: {
       send: (packet_id, packet_data) =>
-        hook_packets_fn.send(packet_id, packet_data),
-      ...hook_packets_fn,
+        hook_packet_manager_fn.send(packet_id, packet_data),
+      ...hook_packet_manager_fn,
       set_enabled: hook_connection_manager_fn.set_connection_enabled
     }
   };
