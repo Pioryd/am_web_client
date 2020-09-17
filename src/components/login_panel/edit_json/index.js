@@ -2,6 +2,7 @@ import React from "react";
 import AceEditor from "react-ace";
 import Ajv from "ajv";
 import Util from "../../../framework/util";
+import { AppContext } from "../../../context/app";
 
 import rules from "./rules";
 
@@ -11,6 +12,8 @@ require(`ace-builds/src-noconflict/theme-monokai`);
 require(`ace-builds/src-noconflict/mode-json`);
 
 function EditJson(props) {
+  const { context_app_data, context_app_fn } = React.useContext(AppContext);
+
   const [state_source, set_state_source] = React.useState("");
   const [state_error, set_state_error] = React.useState("");
 
@@ -18,11 +21,7 @@ function EditJson(props) {
     reload() {
       try {
         set_state_source(
-          JSON.stringify(
-            JSON.parse(localStorage.getItem("am_login_data") || "{}"),
-            null,
-            2
-          )
+          JSON.stringify(context_app_data.login_panel || {}, null, 2)
         );
         set_state_error("");
       } catch (e) {
@@ -44,7 +43,7 @@ function EditJson(props) {
             );
         }
 
-        localStorage.setItem("am_login_data", JSON.stringify(data_map));
+        context_app_fn.update_data({ login_panel: data_map });
         set_state_error("");
       } catch (e) {
         set_state_error(e.message);

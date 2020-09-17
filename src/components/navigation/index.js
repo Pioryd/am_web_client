@@ -10,7 +10,7 @@ import "rc-tooltip/assets/bootstrap_white.css";
 import "./index.css";
 
 function Navigation(props) {
-  const { context_settings } = React.useContext(AppContext);
+  const { context_app_session_data } = React.useContext(AppContext);
 
   return (
     <div id="main-window-bar_1" className="main-window-bar">
@@ -22,9 +22,9 @@ function Navigation(props) {
           trigger={["click"]}
           overlay={
             <React.Fragment>
-              <span>{`Login[${context_settings.accept_connection_data.login}]`}</span>
+              <span>{`Login[${context_app_session_data._settings.accept_connection_data.login}]`}</span>
               <br />
-              <span>{`Module[${context_settings.module}]`}</span>
+              <span>{`Module[${context_app_session_data._settings.module}]`}</span>
             </React.Fragment>
           }
         >

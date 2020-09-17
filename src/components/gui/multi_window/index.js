@@ -1,5 +1,7 @@
 import React from "react";
 
+import { AppContext } from "../../../context/app";
+
 import GoldenLayout from "../../layout/golden_layout";
 import useGoldenLayout from "../../layout/golden_layout/hook";
 
@@ -8,6 +10,8 @@ import Navigation from "../../navigation";
 import "./index.css";
 
 function Gui_MultiWindow(props) {
+  const { context_app_session_data } = React.useContext(AppContext);
+
   const {
     hook_golden_layout_fn,
     hook_golden_layout_config,
@@ -16,7 +20,7 @@ function Gui_MultiWindow(props) {
   } = useGoldenLayout({
     windows_map: props.module_data.windows_map,
     is_desktop_or_laptop: props.is_desktop_or_laptop,
-    settings: props.settings
+    settings: context_app_session_data._settings
   });
 
   return (

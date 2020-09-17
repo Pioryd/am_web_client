@@ -5,14 +5,12 @@ import { AppContext } from "../../context/app";
 import "./index.css";
 
 function Settings() {
-  const { context_settings, context_update_settings } = React.useContext(
-    AppContext
-  );
+  const { context_app_data, context_app_fn } = React.useContext(AppContext);
   const [state_settings, set_state_settings] = React.useState({});
 
   React.useEffect(() => {
-    if (context_settings != null) set_state_settings(context_settings);
-  }, [context_settings]);
+    if (context_app_data != null) set_state_settings(context_app_data);
+  }, [context_app_data]);
 
   return (
     <React.Fragment>
@@ -21,7 +19,7 @@ function Settings() {
         <JsonTree
           rootName="state_settings"
           data={state_settings}
-          onFullyUpdate={context_update_settings}
+          onFullyUpdate={context_app_fn.update_session}
           isCollapsed={() => {
             return false;
           }}

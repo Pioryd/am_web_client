@@ -4,10 +4,17 @@ import Select from "react-select";
 import useSelectHook from "../../../hooks/select_hook";
 import Util from "../../../framework/util";
 import form_schema from "./form_schema";
+import { AppContext } from "../../../context/app";
 
 import "./index.css";
 
 function LoginPanel(props) {
+  const {
+    context_app_data,
+    context_app_fn,
+    context_app_test
+  } = React.useContext(AppContext);
+
   const {
     hook_select_current_value,
     hook_select_options,
@@ -19,18 +26,17 @@ function LoginPanel(props) {
   });
 
   const [state_draft_mode, set_state_draft_mode] = React.useState(false);
-  const [state_error, set_state_error] = React.useState("");
+  const [state_error, __set_state_error] = React.useState("");
+  const [state_login_data_map, set_state_login_data_map] = React.useState(null);
   const [
     state_current_login_data,
     set_state_current_login_data
   ] = React.useState(null);
-  const [state_login_data_map, set_state_login_data_map] = React.useState(null);
 
-  const set_error = (message) => {
-    set_state_error(
+  const set_error = (message) =>
+    __set_state_error(
       message === "" ? "" : `[${Util.get_time_hms(new Date())}] ${message}`
     );
-  };
 
   const parse_to = (type, data) => {
     try {
@@ -43,9 +49,7 @@ function LoginPanel(props) {
         if (type === "string") data[key] = JSON.stringify(value, null, 2);
       }
     } catch (e) {
-      set_error(
-        `Unable to format json[${data.id}].` + ` Error ${e.message}, ${e.stack}`
-      );
+      set_error(`Unable to format json[${data.id}].` + ` Error ${e.message}`);
     }
 
     return data;
@@ -59,23 +63,23 @@ function LoginPanel(props) {
   const button = {
     refresh: () => {
       try {
-        set_error("");
-        const login_data_map = JSON.parse(
-          localStorage.getItem("am_login_data") || "{}"
-        );
-
-        for (const [key, value] of Object.entries(login_data_map))
+        const login_panel_data = context_app_data.login_panel || {};
+        const login_data_map = {};
+        for (const [key, value] of Object.entries(login_panel_data))
           login_data_map[key] = parse_to("string", value);
 
         set_state_login_data_map(login_data_map);
       } catch (e) {
-        set_error(`Unable to refresh. ${e.message} ${e.stack}`);
+        set_error(`Unable to refresh. ${e.message}`);
       }
     },
     save: () => {
       try {
         set_error("");
         const login_data_map = { ...state_login_data_map };
+
+        if (hook_select_selected_option.value == null)
+          throw new Error("No option is selected.");
 
         if (
           hook_select_selected_option.value.id !== state_current_login_data.id
@@ -89,7 +93,7 @@ function LoginPanel(props) {
         set_state_login_data_map(login_data_map);
         set_state_draft_mode(false);
       } catch (e) {
-        set_error(`Unable to refresh. ${e.message} ${e.stack}`);
+        set_error(`Unable to save. ${e.message}`);
       }
     },
     add: () => {
@@ -101,13 +105,15 @@ function LoginPanel(props) {
           accept_connection_data: { login: "", password: "" },
           host: "localhost",
           port: 0,
-          settings: { client_timeout: 0 }
+          settings: { client_timeout: 0 },
+          description: "",
+          session_id: "session_" + new Date().getTime()
         };
 
         login_data_map[login_data.id] = parse_to("string", login_data);
         set_state_login_data_map(login_data_map);
       } catch (e) {
-        set_error(`Unable to add. ${e.message} ${e.stack}`);
+        set_error(`Unable to add. ${e.message}`);
       }
     },
     remove: () => {
@@ -119,7 +125,7 @@ function LoginPanel(props) {
 
         set_state_login_data_map(login_data_map);
       } catch (e) {
-        set_error(`Unable to remove. ${e.message} ${e.stack}`);
+        set_error(`Unable to remove. ${e.message}`);
       }
     },
     login: () => {
@@ -131,17 +137,20 @@ function LoginPanel(props) {
           ),
           settings: JSON.parse(state_current_login_data.settings)
         };
-        props.set_login_data(login_data);
+        context_app_fn.update_session(
+          { _settings: login_data },
+          login_data.session_id
+        );
       } catch (e) {
-        set_error(`Unable to login. ${e.message} ${e.stack}`);
+        set_error(`Unable to login. ${e.message}`);
       }
     }
   };
 
   React.useEffect(() => {
     // When new [state_login_data_map]
-    // Update [select] [current_login_data] [localStorage]
-    if (state_login_data_map === null) return;
+    // Update [select] [current_login_data] "session_data"
+    if (state_login_data_map == null) return;
 
     let current_object = null;
     if (
@@ -160,7 +169,7 @@ function LoginPanel(props) {
     for (const [key, data] of Object.entries(login_data_map))
       login_data_map[key] = parse_to("raw", data);
 
-    localStorage.setItem("am_login_data", JSON.stringify(login_data_map));
+    context_app_fn.update_data({ login_panel: login_data_map });
   }, [state_login_data_map]);
 
   React.useEffect(
@@ -168,14 +177,25 @@ function LoginPanel(props) {
     [hook_select_current_value]
   );
 
-  React.useEffect(() => button.refresh(), []);
+  // Don't know how to do this better.
+  const [state_first_loaded, set_state_first_loaded] = React.useState(false);
+  React.useEffect(() => {
+    if (
+      state_first_loaded ||
+      context_app_data.login_panel == null ||
+      Object.keys(context_app_data.login_panel).length === 0
+    )
+      return;
+    button.refresh();
+    set_state_first_loaded(true);
+  }, [context_app_data]);
 
   return (
     <React.Fragment>
       <div className="buttons">
         <button onClick={button.refresh}>Refresh</button>
         <button onClick={button.save}>Save</button>
-        <button onClick={button.add}>Add</button>
+        <button onClick={button.add}>New</button>
         <button onClick={button.remove}>Remove</button>
       </div>
       <div className="select_data">
@@ -218,7 +238,7 @@ function LoginPanel(props) {
       ) : (
         <div>
           {hook_select_current_value === "" && (
-            <div className="error-text">Not selected option</div>
+            <div className="error-text">No selected option</div>
           )}
           {state_error !== "" && (
             <div className="error-text">{state_error}</div>

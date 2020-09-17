@@ -22,50 +22,45 @@ modules_data["admin"] = WorldAdmin;
 modules_data["virtual_world"] = VirtualWorld;
 
 function Gui(props) {
+  const { context_app_session_data } = React.useContext(AppContext);
+
   const hook_is_desktop_or_laptop = useMediaQuery({ minWidth: 992 });
   const [state_module_data] = React.useState(
-    _.merge(RootWindows, modules_data[props.login_data.module])
+    _.merge(
+      RootWindows,
+      modules_data[context_app_session_data._settings.module]
+    )
   );
 
-  // In this file use [get_merged_settings] instead of [context_settings]
-  // For more info go to: [get_merged_settings]
-  const { context_settings, context_update_settings } = React.useContext(
-    AppContext
-  );
+  const [state_title, set_state_title] = React.useState("");
 
-  // In this file use [get_merged_settings] instead of [context_settings]
-  // Because most functionality need [context_settings] at initialization, when
-  // is not merged yet(merge in useEffect is after first render-initialization),
-  // so we have to force it.
-  const get_merged_settings = () => {
-    return { ...context_settings, ...props.login_data };
+  const set_title = () => {
+    const {
+      module,
+      accept_connection_data
+    } = context_app_session_data._settings;
+    set_state_title(`[${module}]<${accept_connection_data.login}> - AM`);
   };
 
-  React.useEffect(() => context_update_settings(get_merged_settings()), []);
+  React.useEffect(() => set_title(), [context_app_session_data]);
 
   return (
     <React.Fragment>
       <Helmet>
-        <title>
-          {`[${get_merged_settings().module}]<${
-            get_merged_settings().accept_connection_data.login
-          }> - AM`}
-        </title>
+        <title>{state_title}</title>
       </Helmet>
 
-      <ProtocolProvider settings={get_merged_settings()}>
+      <ProtocolProvider settings={context_app_session_data._settings}>
         {props.type === "multi_window" && (
           <MultiWindow
             module_data={state_module_data}
             is_desktop_or_laptop={hook_is_desktop_or_laptop}
-            settings={get_merged_settings()}
           />
         )}
         {props.type === "grid" && (
           <Grid
             module_data={state_module_data}
             is_desktop_or_laptop={hook_is_desktop_or_laptop}
-            settings={get_merged_settings()}
           />
         )}
       </ProtocolProvider>

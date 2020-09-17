@@ -17,6 +17,12 @@ export default {
     },
     settings: {
       type: "object"
+    },
+    description: {
+      type: ["string"]
+    },
+    session_id: {
+      type: ["number", "string"]
     }
   },
   required: [

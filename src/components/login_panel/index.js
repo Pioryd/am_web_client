@@ -19,9 +19,7 @@ function LoginPanel(props) {
         {state_mode === "form" && "Switch to JSON editor"}
         {state_mode === "json" && "Switch to FORM editor"}
       </button>
-      {state_mode === "form" && (
-        <EditForm set_login_data={props.set_login_data} />
-      )}
+      {state_mode === "form" && <EditForm />}
       {state_mode === "json" && <EditJson />}
     </div>
   );

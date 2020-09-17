@@ -11,6 +11,12 @@ export default {
       "ui:options": {
         rows: 5
       }
+    },
+    description: {
+      "ui:widget": "textarea",
+      "ui:options": {
+        rows: 2
+      }
     }
   },
   json: {
@@ -36,6 +42,14 @@ export default {
       settings: {
         type: "string",
         title: "[JSON] Settings (override)"
+      },
+      description: {
+        type: "string",
+        title: "Description"
+      },
+      session_id: {
+        type: "string",
+        title: "SessionID"
       }
     }
   }
