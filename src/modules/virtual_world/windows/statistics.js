@@ -3,7 +3,7 @@ import _ from "lodash";
 import { ObjectInspector, ObjectLabel } from "react-inspector";
 import Creatable from "react-select/creatable";
 import useSelectHook from "../../../hooks/select_hook";
-import { ProtocolContext } from "../../../context/protocol";
+import { ConnectionContext } from "../../../context/connection";
 import Util from "../../../framework/util";
 
 const PACKET_NAME = "data_mirror";
@@ -30,9 +30,10 @@ const react_select_custom_styles = {
 };
 
 function Statistic(props) {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const [state_hidden_properties, set_state_hidden_properties] = React.useState(
     INITIAL_HIDDEN_PROPERTIES
@@ -58,7 +59,7 @@ function Statistic(props) {
   });
 
   const parse_packet = () => {
-    const packets = context_packets_fn.peek(PACKET_NAME);
+    const packets = context_connection_fn.peek(PACKET_NAME);
     if (packets.length === 0) return;
 
     const packet = packets.pop();
@@ -144,7 +145,7 @@ function Statistic(props) {
     update_show_data();
   }, [state_all_properties, state_hidden_properties]);
   React.useEffect(() => properties_fn.update(), [state_data]);
-  React.useEffect(() => parse_packet(), [context_packets_data]);
+  React.useEffect(() => parse_packet(), [context_connection_packets_data]);
   React.useEffect(() => {
     properties_fn.toggle(hook_select_current_value.name);
   }, [hook_select_current_value]);

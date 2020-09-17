@@ -9,8 +9,6 @@ import Grid from "./grid";
 
 import { AppContext } from "../../context/app";
 
-import ProtocolProvider from "../../context/protocol";
-
 import RootWindows from "../windows";
 
 import WorldAdmin from "../../modules/admin";
@@ -49,21 +47,20 @@ function Gui(props) {
       <Helmet>
         <title>{state_title}</title>
       </Helmet>
-
-      <ProtocolProvider settings={context_app_session_data._settings}>
-        {props.type === "multi_window" && (
-          <MultiWindow
-            module_data={state_module_data}
-            is_desktop_or_laptop={hook_is_desktop_or_laptop}
-          />
-        )}
-        {props.type === "grid" && (
-          <Grid
-            module_data={state_module_data}
-            is_desktop_or_laptop={hook_is_desktop_or_laptop}
-          />
-        )}
-      </ProtocolProvider>
+      {["admin"].includes(context_app_session_data._settings.module) && (
+        <MultiWindow
+          module_data={state_module_data}
+          is_desktop_or_laptop={hook_is_desktop_or_laptop}
+        />
+      )}
+      {["virtual_world"].includes(
+        context_app_session_data._settings.module
+      ) && (
+        <Grid
+          module_data={state_module_data}
+          is_desktop_or_laptop={hook_is_desktop_or_laptop}
+        />
+      )}
     </React.Fragment>
   );
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import { ProtocolContext } from "../../context/protocol";
+import { ConnectionContext } from "../../context/connection";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap_white.css";
 
 function SyncButton(props) {
   const { context_connection_fn, context_connection_info } = React.useContext(
-    ProtocolContext
+    ConnectionContext
   );
   const state_form = {
     enabled: {
@@ -38,7 +38,7 @@ function SyncButton(props) {
       >
         <button
           style={state.style}
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             toggle_sync();
           }}

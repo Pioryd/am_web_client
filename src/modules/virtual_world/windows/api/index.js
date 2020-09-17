@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import AceEditor from "react-ace";
 import useSelectHook from "../../../../hooks/select_hook";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
 
 import "ace-builds/src-noconflict/theme-monokai";
@@ -19,9 +19,10 @@ const MAX_INTERVAL = 10000;
 const API_EXAMPLE = { api: "", data: {} };
 
 function Api(props) {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const ref_auto_sync = React.useRef({});
 
@@ -46,7 +47,7 @@ function Api(props) {
   const [state_validate_error, set_state_validate_error] = React.useState("");
 
   const parse_packet = () => {
-    const packets = context_packets_fn.peek(PACKET_NAME);
+    const packets = context_connection_fn.peek(PACKET_NAME);
     if (packets.length === 0) return;
 
     const packet = packets.pop();
@@ -69,7 +70,7 @@ function Api(props) {
     ref_auto_sync.current.state_sync_interval = state_sync_interval;
 
     const async_auto_sync = () => {
-      context_packets_fn.send(PACKET_NAME);
+      context_connection_fn.send(PACKET_NAME);
 
       ref_auto_sync.current.timeout = setTimeout(() => {
         async_auto_sync();
@@ -102,7 +103,7 @@ function Api(props) {
     if (validate_api() === true) {
       const { api, data } = JSON.parse(state_source);
 
-      context_packets_fn.send("process_api", {
+      context_connection_fn.send("process_api", {
         object_id: state_current_object.id,
         api,
         timeout: 0,
@@ -115,7 +116,7 @@ function Api(props) {
 
   const on_change = (source) => set_state_source(source);
 
-  React.useEffect(() => parse_packet(), [context_packets_data]);
+  React.useEffect(() => parse_packet(), [context_connection_packets_data]);
   React.useEffect(() => auto_sync(), []);
   React.useEffect(() => {
     ref_auto_sync.current.state_sync_interval = state_sync_interval;

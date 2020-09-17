@@ -1,6 +1,6 @@
 import React from "react";
 import ReactJson from "react-json-view";
-import { ProtocolContext } from "../../../context/protocol";
+import { ConnectionContext } from "../../../context/connection";
 import Util from "../../../framework/util";
 
 const DEFAULT_INTERVAL = 1000;
@@ -8,9 +8,10 @@ const MIN_INTERVAL = 10;
 const MAX_INTERVAL = 10000;
 
 function JsonData(props) {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const ref_auto_sync = React.useRef({});
 
@@ -23,7 +24,7 @@ function JsonData(props) {
 
   // Refresh
   const refresh_json_data = () => {
-    context_packets_fn.send(props.packet_name);
+    context_connection_fn.send(props.packet_name);
   };
 
   // Clear
@@ -33,14 +34,14 @@ function JsonData(props) {
   };
 
   React.useEffect(() => {
-    const packets = context_packets_fn.pop(props.packet_name);
+    const packets = context_connection_fn.pop(props.packet_name);
     if (packets.length === 0) return;
 
     const packet = packets.pop();
 
     set_state_json_data(packet.json);
     set_state_last_sync(Util.get_time_hms());
-  }, [context_packets_data]);
+  }, [context_connection_packets_data]);
 
   // Auto sync
   React.useEffect(() => {

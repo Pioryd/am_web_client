@@ -1,5 +1,5 @@
 import React from "react";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
 
 import "./index.css";
@@ -7,9 +7,10 @@ import "./index.css";
 const PACKET_NAME = "data_mirror";
 
 function Map(props) {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const [state_json_data, set_state_json_data] = React.useState("");
   const [state_last_sync, set_state_last_sync] = React.useState("");
@@ -19,7 +20,7 @@ function Map(props) {
   ] = React.useState(false);
 
   const parse_packet = () => {
-    const packets = context_packets_fn.peek(PACKET_NAME);
+    const packets = context_connection_fn.peek(PACKET_NAME);
     if (packets.length === 0) return;
 
     const packet = packets.pop();
@@ -80,7 +81,7 @@ function Map(props) {
   };
 
   React.useEffect(() => parse_packet(), [
-    context_packets_data,
+    context_connection_packets_data,
     state_show_system_objects
   ]);
 

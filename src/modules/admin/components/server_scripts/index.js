@@ -1,5 +1,5 @@
 import React from "react";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/protocol";
 import Util from "../../../../framework/util";
 import AceEditor from "react-ace";
 import JsonData from "../json_data";
@@ -26,9 +26,10 @@ const themes = [
 themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
 
 function ServerScripts() {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const {
     hook_formatted_logs,
@@ -47,7 +48,7 @@ function ServerScripts() {
       type: "Send",
       text: `ActionId: [${action_id}]`
     });
-    context_packets_fn.send("scripts_process", {
+    context_connection_fn.send("scripts_process", {
       action_id,
       command: state_script
     });
@@ -85,7 +86,7 @@ function ServerScripts() {
               type: "Send",
               text: `ActionId: [${action_id}]`
             });
-            context_packets_fn.send("scripts_process", {
+            context_connection_fn.send("scripts_process", {
               action_id,
               script_name: name,
               arguments_as_string: state_args_as_text
@@ -105,8 +106,8 @@ function ServerScripts() {
   };
 
   React.useEffect(() => {
-    parse_scripts_list(context_packets_fn.pop("scripts_data"));
-  }, [context_packets_data]);
+    parse_scripts_list(context_connection_fn.pop("scripts_data"));
+  }, [context_connection_packets_data]);
 
   return (
     <div className="content_body">
@@ -124,7 +125,7 @@ function ServerScripts() {
         <button
           key="admin_send_scripts_list_button"
           className="process"
-          onClick={(e) => context_packets_fn.send("scripts_data")}
+          onClick={(e) => context_connection_fn.send("scripts_data")}
         >
           sync
         </button>

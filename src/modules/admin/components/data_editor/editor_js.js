@@ -1,10 +1,10 @@
 import React from "react";
 import SourceEditor from "../source_editor";
 import js_beautify from "js-beautify";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/connection";
 
 function EditorJS(props) {
-  const { context_packets_fn } = React.useContext(ProtocolContext);
+  const { context_connection_fn } = React.useContext(ConnectionContext);
 
   const parse = (source, rules) => {
     let object = null;
@@ -63,7 +63,7 @@ function EditorJS(props) {
           name: "process",
           callback: (object) => {
             const action_id = Date.now() + "_process";
-            context_packets_fn.send("process_admin_script", {
+            context_connection_fn.send("process_admin_script", {
               action_id,
               source: object.fn
             });

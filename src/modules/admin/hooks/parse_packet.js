@@ -8,7 +8,7 @@ function useParsePacketHook(props) {
   } = usePacketManagerHook();
 
   const parse_packets = {
-    accept_connection: data => {
+    accept_connection: (data) => {
       hook_packets_fn._push("accept_connection", data);
 
       hook_ref_client.current.ext.logged_in = true;
@@ -18,12 +18,10 @@ function useParsePacketHook(props) {
   };
 
   return {
-    hook_parse_packet: {
-      root: data => {
-        const { packet_id, packet_data } = data;
-        if (packet_id in parse_packets) parse_packets[packet_id](packet_data);
-        else hook_packets_fn._push(packet_id, packet_data);
-      }
+    hook_parse_root_packet: (data) => {
+      const { packet_id, packet_data } = data;
+      if (packet_id in parse_packets) parse_packets[packet_id](packet_data);
+      else hook_packets_fn._push(packet_id, packet_data);
     },
     hook_packets_data,
     hook_packets_fn,

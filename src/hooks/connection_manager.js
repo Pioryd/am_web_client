@@ -3,7 +3,7 @@ import Client from "../framework/client";
 
 import LoadingDots from "../framework/loading_dots";
 
-const useConnectionManager = props => {
+const useConnectionManager = (props) => {
   const [state_client, set_state_client] = React.useState();
   const [state_settings, set_state_settings] = React.useState(props.settings);
   const [
@@ -48,7 +48,7 @@ const useConnectionManager = props => {
   };
 
   const _start_client = () => {
-    const check_connection = _this => {
+    const check_connection = (_this) => {
       if (_this.state_client == null || _this.state_client == null) {
         _this.set_state_connection_status("Disconnected");
       } else if (
@@ -138,11 +138,7 @@ const useConnectionManager = props => {
   const create_parse_dict = () => {
     const parse_packet_dict = {};
 
-    for (const [packet_id] of Object.entries(props.parse_packet_map)) {
-      parse_packet_dict[packet_id] = data => {
-        return props.parse_packet_map[packet_id](data);
-      };
-    }
+    parse_packet_dict["root"] = props.parse_root_packet;
 
     return parse_packet_dict;
   };

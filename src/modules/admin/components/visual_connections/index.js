@@ -5,7 +5,7 @@ import _ from "lodash";
 import Select from "react-select";
 import Diagram from "beautiful-react-diagrams";
 import useSelectHook from "../../../../hooks/select_hook";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
 
 import "ace-builds/src-noconflict/theme-monokai";
@@ -66,9 +66,10 @@ function get_diagram_port_id(module_name, socket_name) {
 }
 
 const VisualConnections = () => {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const {
     hook_select_current_value,
@@ -257,7 +258,7 @@ const VisualConnections = () => {
     }
   };
 
-  const refresh = () => context_packets_fn.send("visual_data");
+  const refresh = () => context_connection_fn.send("visual_data");
 
   const update_select_list = () => {
     const select_objects = [];
@@ -292,7 +293,7 @@ const VisualConnections = () => {
   };
 
   const parse_packet = () => {
-    const packets = context_packets_fn.peek("visual_data");
+    const packets = context_connection_fn.peek("visual_data");
     if (packets.length === 0) return;
 
     const packet = packets.pop();
@@ -312,7 +313,7 @@ const VisualConnections = () => {
     });
   };
 
-  React.useEffect(() => parse_packet(), [context_packets_data]);
+  React.useEffect(() => parse_packet(), [context_connection_packets_data]);
   React.useEffect(() => update_select_list(), [
     state_modules_sockets,
     state_schema

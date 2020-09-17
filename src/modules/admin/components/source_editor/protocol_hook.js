@@ -1,10 +1,11 @@
 import React from "react";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/connection";
 
 function useProtocolHook(props) {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const [state_action_id, set_state_action_id] = React.useState("");
   const [state_objects, set_state_objects] = React.useState([]);
@@ -24,7 +25,7 @@ function useProtocolHook(props) {
 
       const action_id = Date.now() + "_data";
 
-      context_packets_fn.send("editor_data", {
+      context_connection_fn.send("editor_data", {
         action_id,
         name: props.ext_name
       });
@@ -33,7 +34,7 @@ function useProtocolHook(props) {
     new(new_id) {
       if (can_perform_action() === false) return;
 
-      context_packets_fn.send("editor_update", {
+      context_connection_fn.send("editor_update", {
         action: { id: Date.now() + "_update", type: "new" },
         object: { id: new_id },
         name: props.ext_name
@@ -43,7 +44,7 @@ function useProtocolHook(props) {
       if (can_perform_action() === false) return;
 
       try {
-        context_packets_fn.send("editor_update", {
+        context_connection_fn.send("editor_update", {
           action: { id: Date.now() + "_update", type: "update" },
           object: object,
           name: props.ext_name
@@ -56,7 +57,7 @@ function useProtocolHook(props) {
       if (can_perform_action() === false) return;
 
       try {
-        context_packets_fn.send("editor_update", {
+        context_connection_fn.send("editor_update", {
           action: { id: Date.now() + "_update", type: "remove" },
           object: { id: object.id },
           name: props.ext_name
@@ -69,7 +70,7 @@ function useProtocolHook(props) {
       if (can_perform_action() === false) return;
 
       try {
-        context_packets_fn.send("editor_process", {
+        context_connection_fn.send("editor_process", {
           action_id: Date.now() + "_process",
           object,
           name: props.ext_name
@@ -82,7 +83,7 @@ function useProtocolHook(props) {
       if (can_perform_action() === false) return;
 
       try {
-        context_packets_fn.send("editor_update", {
+        context_connection_fn.send("editor_update", {
           action: { id: Date.now() + "_update", type: "replace_id" },
           old_id,
           new_id,
@@ -96,7 +97,7 @@ function useProtocolHook(props) {
 
   const parse_fn_list = [
     () => {
-      const packets = context_packets_fn.peek(
+      const packets = context_connection_fn.peek(
         "editor_process_" + props.ext_name
       );
 
@@ -110,7 +111,7 @@ function useProtocolHook(props) {
         );
     },
     () => {
-      const packets = context_packets_fn.peek(
+      const packets = context_connection_fn.peek(
         "editor_update_" + props.ext_name
       );
 
@@ -126,7 +127,9 @@ function useProtocolHook(props) {
       if (packets.length > 0) send_map.get();
     },
     () => {
-      const packets = context_packets_fn.peek("editor_data_" + props.ext_name);
+      const packets = context_connection_fn.peek(
+        "editor_data_" + props.ext_name
+      );
 
       if (state_action_id === "") return;
 
@@ -160,7 +163,7 @@ function useProtocolHook(props) {
 
   React.useEffect(() => {
     for (const parse_fn of parse_fn_list) parse_fn();
-  }, [context_packets_data]);
+  }, [context_connection_packets_data]);
 
   return {
     hook_protocol_objects_list: state_objects,

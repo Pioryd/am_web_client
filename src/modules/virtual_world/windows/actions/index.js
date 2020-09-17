@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "./table";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
 
 import "./index.css";
@@ -8,15 +8,16 @@ import "./index.css";
 const PACKET_NAME = "data_mirror";
 
 function Actions(props) {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const [state_last_sync, set_state_last_sync] = React.useState("");
   const [state_data, set_state_data] = React.useState([]);
 
   const parse_packet = () => {
-    const packets = context_packets_fn.peek(PACKET_NAME);
+    const packets = context_connection_fn.peek(PACKET_NAME);
     if (packets.length === 0) return;
 
     const packet = packets.pop();
@@ -37,7 +38,7 @@ function Actions(props) {
     set_state_data(data);
   };
 
-  React.useEffect(() => parse_packet(), [context_packets_data]);
+  React.useEffect(() => parse_packet(), [context_connection_packets_data]);
 
   return (
     <div className="action-window">

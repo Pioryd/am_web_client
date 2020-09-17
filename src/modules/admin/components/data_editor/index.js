@@ -1,16 +1,17 @@
 import React from "react";
 import Select from "react-select";
 import useSelectHook from "../../../../hooks/select_hook";
-import { ProtocolContext } from "../../../../context/protocol";
+import { ConnectionContext } from "../../../../context/connection";
 
 import EditorScript from "./editor_script";
 import EditorJS from "./editor_js";
 import EditorYAML from "./editor_yaml";
 
 function DataEditor(props) {
-  const { context_packets_data, context_packets_fn } = React.useContext(
-    ProtocolContext
-  );
+  const {
+    context_connection_packets_data,
+    context_connection_fn
+  } = React.useContext(ConnectionContext);
 
   const {
     hook_select_current_value,
@@ -53,7 +54,7 @@ function DataEditor(props) {
 
   React.useEffect(() => {
     let data_config = null;
-    for (const packet of context_packets_fn.peek("editor_config"))
+    for (const packet of context_connection_fn.peek("editor_config"))
       data_config = packet.data_config;
 
     if (state_data_config === "" && data_config != null) {
@@ -65,12 +66,12 @@ function DataEditor(props) {
 
       hook_select_fn.update(data_map);
     }
-  }, [context_packets_data]);
+  }, [context_connection_packets_data]);
 
   React.useEffect(() => {
     const get_config = () => {
       if (ref_data_config.current === "") {
-        context_packets_fn.send("editor_config", {});
+        context_connection_fn.send("editor_config", {});
         setTimeout(() => get_config(), 500);
       }
     };
