@@ -10,7 +10,8 @@ function usePacketManagerHook({ settings }) {
   const send = (packet_id, data) => {
     if (
       get_client() == null ||
-      (packet_id !== "accept_connection" && get_client().ext.logged_in !== true)
+      (packet_id !== "accept_connection" &&
+        get_client().ext.connection_accepted !== true)
     )
       return;
     get_client().send(packet_id, data);
@@ -54,7 +55,7 @@ function usePacketManagerHook({ settings }) {
   };
 
   const accept_connection = (data) => {
-    ref_client.current.ext.logged_in = true;
+    ref_client.current.ext.connection_accepted = true;
   };
 
   const parse_root = (data) => {

@@ -6,17 +6,29 @@ export const AppContext = React.createContext();
 
 const LOCAL_STORAGE_NAME = "am_web_client";
 
+// In comments are files that mostly need these configs
 const CORE_SETTINGS = {
-  accept_connection_data: {},
-  main_loop_sleep: 500,
-  reconnect_attempts_interval: 1000,
+  /** root */
+  module: "admin",
+  /** context/packet_manager */
   packet_queue_size: 10,
+  /** context/connection_manager */
+  connection_auto_reconnect: true,
+  connection_debug: true,
+  connection_logger: {
+    print_log: true,
+    print_info: true,
+    print_error: true,
+    print_warn: true,
+    print_debug: true
+  },
   packet_send_delay: 0,
   packet_timeout: 0,
   host: "localhost",
   port: "3000",
-  module: "admin",
-  start_as_connection_enabled: 1
+  main_loop_sleep: 500,
+  start_as_connection_enabled: 1,
+  accept_connection_data: {}
 };
 
 const AppProvider = ({ children }) => {

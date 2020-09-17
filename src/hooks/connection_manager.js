@@ -1,9 +1,8 @@
 import React from "react";
 import Client from "../framework/client";
-
 import LoadingDots from "../framework/loading_dots";
 
-const useConnectionManager = (props) => {
+const useConnectionManagerHook = (props) => {
   const [state_client, set_state_client] = React.useState();
   const [state_settings, set_state_settings] = React.useState(props.settings);
   const [
@@ -22,17 +21,10 @@ const useConnectionManager = (props) => {
   const ref_main_loop = React.useRef();
   const ref_check_connection = React.useRef();
 
-  const _get_connection_id = () => {
-    if (
-      state_client != null &&
-      state_client != null &&
-      state_client.is_connected()
-    ) {
-      return state_client.socket.id;
-    } else {
-      return "not set";
-    }
-  };
+  const _get_connection_id = () =>
+    state_client != null && state_client.is_connected()
+      ? state_client.socket.id
+      : "not set";
 
   // If you add new object here, you need to add it too in useEffect
   // bellow with same list.
@@ -80,9 +72,10 @@ const useConnectionManager = (props) => {
 
       if (_this.state_client != null) _this.state_client.poll();
 
-      ref_main_loop.current = setTimeout(() => {
-        main_loop();
-      }, _this.state_settings.main_loop_sleep);
+      ref_main_loop.current = setTimeout(
+        () => main_loop(),
+        _this.state_settings.main_loop_sleep
+      );
     };
 
     try {
@@ -91,68 +84,62 @@ const useConnectionManager = (props) => {
         options: {
           send_delay: state_settings.packet_send_delay,
           packet_timeout: state_settings.packet_timeout,
-          auto_reconnect: true,
-          debug: true
+          auto_reconnect: state_settings.connection_auto_reconnect,
+          debug: state_settings.connection_debug
         }
       });
-      client.ext.logged_in = null;
+      client.ext.connection_accepted = false;
       client.logger.options = {
         ...client.logger.options,
-        print_log: true,
-        print_info: true,
-        print_error: true,
-        print_warn: true,
-        print_debug: true
+        ...state_settings.connection_logger
       };
-      client.add_parse_packet_dict(create_parse_dict());
+      client.add_parse_packet_dict({ root: props.parse_root_packet });
       client.events.connected = () => {
-        console.log("client.connected");
+        console.log("Client connected");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Logging in...");
-        _this.state_client.ext.logged_in = null;
+        _this.state_client.ext.connection_accepted = false;
         props.on_connected(_this.state_client, {
           ..._this.state_settings.accept_connection_data
         });
       };
       client.events.disconnected = () => {
-        console.log("client.disconnected");
+        console.log("Client disconnected");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Disconnected");
-        _this.state_client.ext.logged_in = null;
+        _this.state_client.ext.connection_accepted = false;
       };
       client.events.reconnecting = () => {
-        console.log("client.reconnecting");
+        console.log("Client reconnecting");
         const _this = ref_check_connection.current;
         _this.set_state_connection_status("Reconnecting...");
-        _this.state_client.ext.logged_in = null;
+        _this.state_client.ext.connection_accepted = false;
       };
       set_state_client(client);
       _update_hook_check_connections();
       main_loop();
       return () => clearTimeout(ref_main_loop.current);
     } catch (error) {
-      console.log("Disconnected: " + error);
+      console.log("Client disconnected: " + error);
     }
   };
 
-  const create_parse_dict = () => {
-    const parse_packet_dict = {};
-
-    parse_packet_dict["root"] = props.parse_root_packet;
-
-    return parse_packet_dict;
-  };
-
-  React.useEffect(() => {
-    _start_client();
-  }, []);
-
-  React.useEffect(() => {
+  const on_settings_change = () => {
     if (state_client == null) return;
 
+    state_client.options = {
+      send_delay: state_settings.packet_send_delay,
+      packet_timeout: state_settings.packet_timeout,
+      auto_reconnect: state_settings.connection_auto_reconnect,
+      debug: state_settings.connection_debug
+    };
+    state_client.logger.options = {
+      ...state_client.logger.options,
+      ...state_settings.connection_logger
+    };
     state_client.set_send_delay(state_settings.packet_send_delay);
     state_client.set_timeout(state_settings.packet_timeout);
-  }, [state_settings]);
+  };
 
   // If you add new object here, you need to add it too in function
   // {_update_hook_check_connections} with same list.
@@ -166,20 +153,22 @@ const useConnectionManager = (props) => {
     state_logged_as,
     state_settings
   ]);
+  React.useEffect(() => _start_client(), []);
+  React.useEffect(() => on_settings_change(), [state_settings]);
 
   return {
-    hook_connection_manager_fn: {
-      set_settings: set_state_settings,
-      set_connection_enabled: set_state_connection_enabled,
-      set_logged_as: set_state_logged_as
-    },
-    hook_connection_info: {
+    hook_connection_manager_info: {
       enabled: state_connection_enabled,
       status: state_connection_status,
       id: _get_connection_id()
     },
-    hook_client: state_client
+    hook_connection_manager_client: state_client,
+    hook_connection_manager_fn: {
+      set_settings: set_state_settings,
+      set_connection_enabled: set_state_connection_enabled,
+      set_logged_as: set_state_logged_as
+    }
   };
 };
 
-export default useConnectionManager;
+export default useConnectionManagerHook;
