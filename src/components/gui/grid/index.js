@@ -5,10 +5,10 @@ import GridLayout from "../../layout/grid_layout";
 
 import "./index.css";
 
-function Gui_Grid(props) {
+function Gui_Grid({ module_data }) {
   const [state_windows] = React.useState(() => {
     const components_list = [];
-    for (const window of Object.values(props.module_data.windows_map)) {
+    for (const window of Object.values(module_data.windows)) {
       components_list.push(
         <div className="form-panel">
           <div class="title">{window.title}</div>
@@ -25,10 +25,7 @@ function Gui_Grid(props) {
     <React.Fragment>
       <Navigation enabled_windows_list={false} />
       <div className="main-window-content">
-        <GridLayout
-          config={props.module_data.grid_layouts}
-          windows={state_windows}
-        />
+        <GridLayout config={module_data.grid_layouts} windows={state_windows} />
       </div>
     </React.Fragment>
   );

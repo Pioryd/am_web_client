@@ -82,13 +82,13 @@ function useGoldenLayout(props) {
           selected_column = column_2;
 
         selected_column.addChild({
-          title: props.windows_map[window_name].title,
+          title: props.windows[window_name].title,
           type: "react-component",
           component: window_name,
           props: {
             id: { window_name },
             key: window_name,
-            title: props.windows_map[window_name].title
+            title: props.windows[window_name].title
           }
         });
       }
@@ -108,13 +108,13 @@ function useGoldenLayout(props) {
 
       if (display_mode === "mobile") {
         stack_content_item.addChild({
-          title: props.windows_map[window_name].title,
+          title: props.windows[window_name].title,
           type: "react-component",
           component: window_name,
           props: {
             id: { window_name },
             key: window_name,
-            title: props.windows_map[window_name].title
+            title: props.windows[window_name].title
           }
         });
       }
@@ -127,13 +127,13 @@ function useGoldenLayout(props) {
       const stack_content_item = root.contentItems[0].contentItems[0];
 
       stack_content_item.addChild({
-        title: props.windows_map[window_name].title,
+        title: props.windows[window_name].title,
         type: "react-component",
         component: window_name,
         props: {
           id: { window_name },
           key: window_name,
-          title: props.windows_map[window_name].title
+          title: props.windows[window_name].title
         }
       });
     }
@@ -192,7 +192,7 @@ function useGoldenLayout(props) {
   };
 
   const register_components = (myLayout) => {
-    for (const [window_name, values] of Object.entries(props.windows_map))
+    for (const [window_name, values] of Object.entries(props.windows))
       myLayout.registerComponent(window_name, values.class);
 
     myLayout.on("stateChanged", function () {

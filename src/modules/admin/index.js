@@ -4,7 +4,7 @@ import ModuleInfo from "./windows/module_info";
 import VisualConnections from "./windows/visual_connections";
 
 export default {
-  windows_map: {
+  windows: {
     data_editor: { class: DataEditor, title: "Data editor" },
     module_data: { class: ModuleData, title: "Module data" },
     module_info: { class: ModuleInfo, title: "Module info" },
@@ -12,5 +12,6 @@ export default {
       class: VisualConnections,
       title: "Visual Connections"
     }
-  }
+  },
+  gui_type: "multi_window"
 };

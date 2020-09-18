@@ -4,7 +4,7 @@ import statistics from "./windows/statistics";
 import api from "./windows/api";
 
 export default {
-  windows_map: {
+  windows: {
     world_map: { class: map, title: "World Map" },
     statistics: { class: statistics, title: "Objects Statistics" },
     api: { class: api, title: "Execute Api" },
@@ -26,5 +26,7 @@ export default {
         { i: "4", x: 9, y: 0, w: 3, h: 55 }
       ]
     }
-  }
+  },
+  gui_type: "grid",
+  navigation_enabled_windows_list: false
 };
