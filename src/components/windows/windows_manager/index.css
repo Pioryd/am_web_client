@@ -1,0 +1,9 @@
+.dropdown-buttons-list .button {
+  clear: both;
+  min-width: calc(100% - 2px);
+}
+
+.dropdown-buttons-list label {
+  clear: both;
+  min-width: calc(100% - 2px);
+}

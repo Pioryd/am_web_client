@@ -7,6 +7,7 @@ function SyncButton(props) {
   const { context_connection_fn, context_connection_info } = React.useContext(
     ConnectionContext
   );
+
   const state_form = {
     enabled: {
       enabled: true,

@@ -1,0 +1,10 @@
+.settings {
+  position: relative;
+  width: 500px;
+  height: 100%;
+  overflow: auto;
+}
+
+.settings json-button {
+  color: black;
+}

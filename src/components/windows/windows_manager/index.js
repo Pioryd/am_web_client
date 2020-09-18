@@ -38,8 +38,8 @@ function ButtonsList(props) {
   }, [state_buttons]);
 
   return (
-    <React.Fragment>
-      {state_elements}{" "}
+    <div className="dropdown-buttons-list">
+      {state_elements}
       <button
         className="button"
         style={{ color: "red" }}
@@ -50,7 +50,7 @@ function ButtonsList(props) {
         Clear saved state
       </button>
       <label>Display mode [{props.display_mode}]</label>
-    </React.Fragment>
+    </div>
   );
 }
 

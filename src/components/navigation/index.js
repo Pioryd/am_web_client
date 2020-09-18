@@ -1,46 +1,27 @@
 import React from "react";
-import Tooltip from "rc-tooltip";
+import Tooltip from "./tooltip";
+import { v4 as uuidv4 } from "uuid";
 
-import { AppContext } from "../../context/app";
-
-import WindowsList from "./windows_list/index";
-import SyncButton from "./sync_button";
-
-import "rc-tooltip/assets/bootstrap_white.css";
 import "./index.css";
 
-function Navigation(props) {
-  const { context_app_session_data } = React.useContext(AppContext);
-
+function Navigation({ buttons = [] }) {
   return (
-    <div id="main-window-bar_1" className="main-window-bar">
-      {props.enabled_windows_list === true && <WindowsList {...props} />}
-      {props.enabled_sync_button === true && <SyncButton />}
-      {props.enabled_info_button === true && (
-        <Tooltip
-          placement="bottom"
-          trigger={["click"]}
-          overlay={
-            <React.Fragment>
-              <span>{`Login[${context_app_session_data._settings.accept_connection_data.login}]`}</span>
-              <br />
-              <span>{`Module[${context_app_session_data._settings.module}]`}</span>
-            </React.Fragment>
-          }
-        >
-          <button style={{ float: "right" }}>Info(?)</button>
-        </Tooltip>
-      )}
+    <div id="main_navigation" className="main-window-bar">
+      {buttons.map(({ float, name, type, component }) => {
+        const element =
+          type === "tooltip" ? (
+            <Tooltip child={component} name={name} />
+          ) : (
+            component
+          );
+        return (
+          <div key={uuidv4()} style={{ float }}>
+            {element}
+          </div>
+        );
+      })}
     </div>
   );
 }
-
-Navigation.defaultProps = {
-  enabled_windows_list: true,
-  enabled_sync_button: true,
-  enabled_info_button: true,
-  windows_list: {},
-  on_add_window: () => {}
-};
 
 export default Navigation;

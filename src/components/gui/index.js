@@ -5,7 +5,6 @@ import { useMediaQuery } from "react-responsive";
 
 import MultiWindow from "./multi_window";
 import Grid from "./grid";
-import RootWindows from "../windows";
 
 import Modules from "../../modules";
 import { AppContext } from "../../context/app";
@@ -25,7 +24,7 @@ function Gui(props) {
       accept_connection_data
     } = context_app_session_data._settings;
 
-    set_state_module_data(_.merge({ ...RootWindows }, Modules[module]));
+    set_state_module_data({ ...Modules[module] });
     set_state_title(`[${module}]<${accept_connection_data.login}> - AM`);
     set_state_type(Modules[module].gui_type);
   }, [context_app_session_data]);
