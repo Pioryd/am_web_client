@@ -2,15 +2,12 @@ import React from "react";
 
 import "./index.css";
 
-function ButtonsList(props) {
-  const [state_buttons, set_state_buttons] = React.useState({});
-  const [state_elements, set_state_elements] = React.useState([]);
+function WindowsManager(props) {
+  const [state_buttons, set_state_buttons] = React.useState(props.windows_list);
 
-  const open = (e) => {
-    e.preventDefault();
-
-    let buttons = { ...state_buttons };
-    let button_id = e.target.id;
+  const open_window = (id) => {
+    const buttons = { ...state_buttons };
+    const button_id = id;
 
     if (!(button_id in buttons)) return;
 
@@ -21,37 +18,25 @@ function ButtonsList(props) {
     props.on_add_window(button_id);
   };
 
-  React.useEffect(() => {
-    set_state_buttons(props.windows_list);
-  }, []);
-
-  React.useEffect(() => {
-    let elements = [];
-    for (const [key] of Object.entries(state_buttons)) {
-      elements.push(
-        <button className="button" id={key} key={key} onClick={(e) => open(e)}>
-          {state_buttons[key].title}
-        </button>
-      );
-    }
-    set_state_elements(elements);
-  }, [state_buttons]);
-
   return (
     <div className="dropdown-buttons-list">
-      {state_elements}
-      <button
-        className="button"
-        style={{ color: "red" }}
-        id="clear_saved_state"
-        key="clear_saved_state"
-        onClick={(e) => localStorage.removeItem("am_gl_saved_states")}
-      >
-        Clear saved state
-      </button>
-      <label>Display mode [{props.display_mode}]</label>
+      {Object.keys(state_buttons).map((id) => {
+        return (
+          <button
+            className="button"
+            id={id}
+            key={id}
+            onClick={(e) => {
+              e.preventDefault();
+              open_window(e.target.id);
+            }}
+          >
+            {state_buttons[id].title}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-export default ButtonsList;
+export default WindowsManager;

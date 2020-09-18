@@ -9,11 +9,7 @@ import { AppContext } from "../../../context/app";
 import "./index.css";
 
 function LoginPanel(props) {
-  const {
-    context_app_data,
-    context_app_fn,
-    context_app_test
-  } = React.useContext(AppContext);
+  const { context_app_data, context_app_fn } = React.useContext(AppContext);
 
   const {
     hook_select_current_value,
