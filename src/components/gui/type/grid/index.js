@@ -2,8 +2,8 @@ import React from "react";
 
 import Navigation from "../../navigation";
 import GridLayout from "../../layout/grid_layout";
-import Settings from "../../windows/settings";
-import SyncButton from "../../buttons/sync";
+import Settings from "../../../windows/settings";
+import SyncButton from "../../../buttons/sync";
 
 import "./index.css";
 

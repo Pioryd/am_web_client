@@ -3,8 +3,8 @@ import _ from "lodash";
 import { Helmet } from "react-helmet";
 import { useMediaQuery } from "react-responsive";
 
-import MultiWindow from "./multi_window";
-import Grid from "./grid";
+import MultiWindow from "./type/multi_window";
+import Grid from "./type/grid";
 
 import Modules from "../../modules";
 import { AppContext } from "../../context/app";

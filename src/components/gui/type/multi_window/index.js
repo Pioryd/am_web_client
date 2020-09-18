@@ -1,14 +1,14 @@
 import React from "react";
 
-import { AppContext } from "../../../context/app";
+import { AppContext } from "../../../../context/app";
 
 import GoldenLayout from "../../layout/golden_layout";
 import useGoldenLayout from "../../layout/golden_layout/hook";
 import Navigation from "../../navigation";
 
-import WindowsManager from "../../windows/windows_manager";
-import Settings from "../../windows/settings";
-import SyncButton from "../../buttons/sync";
+import WindowsManager from "../../../windows/windows_manager";
+import Settings from "../../../windows/settings";
+import SyncButton from "../../../buttons/sync";
 
 import "./index.css";
 
