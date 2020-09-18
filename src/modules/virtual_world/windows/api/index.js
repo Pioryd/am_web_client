@@ -5,6 +5,7 @@ import useSelectHook from "../../../../hooks/select_hook";
 import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
 
+import "ace-builds/webpack-resolver";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-min-noconflict/ext-searchbox";
@@ -23,9 +24,7 @@ function Api(props) {
     context_connection_packets_data,
     context_connection_fn
   } = React.useContext(ConnectionContext);
-
   const ref_auto_sync = React.useRef({});
-
   const {
     hook_select_current_value,
     hook_select_options,
@@ -37,7 +36,6 @@ function Api(props) {
       return object.id;
     }
   });
-
   const [state_current_object, set_state_current_object] = React.useState("");
   const [state_last_sync, set_state_last_sync] = React.useState("");
   const [state_sync_interval, set_state_sync_interval] = React.useState(
@@ -45,49 +43,37 @@ function Api(props) {
   );
   const [state_source, set_state_source] = React.useState("");
   const [state_validate_error, set_state_validate_error] = React.useState("");
-
   const parse_packet = () => {
     const packets = context_connection_fn.peek(PACKET_NAME);
     if (packets.length === 0) return;
-
     const packet = packets.pop();
     set_state_last_sync(Util.get_time_hms());
-
     const select_objects = [];
     for (const id of Object.keys(packet.mirror.objects))
       select_objects.push({ id });
-
     let current_object = null;
     for (const object of select_objects)
       if (object.id === state_current_object.id) current_object = object;
-
     hook_select_fn.update(select_objects, current_object);
   };
-
   const auto_sync = () => {
     if (props.auto_sync === false) return;
-
     ref_auto_sync.current.state_sync_interval = state_sync_interval;
-
     const async_auto_sync = () => {
       context_connection_fn.send(PACKET_NAME);
-
       ref_auto_sync.current.timeout = setTimeout(() => {
         async_auto_sync();
       }, ref_auto_sync.current.state_sync_interval);
     };
-
     async_auto_sync();
     return () => {
       clearTimeout(ref_auto_sync.current.timeout);
     };
   };
-
   const set_example_api = () => {
     set_state_source(JSON.stringify(API_EXAMPLE, null, 2));
     set_state_validate_error("");
   };
-
   const validate_api = () => {
     try {
       set_state_source(JSON.stringify(JSON.parse(state_source), null, 2));
@@ -98,11 +84,9 @@ function Api(props) {
     }
     return false;
   };
-
   const process_api = () => {
     if (validate_api() === true) {
       const { api, data } = JSON.parse(state_source);
-
       context_connection_fn.send("process_api", {
         object_id: state_current_object.id,
         api,
@@ -113,9 +97,7 @@ function Api(props) {
       set_state_validate_error("Unable to PROCESS. Api format is not valid.");
     }
   };
-
   const on_change = (source) => set_state_source(source);
-
   React.useEffect(() => parse_packet(), [context_connection_packets_data]);
   React.useEffect(() => auto_sync(), []);
   React.useEffect(() => {
@@ -124,7 +106,6 @@ function Api(props) {
   React.useEffect(() => set_state_current_object(hook_select_current_value), [
     hook_select_current_value
   ]);
-
   return (
     <div className="content_body">
       <div className="bar">
@@ -166,10 +147,10 @@ function Api(props) {
         maxMenuHeight={150}
       />
       {state_validate_error !== "" && (
-        <label class="error">{state_validate_error}</label>
+        <label className="error">{state_validate_error}</label>
       )}
-      <div class="editor">
-        <div class="area">
+      <div className="editor">
+        <div className="area">
           <AceEditor
             width="100%"
             height="100%"

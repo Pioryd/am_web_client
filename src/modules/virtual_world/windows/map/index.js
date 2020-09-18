@@ -1,7 +1,7 @@
 import React from "react";
 import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
-
+import { v4 as uuidv4 } from "uuid";
 import "./index.css";
 
 const PACKET_NAME = "data_mirror";
@@ -48,8 +48,8 @@ function Map(props) {
               }
 
               rendered.push(
-                <li class={object_class}>
-                  <span class="system">
+                <li key={uuidv4()} className={object_class}>
+                  <span className="system">
                     {state_show_system_objects === true &&
                       object.properties.includes("system") &&
                       "[System]"}
@@ -90,11 +90,11 @@ function Map(props) {
       <div className="bar">
         <label>{`Last sync: ${state_last_sync}`}</label>
       </div>
-      <span class="object">[Object] </span>
-      <span class="area">[Area] </span>
-      <span class="am">[AM] </span>
-      <span class="user">[User] </span>
-      <span class="system">
+      <span className="object">[Object] </span>
+      <span className="area">[Area] </span>
+      <span className="am">[AM] </span>
+      <span className="user">[User] </span>
+      <span className="system">
         <input
           name="show"
           type="checkbox"

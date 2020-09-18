@@ -11,7 +11,7 @@ function Gui_Grid({ module_data }) {
     for (const window of Object.values(module_data.windows)) {
       components_list.push(
         <div className="form-panel">
-          <div class="title">{window.title}</div>
+          <div className="title">{window.title}</div>
           <div className="edit_data" onMouseDown={(e) => e.stopPropagation()}>
             <window.class />
           </div>
