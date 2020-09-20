@@ -8,23 +8,60 @@ import Navigation from "../../navigation";
 
 import WindowsManager from "../../../windows/windows_manager";
 import Settings from "../../../windows/settings";
-import SyncButton from "../../../buttons/sync";
+import Sync from "../../../buttons/sync";
+import ChangeDisplay from "../../../buttons/change_display";
 
 import "./index.css";
 
+const get_view_mode = (is_big_screen) => (is_big_screen ? "desktop" : "mobile");
+
 function Gui_MultiWindow(props) {
-  const { context_app_session_data } = React.useContext(AppContext);
+  const { context_app_session_data, context_app_fn } = React.useContext(
+    AppContext
+  );
+
+  const [state_view_mode, set_state_view_mode] = React.useState(
+    get_view_mode(props.is_desktop_or_laptop)
+  );
 
   const {
-    hook_golden_layout_config,
+    hook_golden_layout_instance_key,
+    hook_golden_layout_settings,
     hook_golden_layout_display_mode,
     hook_golden_layout_ref,
     hook_golden_layout_fn
   } = useGoldenLayout({
     windows: props.module_data.windows,
-    is_desktop_or_laptop: props.is_desktop_or_laptop,
-    settings: context_app_session_data._settings
+    view_mode: get_view_mode(props.is_desktop_or_laptop),
+    settings: { ...context_app_session_data.golden_layout }
   });
+
+  const button = {
+    toggle_display_mode() {
+      hook_golden_layout_fn.set_display_mode(
+        hook_golden_layout_display_mode === "custom"
+          ? state_view_mode
+          : "custom"
+      );
+    }
+  };
+
+  React.useEffect(
+    () =>
+      context_app_fn.update_session({
+        golden_layout: { ...hook_golden_layout_settings }
+      }),
+    [hook_golden_layout_settings]
+  );
+
+  React.useEffect(() => hook_golden_layout_fn.set_view_mode(state_view_mode), [
+    state_view_mode
+  ]);
+
+  React.useEffect(
+    () => set_state_view_mode(get_view_mode(props.is_desktop_or_laptop)),
+    [props.is_desktop_or_laptop]
+  );
 
   return (
     <React.Fragment>
@@ -33,7 +70,7 @@ function Gui_MultiWindow(props) {
           {
             type: "custom",
             float: "left",
-            component: <SyncButton />
+            component: <Sync />
           },
           {
             type: "tooltip",
@@ -48,8 +85,18 @@ function Gui_MultiWindow(props) {
             component: (
               <WindowsManager
                 windows_list={props.module_data.windows}
-                display_mode={hook_golden_layout_display_mode}
                 on_add_window={hook_golden_layout_fn.add_window}
+              />
+            )
+          },
+          {
+            type: "custom",
+            float: "right",
+            component: (
+              <ChangeDisplay
+                toggle={() => button.toggle_display_mode()}
+                view_mode={state_view_mode}
+                display_mode={hook_golden_layout_display_mode}
               />
             )
           }
@@ -57,8 +104,9 @@ function Gui_MultiWindow(props) {
       />
       <div className="main-window-content">
         <GoldenLayout
+          key={hook_golden_layout_instance_key}
           golden_layout_fn={hook_golden_layout_fn}
-          windows_config={hook_golden_layout_config}
+          windows_config={hook_golden_layout_settings.config}
           golden_layout_ref={hook_golden_layout_ref}
         />
       </div>
