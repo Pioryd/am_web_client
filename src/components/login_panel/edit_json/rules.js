@@ -31,7 +31,8 @@ export default {
     "accept_connection_data",
     "host",
     "port",
-    "settings"
+    "settings",
+    "session_id"
   ],
   additionalProperties: false
 };

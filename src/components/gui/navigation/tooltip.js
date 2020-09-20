@@ -1,8 +1,7 @@
 import React from "react";
 import { useWindowHeight } from "@react-hook/window-size";
 import Tooltip from "rc-tooltip";
-
-import "rc-tooltip/assets/bootstrap_white.css";
+import "rc-tooltip/assets/bootstrap.css";
 
 function TooltipWindow({ child, name }) {
   const height = useWindowHeight();

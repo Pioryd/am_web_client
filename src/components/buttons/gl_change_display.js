@@ -1,5 +1,6 @@
 import React from "react";
 import Tooltip from "rc-tooltip";
+import "rc-tooltip/assets/bootstrap.css";
 
 function ChangeDisplay({ toggle, view_mode, display_mode }) {
   return (

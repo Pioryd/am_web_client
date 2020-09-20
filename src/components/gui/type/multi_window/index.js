@@ -9,7 +9,7 @@ import Navigation from "../../navigation";
 import WindowsManager from "../../../windows/windows_manager";
 import Settings from "../../../windows/settings";
 import Sync from "../../../buttons/sync";
-import ChangeDisplay from "../../../buttons/change_display";
+import ChangeDisplay from "../../../buttons/gl_change_display";
 
 import "./index.css";
 

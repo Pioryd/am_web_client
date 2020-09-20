@@ -22,7 +22,7 @@ export default {
   json: {
     title: "Login data",
     type: "object",
-    required: ["title"],
+    required: [""],
     properties: {
       id: {
         type: "string",
