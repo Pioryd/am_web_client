@@ -9,7 +9,7 @@ const useConnectionManagerHook = (props) => {
     state_connection_enabled,
     set_state_connection_enabled
     // can be number, so ==
-  ] = React.useState(state_settings.start_as_connection_enabled == true);
+  ] = React.useState(state_settings.connection.start_as_enabled == true);
   const [state_connection_status, set_state_connection_status] = React.useState(
     "Disconnected"
   );
@@ -74,24 +74,24 @@ const useConnectionManagerHook = (props) => {
 
       ref_main_loop.current = setTimeout(
         () => main_loop(),
-        _this.state_settings.main_loop_sleep
+        _this.state_settings.connection.poll_interval
       );
     };
 
     try {
       const client = new Client({
-        url: `http://${state_settings.host}:${state_settings.port}`,
+        url: `http://${state_settings.connection.host}:${state_settings.connection.port}`,
         options: {
-          send_delay: state_settings.packet_send_delay,
-          packet_timeout: state_settings.packet_timeout,
-          auto_reconnect: state_settings.connection_auto_reconnect,
-          debug: state_settings.connection_debug
+          send_delay: state_settings.connection.send_delay,
+          packet_timeout: state_settings.connection.packet_timeout,
+          auto_reconnect: state_settings.connection.auto_reconnect,
+          debug: state_settings.connection.debug
         }
       });
       client.ext.connection_accepted = false;
       client.logger.options = {
         ...client.logger.options,
-        ...state_settings.connection_logger
+        ...state_settings.connection.logger
       };
       client.add_parse_packet_dict({ root: props.parse_root_packet });
       client.events.connected = () => {
@@ -100,7 +100,7 @@ const useConnectionManagerHook = (props) => {
         _this.set_state_connection_status("Logging in...");
         _this.state_client.ext.connection_accepted = false;
         props.on_connected(_this.state_client, {
-          ..._this.state_settings.accept_connection_data
+          ..._this.state_settings.connection.accept_data
         });
       };
       client.events.disconnected = () => {
@@ -128,17 +128,17 @@ const useConnectionManagerHook = (props) => {
     if (state_client == null) return;
 
     state_client.options = {
-      send_delay: state_settings.packet_send_delay,
-      packet_timeout: state_settings.packet_timeout,
-      auto_reconnect: state_settings.connection_auto_reconnect,
-      debug: state_settings.connection_debug
+      send_delay: state_settings.connection.send_delay,
+      packet_timeout: state_settings.connection.packet_timeout,
+      auto_reconnect: state_settings.connection.auto_reconnect,
+      debug: state_settings.connection.debug
     };
     state_client.logger.options = {
       ...state_client.logger.options,
-      ...state_settings.connection_logger
+      ...state_settings.connection.logger
     };
-    state_client.set_send_delay(state_settings.packet_send_delay);
-    state_client.set_timeout(state_settings.packet_timeout);
+    state_client.set_send_delay(state_settings.connection.send_delay);
+    state_client.set_timeout(state_settings.connection.packet_timeout);
   };
 
   // If you add new object here, you need to add it too in function

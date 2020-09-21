@@ -27,7 +27,7 @@ const ConnectionProvider = ({ settings, children }) => {
     if (packets.length === 0) return;
 
     hook_connection_manager_fn.set_logged_as(
-      settings.accept_connection_data.login
+      settings.connection.accept_data.login
     );
   };
 

@@ -6,7 +6,7 @@ export default {
     module: {
       type: ["number", "string"]
     },
-    accept_connection_data: {
+    connection_accept_data: {
       type: "object"
     },
     host: {
@@ -28,7 +28,7 @@ export default {
   required: [
     "id",
     "module",
-    "accept_connection_data",
+    "connection_accept_data",
     "host",
     "port",
     "settings",

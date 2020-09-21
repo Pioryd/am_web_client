@@ -46,7 +46,7 @@ function usePacketManagerHook({ settings }) {
 
     if (!(packet_id in packets_data)) packets_data[packet_id] = [];
 
-    while (packets_data[packet_id].length >= settings.packet_queue_size)
+    while (packets_data[packet_id].length >= settings.packet.queue_size)
       packets_data[packet_id].shift();
 
     packets_data[packet_id].push(data);

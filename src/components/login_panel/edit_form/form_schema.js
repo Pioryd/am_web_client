@@ -1,6 +1,6 @@
 export default {
   ui: {
-    accept_connection_data: {
+    connection_accept_data: {
       "ui:widget": "textarea",
       "ui:options": {
         rows: 5
@@ -33,7 +33,7 @@ export default {
         title: "Module",
         enum: ["admin", "virtual_world"]
       },
-      accept_connection_data: {
+      connection_accept_data: {
         type: "string",
         title: "[JSON] Protocol data - accept_connection"
       },

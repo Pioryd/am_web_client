@@ -40,11 +40,12 @@ function LoginPanel(props) {
         throw new Error(`No data.`);
 
       for (const [key, value] of Object.entries(data)) {
-        if (!["accept_connection_data", "settings"].includes(key)) continue;
+        if (!["connection_accept_data", "settings"].includes(key)) continue;
         if (type === "raw") data[key] = JSON.parse(value);
         if (type === "string") data[key] = JSON.stringify(value, null, 2);
       }
     } catch (e) {
+      console.log({ data });
       set_error(`Unable to format json[${data.id}].` + ` Error ${e.message}`);
     }
 
@@ -98,7 +99,7 @@ function LoginPanel(props) {
         let login_data = {
           id: new Date().getTime(),
           module: "admin",
-          accept_connection_data: { login: "", password: "" },
+          connection_accept_data: { login: "", password: "" },
           host: "localhost",
           port: 0,
           settings: { client_timeout: 0 },
@@ -128,9 +129,11 @@ function LoginPanel(props) {
       try {
         const login_data = {
           ...state_current_login_data,
-          accept_connection_data: JSON.parse(
-            state_current_login_data.accept_connection_data
-          ),
+          connection: {
+            accept_data: JSON.parse(
+              state_current_login_data.connection_accept_data
+            )
+          },
           settings: JSON.parse(state_current_login_data.settings)
         };
         context_app_fn.update_session(

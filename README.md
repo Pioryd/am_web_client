@@ -18,9 +18,11 @@ npm start
   "World - Admin": {
     "id": "World - Admin",
     "module": "admin",
-    "accept_connection_data": {
-      "login": "World",
-      "password": "123"
+    "connection": {
+      "accept_data": {
+        "login": "World",
+        "password": "123"
+      }
     },
     "host": "localhost",
     "port": 3101,
@@ -31,9 +33,11 @@ npm start
   "Editor - Admin": {
     "id": "Editor - Admin",
     "module": "admin",
-    "accept_connection_data": {
-      "login": "editor",
-      "password": "123"
+    "connection": {
+      "accept_data": {
+        "login": "editor",
+        "password": "123"
+      }
     },
     "host": "localhost",
     "port": 3104,
@@ -44,9 +48,11 @@ npm start
   "MAM - Admin": {
     "id": "MAM - Admin",
     "module": "admin",
-    "accept_connection_data": {
-      "login": "MAM",
-      "password": "123"
+    "connection": {
+      "accept_data": {
+        "login": "MAM",
+        "password": "123"
+      }
     },
     "host": "localhost",
     "port": 3106,
@@ -57,10 +63,12 @@ npm start
   "World - Virtual World": {
     "id": "World - Virtual World",
     "module": "virtual_world",
-    "accept_connection_data": {
-      "login": "World",
-      "password": "123",
-      "admin": true
+    "connection": {
+      "accept_data": {
+        "login": "World",
+        "password": "123",
+        "admin": true
+      }
     },
     "host": "localhost",
     "port": 3103,
