@@ -1,10 +1,6 @@
 import React from "react";
 import AceEditor from "react-ace";
-import Ajv from "ajv";
-import Util from "../../../framework/util";
 import { AppContext } from "../../../context/app";
-
-import rules from "./rules";
 
 import "./index.css";
 
@@ -12,16 +8,18 @@ require(`ace-builds/src-noconflict/theme-monokai`);
 require(`ace-builds/src-noconflict/mode-json`);
 
 function EditJson(props) {
-  const { context_app_data, context_app_fn } = React.useContext(AppContext);
+  const { context_app_fn } = React.useContext(AppContext);
 
-  const [state_source, set_state_source] = React.useState("");
+  const [state_source_as_string, set_state_source_as_string] = React.useState(
+    ""
+  );
   const [state_error, set_state_error] = React.useState("");
 
   const button = {
     reload() {
       try {
-        set_state_source(
-          JSON.stringify(context_app_data.login_panel || {}, null, 2)
+        set_state_source_as_string(
+          JSON.stringify(context_app_fn._get_sessions() || {}, null, 2)
         );
         set_state_error("");
       } catch (e) {
@@ -30,20 +28,12 @@ function EditJson(props) {
     },
     save() {
       try {
-        const data_map = JSON.parse(state_source);
-        for (const value of Object.values(data_map)) {
-          const ajv = new Ajv({ allErrors: true });
-          const validate = ajv.compile(rules);
-          const valid = validate(Util.shallow_copy(value));
-          if (!valid)
-            throw new Error(
-              "AJV:" +
-                ajv.errorsText(validate.errors) +
-                ` of object\n${JSON.stringify(value, null, 2)}`
-            );
-        }
+        const source_as_string = state_source_as_string.trim();
 
-        context_app_fn.update_data({ login_panel: data_map });
+        const source_as_object =
+          source_as_string === "" ? {} : JSON.parse(source_as_string);
+
+        context_app_fn._set_sessions(source_as_object);
         set_state_error("");
       } catch (e) {
         set_state_error(e.message);
@@ -62,14 +52,13 @@ function EditJson(props) {
       <span className="error_text">
         {state_error !== "" && "Error. Check log below."}
       </span>
-      <div className="buttons"></div>
       <div className="source_editor">
         <AceEditor
           mode="json"
           theme="bright:inverted"
           name="editor_name"
-          onChange={set_state_source}
-          value={state_source}
+          onChange={set_state_source_as_string}
+          value={state_source_as_string}
           fontSize={14}
           showPrintMargin={true}
           showGutter={true}

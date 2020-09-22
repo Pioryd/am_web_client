@@ -52,41 +52,7 @@
   overflow: auto;
 }
 
-/* 
- * Override  react-jsonschema-form .css
-*/
-.form-panel .edit_data label {
-  padding: 5px 0px 0px 0px;
-  width: 100%;
-}
-
-.form-panel .edit_data textarea {
-  resize: both;
-}
-
-.form-panel .edit_data .form-control {
-  padding: 2px 0px 2px 3px;
-  margin: 5px 0px 5px 0px;
-  width: 100%;
-  background-color: white;
-}
-
-.form-panel .edit_data fieldset {
-  border-color: transparent;
-}
-
-.form-panel .big-button {
-  padding: 0px;
-  margin: 0px;
-  font-size: 26px;
-  height: 40px;
-}
-
 /**/
-.content_body {
-  background-color: black;
-}
-
 label {
   margin-left: 5px;
 }

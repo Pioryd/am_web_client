@@ -9,7 +9,7 @@ const ConnectionProvider = ({ settings, children }) => {
     hook_packet_manager_data,
     hook_packet_manager_ref_client,
     hook_packet_manager_fn
-  } = usePacketManagerHook(settings);
+  } = usePacketManagerHook({ settings });
 
   const {
     hook_connection_manager_info,

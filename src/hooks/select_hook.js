@@ -35,10 +35,18 @@ function useSelectHook(props) {
           set_state_selected_option(option);
         }
       },
-      update: (data_map, current_object) => {
+      update: (data_map, current_label) => {
         let options = [];
         let current_value = {};
-        let selected_option = "";
+        let selected_option = null;
+        let current_selected_option_label = current_label;
+
+        if (
+          current_selected_option_label == null &&
+          state_selected_option != null &&
+          state_selected_option.label != null
+        )
+          current_selected_option_label = state_selected_option.label;
 
         for (const data of Object.values(data_map)) {
           const option = {
@@ -50,7 +58,7 @@ function useSelectHook(props) {
         }
 
         for (const option of options) {
-          if (option.value === current_object) {
+          if (option.label === current_selected_option_label) {
             selected_option = option;
             current_value = option.value;
             break;

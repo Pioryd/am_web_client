@@ -14,7 +14,7 @@ function Settings() {
       <JsonTree
         rootName="session_data"
         data={context_app_session_data}
-        onFullyUpdate={context_app_fn.update_session}
+        onFullyUpdate={context_app_fn.update_session()}
         isCollapsed={() => false}
         cancelButtonElement={<button className="json-button">Cancel</button>}
         editButtonElement={<button className="json-button">Accept</button>}

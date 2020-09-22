@@ -27,5 +27,6 @@ export default {
     }
   },
   gui_type: "grid",
-  navigation_enabled_windows_list: false
+  navigation_enabled_windows_list: false,
+  settings: {}
 };

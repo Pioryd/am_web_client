@@ -15,7 +15,7 @@ function App() {
       {context_app_session_id == null ? (
         <LoginPanel />
       ) : (
-        <ConnectionProvider settings={context_app_session_data._settings}>
+        <ConnectionProvider settings={context_app_session_data.root}>
           <Gui />
         </ConnectionProvider>
       )}

@@ -33,7 +33,7 @@ function Gui_MultiWindow(props) {
   } = useGoldenLayout({
     windows: props.module_data.windows,
     view_mode: get_view_mode(props.is_desktop_or_laptop),
-    settings: { ...context_app_session_data.golden_layout }
+    settings: { ...context_app_session_data.root.golden_layout }
   });
 
   const button = {
@@ -49,7 +49,9 @@ function Gui_MultiWindow(props) {
   React.useEffect(
     () =>
       context_app_fn.update_session({
-        golden_layout: { ...hook_golden_layout_settings }
+        root: {
+          golden_layout: { ...hook_golden_layout_settings }
+        }
       }),
     [hook_golden_layout_settings]
   );

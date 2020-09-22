@@ -19,7 +19,8 @@ function Gui(props) {
   const [state_type, set_state_type] = React.useState("");
 
   React.useEffect(() => {
-    const { module, connection } = context_app_session_data._settings;
+    const { connection } = context_app_session_data.root;
+    const { module } = context_app_session_data.settings;
 
     set_state_module_data({ ...Modules[module] });
     set_state_title(`[${module}]<${connection.accept_data.login}> - AM`);

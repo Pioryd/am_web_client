@@ -13,8 +13,22 @@
   color: #ffffff;
 }
 
-.login-panel .switch_button {
-  border: 1px solid #ffffff;
+.main-buttons {
+  background-color: #000000;
+}
+
+.login-panel .main-buttons .off {
+  border-radius: 0;
+  outline: 1px solid #ffffff;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.login-panel .main-buttons .on {
+  border-radius: 0;
+  outline: 1px solid #ffffff;
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .login-panel .buttons {

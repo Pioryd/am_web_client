@@ -13,5 +13,6 @@ export default {
       title: "Visual Connections"
     }
   },
-  gui_type: "multi_window"
+  gui_type: "multi_window",
+  settings: {}
 };
