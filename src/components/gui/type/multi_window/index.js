@@ -72,13 +72,13 @@ function Gui_MultiWindow(props) {
           {
             type: "custom",
             float: "left",
-            component: <Sync />
+            component: <Sync key="sync" />
           },
           {
             type: "tooltip",
             float: "right",
             name: "Settings",
-            component: <Settings />
+            component: <Settings key="settings" />
           },
           {
             type: "tooltip",
@@ -86,6 +86,7 @@ function Gui_MultiWindow(props) {
             name: "Windows manager",
             component: (
               <WindowsManager
+                key="windows_manager"
                 windows_list={props.module_data.windows}
                 on_add_window={hook_golden_layout_fn.add_window}
               />
@@ -96,6 +97,7 @@ function Gui_MultiWindow(props) {
             float: "right",
             component: (
               <ChangeDisplay
+                key="change_display"
                 toggle={() => button.toggle_display_mode()}
                 view_mode={state_view_mode}
                 display_mode={hook_golden_layout_display_mode}
