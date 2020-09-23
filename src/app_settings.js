@@ -3,7 +3,7 @@
  * CONST settings.
  *
  * Loaded by [context/app]
- * Any changes should be done only, by creating [session] in [LoginData].
+ * Any changes should be done only, by creating [session] in [LoginPanel].
  * Contains settings only from root[components, contexts, hooks]
  * Modules settings should have own.
  */

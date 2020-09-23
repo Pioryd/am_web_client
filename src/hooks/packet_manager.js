@@ -1,5 +1,5 @@
 import React from "react";
-import Util from "../framework/util";
+import _ from "lodash";
 
 function usePacketManagerHook({ settings }) {
   const ref_client = React.useRef();
@@ -38,7 +38,7 @@ function usePacketManagerHook({ settings }) {
 
     const packet_data_list = packets_data[packet_id];
 
-    return Util.shallow_copy(packet_data_list);
+    return _.cloneDeep(packet_data_list);
   };
 
   const _push = (packet_id, data) => {

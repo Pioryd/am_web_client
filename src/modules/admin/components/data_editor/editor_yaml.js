@@ -2,7 +2,7 @@ import React from "react";
 import SourceEditor from "../source_editor";
 import yaml from "js-yaml";
 import Ajv from "ajv";
-import Util from "../../../../framework/util";
+import _ from "lodash";
 
 function EditorYAML(props) {
   const parse = (source) => {
@@ -10,7 +10,7 @@ function EditorYAML(props) {
 
     const ajv = new Ajv({ allErrors: true });
     const validate = ajv.compile(props.rules);
-    const valid = validate(Util.shallow_copy(object));
+    const valid = validate(_.cloneDeep(object));
     if (!valid) throw new Error("AJV:" + ajv.errorsText(validate.errors));
 
     return object;

@@ -1,8 +1,7 @@
 import React from "react";
 import SourceEditor from "../source_editor";
-
+import _ from "lodash";
 import Ajv from "ajv";
-import Util from "../../../../framework/util";
 
 function EditorJSON(props) {
   const parse = (source) => {
@@ -11,7 +10,7 @@ function EditorJSON(props) {
 
     const ajv = new Ajv({ allErrors: true });
     const validate = ajv.compile(props.rules);
-    const valid = validate(Util.shallow_copy(object));
+    const valid = validate(_.cloneDeep(object));
     if (!valid) throw new Error("AJV:" + ajv.errorsText(validate.errors));
 
     return object;

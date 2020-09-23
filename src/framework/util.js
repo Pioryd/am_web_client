@@ -8,9 +8,6 @@ export default {
       second: "numeric"
     });
   },
-  shallow_copy: (object) => {
-    return JSON.parse(JSON.stringify(object));
-  },
   command_args_to_array: (text) => {
     const re = /^"[^"]*"$/; // Check if argument is surrounded with double-quotes
     const re2 = /^([^"]|[^"].*?[^"])$/; // Check if argument is NOT surrounded with double-quotes

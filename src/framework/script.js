@@ -1,13 +1,14 @@
 import stringify from "json-stringify-safe";
 import Util from "./util";
 
-// NOTE:
-// This WEB class is not fully working because of not support [bson-objectid]
-//const ObjectID = require("bson-objectid");
+/**
+ * This WEB class is not fully working because of creating IDs,
+ * should be only on server side.
+ */
 function ObjectID() {
   return {
-    toHexString: () => {
-      return "0";
+    toHexString() {
+      throw new Error("Only server can create ID.");
     }
   };
 }
