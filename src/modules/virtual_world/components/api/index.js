@@ -129,7 +129,6 @@ function Api(props) {
         <React.Fragment>
           <label>Interval:</label>
           <input
-            className="input_value"
             key="interval_value"
             name="interval_value"
             type="number"
@@ -168,10 +167,10 @@ function Api(props) {
             maxMenuHeight={150}
           />
           {state_validate_error !== "" && (
-            <label className="error">{state_validate_error}</label>
+            <label className="E5m_error">{state_validate_error}</label>
           )}
-          <div className="editor">
-            <div className="area">
+          <div className="E5m_editor">
+            <div className="E5m_area">
               <AceEditor
                 width="100%"
                 height="100%"

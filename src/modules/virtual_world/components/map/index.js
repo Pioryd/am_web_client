@@ -34,7 +34,7 @@ function Map(props) {
           let rendered = [];
           for (const [name, object] of Object.entries(objects)) {
             if (object.area === area) {
-              let object_class = "object";
+              let object_class = "P3k_object";
               if (
                 object.properties.includes("system") &&
                 state_show_system_objects === false
@@ -42,22 +42,22 @@ function Map(props) {
                 continue;
 
               if (object.properties.includes("area")) {
-                object_class = "area";
+                object_class = "P3k_area";
               } else if (object.properties.includes("am")) {
-                object_class = "am";
+                object_class = "P3k_am";
               } else if (object.properties.includes("user")) {
-                object_class = "user";
+                object_class = "P3k_user";
               }
 
               rendered.push(
                 <li key={uuidv4()} className={object_class}>
-                  <span className="system">
+                  <span className="P3k_system">
                     {state_show_system_objects === true &&
                       object.properties.includes("system") &&
                       "[System]"}
                   </span>
                   {name}
-                  <ul className="map-list-element">
+                  <ul className="P3k_map-list-element">
                     {get_objects_by_area(name)}
                   </ul>
                 </li>
@@ -68,14 +68,14 @@ function Map(props) {
         };
 
         const root = (
-          <ul className="map-list-element">{get_objects_by_area("")}</ul>
+          <ul className="P3k_map-list-element">{get_objects_by_area("")}</ul>
         );
 
         return root;
       }
 
       set_state_json_data(
-        <ul className="map-list-element">
+        <ul className="P3k_map-list-element">
           {create_list(packet.mirror.objects)}
         </ul>
       );
@@ -92,11 +92,11 @@ function Map(props) {
       bar={<label>{`Last sync: ${state_last_sync}`}</label>}
       content={
         <React.Fragment>
-          <span className="object">[Object] </span>
-          <span className="area">[Area] </span>
-          <span className="am">[AM] </span>
-          <span className="user">[User] </span>
-          <span className="system">
+          <span className="P3k_object">[Object] </span>
+          <span className="P3k_area">[Area] </span>
+          <span className="P3k_am">[AM] </span>
+          <span className="P3k_user">[User] </span>
+          <span className="P3k_system">
             <input
               name="show"
               type="checkbox"

@@ -175,7 +175,6 @@ function Editor(props) {
         <div className="mU9_element">
           <label>Font size:</label>
           <input
-            className="input_value"
             key="font size"
             name="font size"
             type="number"
@@ -193,7 +192,6 @@ function Editor(props) {
         <div className="mU9_element">
           <label>Tab size:</label>
           <input
-            className="input_value"
             key="tab size"
             name="tab size"
             type="number"
@@ -240,7 +238,7 @@ function Editor(props) {
           <label>Validate/Parse (ctrl + s)</label>
         </div>
       </div>
-      <div className="source_editor">
+      <div className="E5m_source_editor">
         <AceEditor
           width={"100%"}
           mode={state_ace_mode}

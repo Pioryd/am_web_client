@@ -47,10 +47,10 @@ function Actions(props) {
         <React.Fragment>
           <label>{`Last sync: ${state_last_sync}`}</label>
           <label>
-            Legend:[<span className="time">Time </span>
-            <span className="area">Area </span>
-            <span className="object">ObjectID </span>
-            <span className="api">API</span>]
+            Legend:[<span className="Y6z_time">Time </span>
+            <span className="Y6z_area">Area </span>
+            <span className="Y6z_object">ObjectID </span>
+            <span className="Y6z_api">API</span>]
           </label>
         </React.Fragment>
       }
@@ -59,7 +59,7 @@ function Actions(props) {
           {state_data.length > 0 ? (
             <Table data={state_data} />
           ) : (
-            <div className="no-data">No data</div>
+            <div className="Y6z_no-data">No data</div>
           )}
         </React.Fragment>
       }

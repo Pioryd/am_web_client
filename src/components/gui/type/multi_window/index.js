@@ -106,7 +106,7 @@ function Gui_MultiWindow(props) {
           }
         ]}
       />
-      <div className="content">
+      <div className="c9l_content">
         <GoldenLayout
           key={hook_golden_layout_instance_key}
           golden_layout_fn={hook_golden_layout_fn}

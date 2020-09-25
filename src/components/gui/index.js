@@ -34,7 +34,7 @@ function Gui(props) {
       <Helmet>
         <title>{state_title}</title>
       </Helmet>
-      <div className="main-window">
+      <div className="c9l_window">
         {state_type === "multi_window" && (
           <MultiWindow
             module_data={state_module_data}

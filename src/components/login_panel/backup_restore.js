@@ -1,6 +1,6 @@
 import React from "react";
 import AceEditor from "react-ace";
-import { AppContext } from "../../../context/app";
+import { AppContext } from "../../context/app";
 
 import "./index.css";
 
@@ -45,14 +45,14 @@ function EditJson(props) {
 
   return (
     <React.Fragment>
-      <div className="buttons">
+      <div className="A8t_buttons">
         <button onClick={button.reload}>Reload</button>
         <button onClick={button.save}>Save</button>
       </div>
-      <span className="error_text">
+      <span className="A8t_error-text">
         {state_error !== "" && "Error. Check log below."}
       </span>
-      <div className="source_editor">
+      <div className="A8t_source-editor">
         <AceEditor
           mode="json"
           theme="bright:inverted"
@@ -73,7 +73,7 @@ function EditJson(props) {
           }}
         />
       </div>
-      <pre className="error_text">{state_error !== "" && state_error}</pre>
+      <pre className="A8t_error-text">{state_error !== "" && state_error}</pre>
     </React.Fragment>
   );
 }

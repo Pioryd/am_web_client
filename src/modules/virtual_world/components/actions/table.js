@@ -89,11 +89,11 @@ function Table(props) {
                           );
                         case "Info":
                           return (
-                            <div className="table-column-info">
-                              <p className="time">{value.time}</p>
-                              <p className="area">{value.area}</p>
-                              <p className="object">{value.object_id}</p>
-                              <p className="api">{value.api}</p>
+                            <div className="Y6z_table-column-info">
+                              <p className="Y6z_time">{value.time}</p>
+                              <p className="Y6z_area">{value.area}</p>
+                              <p className="Y6z_object">{value.object_id}</p>
+                              <p className="Y6z_api">{value.api}</p>
                             </div>
                           );
                         default:

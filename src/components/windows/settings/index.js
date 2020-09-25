@@ -10,15 +10,17 @@ function Settings() {
   );
 
   return (
-    <div className="settings">
+    <div className="M9b_settings">
       <JsonTree
         rootName="session_data"
         data={context_app_session_data}
         onFullyUpdate={context_app_fn.update_session}
         isCollapsed={() => false}
-        cancelButtonElement={<button className="json-button">Cancel</button>}
-        editButtonElement={<button className="json-button">Accept</button>}
-        addButtonElement={<button className="json-button">Add</button>}
+        cancelButtonElement={
+          <button className="M9b_json-button">Cancel</button>
+        }
+        editButtonElement={<button className="M9b_json-button">Accept</button>}
+        addButtonElement={<button className="M9b_json-button">Add</button>}
         minusMenuElement={<span />}
         plusMenuElement={<span />}
       />

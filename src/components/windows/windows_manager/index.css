@@ -1,9 +1,9 @@
-.dropdown-buttons-list .button {
+.a6T_dropdown-buttons-list .a6T_button {
   clear: both;
   min-width: calc(100% - 2px);
 }
 
-.dropdown-buttons-list label {
+.a6T_dropdown-buttons-list label {
   clear: both;
   min-width: calc(100% - 2px);
 }

@@ -1,4 +1,4 @@
-.main-window {
+.c9l_window {
   height: 100%;
   width: 100%;
   position: relative;
@@ -6,7 +6,7 @@
   overflow: none;
 }
 
-.main-window .navigation {
+.c9l_window .c9l_navigation {
   height: 15px;
   font-size: 12px;
   text-align: left;
@@ -19,7 +19,7 @@
   z-index: 10000;
 }
 
-.main-window .content {
+.c9l_window .c9l_content {
   position: relative;
   height: calc(100% - 15px);
   width: calc(100% - 15px);

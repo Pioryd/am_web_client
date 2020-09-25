@@ -26,23 +26,23 @@ function LoginPanel(props) {
   };
 
   return (
-    <div className="login-panel">
+    <div className="A8t_login-panel">
       <p>(Artificial Mind) - Web Client</p>
-      <div className="main-buttons">
+      <div className="A8t_main-buttons">
         <button
-          className={state_mode === "basic" ? "on" : "off"}
+          className={state_mode === "basic" ? "A8t_on" : "A8t_off"}
           onClick={() => change_mode("basic")}
         >
           Basic
         </button>
         <button
-          className={state_mode === "advanced" ? "on" : "off"}
+          className={state_mode === "advanced" ? "A8t_on" : "A8t_off"}
           onClick={() => change_mode("advanced")}
         >
           Advanced
         </button>
         <button
-          className={state_mode === "backup_restore" ? "on" : "off"}
+          className={state_mode === "backup_restore" ? "A8t_on" : "A8t_off"}
           onClick={() => change_mode("backup_restore")}
         >
           Backup/Restore

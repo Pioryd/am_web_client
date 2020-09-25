@@ -19,11 +19,11 @@ function WindowsManager(props) {
   };
 
   return (
-    <div className="dropdown-buttons-list">
+    <div className="a6T_dropdown-buttons-list">
       {Object.keys(state_buttons).map((id) => {
         return (
           <button
-            className="button"
+            className="a6T_button"
             id={id}
             key={id}
             onClick={(e) => {

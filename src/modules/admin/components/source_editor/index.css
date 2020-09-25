@@ -1,26 +1,17 @@
-.editor_content_body {
-  background-color: #ffffff;
-  height: calc(100% - 35px);
-  margin-bottom: 5px;
-  width: 100%;
-  overflow: auto;
-  position: relative;
-}
-
-.source_editor {
+.E5m_source_editor {
   height: 100%;
   width: 100%;
   position: relative;
 }
 
-.am_source_editor .error_box {
+.E5m_am_source_editor .E5m_error_box {
   display: inline-block;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
 
-.error_box label {
+.E5m_am_source_editor .E5m_error_box label {
   margin-top: 10px;
   margin-bottom: 10px;
   display: block;
@@ -28,6 +19,6 @@
   font-style: 15px;
 }
 
-.error_box button {
+.E5m_am_source_editor .E5m_error_box button {
   width: 100%;
 }

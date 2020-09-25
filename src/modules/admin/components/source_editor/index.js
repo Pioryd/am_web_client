@@ -160,7 +160,6 @@ function AmEditor(props) {
         <button onClick={button.replace_id}>replace id</button>
         <label>New ID:</label>
         <input
-          className="input_value"
           key="new_id"
           name="new_id"
           type="text"
@@ -170,7 +169,6 @@ function AmEditor(props) {
 
         <Select
           styles={{
-            // Fixes the overlapping problem of the component
             menu: (provided) => ({ ...provided, zIndex: 9999 })
           }}
           value={hook_select_selected_option}
@@ -189,9 +187,9 @@ function AmEditor(props) {
         />
       </div>
       <div className="mU9_content">
-        <div className="am_source_editor">
+        <div className="E5m_am_source_editor">
           {hook_protocol_action_id !== "" ? (
-            <div className="error_box">
+            <div className="E5m_error_box">
               <label>
                 Waiting for the end of the action[{hook_protocol_action_id}]
               </label>

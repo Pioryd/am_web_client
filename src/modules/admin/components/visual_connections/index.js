@@ -44,7 +44,7 @@ function diagram_custom_render(props) {
         }
       },
       <div>
-        <p className="name">{port.props.name}</p>
+        <p className="U5d_name">{port.props.name}</p>
       </div>
     );
   };
@@ -52,9 +52,9 @@ function diagram_custom_render(props) {
   const { inputs, outputs, content } = props;
 
   return (
-    <div key={`${content}_top_class`} className="visual_module">
-      <p className="name">{content}</p>
-      <div className="visual_ports">
+    <div key={`${content}_top_class`} className="U5d_visual_module">
+      <p className="U5d_name">{content}</p>
+      <div className="U5d_visual_ports">
         {inputs.map((port) => render_port(port))}
         {outputs.map((port) => render_port(port))}
       </div>
@@ -326,10 +326,10 @@ const VisualConnections = () => {
   return (
     <ModuleWindow
       bar={
-        <div className="bar_area">
+        <div className="U5d_bar_area">
           <button
             key="switch_to_source_or_visual"
-            className="bar_area_button"
+            className="U5d_button"
             onClick={() => {
               state_mode === "visual" ? switch_to_source() : switch_to_visual();
             }}
@@ -337,11 +337,7 @@ const VisualConnections = () => {
             {state_mode === "visual" ? "Switch to source" : "Switch to visual"}
           </button>
           <label>Last sync: {state_last_sync}</label>
-          <button
-            key="refresh_source"
-            className="bar_area_button"
-            onClick={refresh}
-          >
+          <button key="refresh_source" className="U5d_button" onClick={refresh}>
             refresh
           </button>
           <Select
@@ -364,7 +360,7 @@ const VisualConnections = () => {
         <React.Fragment>
           {state_error !== "" && (
             <React.Fragment>
-              <p className="error_box_text">{state_error}</p>
+              <p className="U5d_error_box_text">{state_error}</p>
               <button onClick={() => set_state_error("")}>OK</button>
             </React.Fragment>
           )}

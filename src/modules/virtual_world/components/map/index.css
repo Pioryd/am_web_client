@@ -1,23 +1,23 @@
-.object {
+.P3k_object {
   color: white;
 }
 
-.user {
+.P3k_user {
   color: orange;
 }
 
-.am {
+.P3k_am {
   color: violet;
 }
 
-.area {
+.P3k_area {
   color: green;
 }
 
-.system {
+.P3k_system {
   color: red;
 }
 
-.map-list-element {
+.P3k_map-list-element {
   padding: 0px 0px 0px 10px;
 }

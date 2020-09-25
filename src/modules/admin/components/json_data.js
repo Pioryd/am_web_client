@@ -84,7 +84,6 @@ function JsonData(props) {
                 onChange={(e) => set_state_auto_sync(e.target.checked)}
               />
               <input
-                className="input_value"
                 key="interval_value"
                 name="interval_value"
                 type="number"
@@ -101,15 +100,11 @@ function JsonData(props) {
             </React.Fragment>
           )}
           {props.refresh === true && (
-            <button className="process" onClick={refresh_json_data}>
-              refresh
-            </button>
+            <button onClick={refresh_json_data}>refresh</button>
           )}
           <label>{`Last sync: ${state_last_sync}`}</label>
           {props.clear === true && (
-            <button className="process" onClick={clear_json_data}>
-              clear
-            </button>
+            <button onClick={clear_json_data}>clear</button>
           )}
         </React.Fragment>
       }

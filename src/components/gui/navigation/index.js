@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 function Navigation({ buttons = [] }) {
   return (
-    <div className="navigation">
+    <div className="c9l_navigation">
       {buttons.map(({ float, name, type, component }) => {
         const element =
           type === "tooltip" ? (

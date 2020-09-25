@@ -124,7 +124,6 @@ function ServerScripts() {
       <div className="mU9_bar">
         <button
           key="admin_send_scripts_list_button"
-          className="process"
           onClick={(e) => context_connection_fn.send("scripts_data")}
         >
           sync
@@ -135,7 +134,6 @@ function ServerScripts() {
       </div>
       <div className="mU9_bar">
         <input
-          className="input_value"
           key="interval_value"
           name="interval_value"
           type="text"
@@ -145,9 +143,7 @@ function ServerScripts() {
       </div>
       <div>{state_buttons}</div>
       <div className="mU9_bar">
-        <button className="process" onClick={execute_script}>
-          execute
-        </button>
+        <button onClick={execute_script}>execute</button>
         <label>{"(app, args) => { <script> }"}</label>
       </div>
       <AceEditor

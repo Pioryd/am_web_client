@@ -3,10 +3,10 @@ import Select from "react-select";
 import AceEditor from "react-ace";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
-import useSelectHook from "../../../hooks/select_hook";
-import Util from "../../../framework/util";
-import { AppContext } from "../../../context/app";
-import Modules from "../../../modules";
+import useSelectHook from "../../hooks/select_hook";
+import Util from "../../framework/util";
+import { AppContext } from "../../context/app";
+import Modules from "../../modules";
 
 import "./index.css";
 
@@ -170,13 +170,13 @@ function LoginEditor(props) {
 
   return (
     <React.Fragment>
-      <div className="buttons">
+      <div className="A8t_buttons">
         <button onClick={button.refresh}>Refresh</button>
         <button onClick={button.save}>Save</button>
         <button onClick={button.add}>Add</button>
         <button onClick={button.remove}>Remove</button>
       </div>
-      <div className="select_data">
+      <div className="A8t_select-data">
         <Select
           styles={{
             // Fixes the overlapping problem of the component
@@ -191,12 +191,12 @@ function LoginEditor(props) {
           isClearable={true}
         />
       </div>
-      <span className="error_text">
+      <span className="A8t_error-text">
         {state_error !== "" && props.show == null && "Error. Check log below."}
       </span>
       {hook_select_current_value !== "" &&
         Object.keys(hook_select_current_value).length > 0 && (
-          <div className="edit_data">
+          <div className="A8t_edit-data">
             {
               <AceEditor
                 mode="json"
@@ -226,19 +226,19 @@ function LoginEditor(props) {
       state_error === "" &&
       hook_select_current_value !== "" &&
       Object.keys(hook_select_current_value).length > 0 ? (
-        <button className="big-button" onClick={button.login}>
+        <button className="A8t_big-button" onClick={button.login}>
           Login
         </button>
       ) : (
         <div>
           {hook_select_current_value === "" && (
-            <div className="error-text">No selected option</div>
+            <div className="A8t_error-text">No selected option</div>
           )}
           {state_error !== "" && (
-            <div className="error-text">{state_error}</div>
+            <div className="A8t_error-text">{state_error}</div>
           )}
           {state_draft_mode === true && (
-            <div className="error-text">Save to leave draft mode</div>
+            <div className="A8t_error-text">Save to leave draft mode</div>
           )}
         </div>
       )}

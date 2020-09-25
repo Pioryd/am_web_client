@@ -1,14 +1,14 @@
-.editor {
+.E5m_editor {
   height: calc(100% - 50px);
   background-color: red;
   position: relative;
 }
 
-.area {
+.E5m_area {
   height: 100%;
 }
 
-.error {
+.E5m_error {
   font-family: Arial, Helvetica, sans-serif;
   color: red;
   font-weight: bold;

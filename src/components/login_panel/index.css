@@ -1,4 +1,4 @@
-.login-panel {
+.A8t_login-panel {
   max-width: 500px;
   position: relative;
   display: flex;
@@ -9,32 +9,65 @@
   margin-right: auto;
 }
 
-.login-panel p {
+.A8t_login-panel p {
   color: #ffffff;
 }
 
-.main-buttons {
+.A8t_login-panel .A8t_main-buttons {
   background-color: #000000;
 }
 
-.login-panel .main-buttons .off {
+.A8t_login-panel .A8t_main-buttons .A8t_off {
   border-radius: 0;
   outline: 1px solid #ffffff;
   background-color: #000000;
   color: #ffffff;
 }
 
-.login-panel .main-buttons .on {
+.A8t_login-panel .A8t_main-buttons .A8t_on {
   border-radius: 0;
   outline: 1px solid #ffffff;
   background-color: #ffffff;
   color: #000000;
 }
 
-.login-panel .buttons {
+.A8t_login-panel .A8t_buttons {
   width: 100%;
   padding: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/**/
+
+.A8t_login-panel .A8t_source-editor {
+  max-width: 500px;
+  position: relative;
+  border: 1px solid white;
+}
+
+.A8t_login-panel .A8t_error-text {
+  color: red;
+}
+
+.A8t_login-panel .A8t_select-data {
+  padding: 2px;
+  width: 100%;
+}
+
+.A8t_login-panel .A8t_edit-data {
+  width: 100%;
+}
+
+.A8t_login-panel .A8t_edit-data label {
+  padding: 5px 0px 0px 0px;
+  width: 100%;
+}
+
+.A8t_login-panel .A8t_big-button {
+  padding: 0px;
+  margin: 0px;
+  font-size: 26px;
+  height: 40px;
 }

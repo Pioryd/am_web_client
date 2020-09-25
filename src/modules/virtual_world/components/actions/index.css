@@ -1,26 +1,26 @@
-.no-data {
+.Y6z_no-data {
   font-size: large;
   color: white;
   text-align: center;
 }
 
-.table-column-info p {
+.Y6z_table-column-info p {
   margin: 0px;
   padding: 0px;
 }
 
-.action-window .time {
+.Y6z_time {
   color: white;
 }
 
-.action-window .area {
+.Y6z_area {
   color: green;
 }
 
-.action-window .object {
+.Y6z_object {
   color: orange;
 }
 
-.action-window .api {
+.Y6z_api {
   color: red;
 }
