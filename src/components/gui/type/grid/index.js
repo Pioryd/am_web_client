@@ -18,7 +18,9 @@ function Gui_Grid({ module_data }) {
             className="r7K_edit-data"
             onMouseDown={(e) => e.stopPropagation()}
           >
-            <window.class />
+            <div className="r7K_content">
+              <window.class />
+            </div>
           </div>
         </div>
       );

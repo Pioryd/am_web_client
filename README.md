@@ -11,6 +11,10 @@ npm install
 npm start
 ```
 
+## Example of login data
+
+You can find in [Artificial mind example project](https://github.com/Pioryd/am_web_client)
+
 ## Errors
 
 - If You cant do nothing. And only errors are displayed.

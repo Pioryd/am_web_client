@@ -1,7 +1,7 @@
 .mU9_window {
   background-color: #000000;
   width: 100%;
-  height: calc(100% - 20px);
+  height: calc(100% - 5px);
   overflow: none;
   position: relative;
 }
