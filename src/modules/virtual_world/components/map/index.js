@@ -2,6 +2,8 @@ import React from "react";
 import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
 import { v4 as uuidv4 } from "uuid";
+import ModuleWindow from "../../../../components/module_window";
+
 import "./index.css";
 
 const PACKET_NAME = "data_mirror";
@@ -86,25 +88,27 @@ function Map(props) {
   ]);
 
   return (
-    <div className="content_body">
-      <div className="bar">
-        <label>{`Last sync: ${state_last_sync}`}</label>
-      </div>
-      <span className="object">[Object] </span>
-      <span className="area">[Area] </span>
-      <span className="am">[AM] </span>
-      <span className="user">[User] </span>
-      <span className="system">
-        <input
-          name="show"
-          type="checkbox"
-          checked={state_show_system_objects}
-          onChange={(e) => set_state_show_system_objects(e.target.checked)}
-        />
-        [System]{" "}
-      </span>
-      {state_json_data}
-    </div>
+    <ModuleWindow
+      bar={<label>{`Last sync: ${state_last_sync}`}</label>}
+      content={
+        <React.Fragment>
+          <span className="object">[Object] </span>
+          <span className="area">[Area] </span>
+          <span className="am">[AM] </span>
+          <span className="user">[User] </span>
+          <span className="system">
+            <input
+              name="show"
+              type="checkbox"
+              checked={state_show_system_objects}
+              onChange={(e) => set_state_show_system_objects(e.target.checked)}
+            />
+            [System]
+          </span>
+          {state_json_data}
+        </React.Fragment>
+      }
+    />
   );
 }
 

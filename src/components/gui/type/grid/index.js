@@ -40,7 +40,7 @@ function Gui_Grid({ module_data }) {
           }
         ]}
       />
-      <div className="main-window-content">
+      <div className="content">
         <GridLayout config={module_data.grid_layouts} windows={state_windows} />
       </div>
     </React.Fragment>

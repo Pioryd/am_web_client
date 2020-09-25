@@ -5,6 +5,7 @@ import Creatable from "react-select/creatable";
 import useSelectHook from "../../../hooks/select_hook";
 import { ConnectionContext } from "../../../context/connection";
 import Util from "../../../framework/util";
+import ModuleWindow from "../../../components/module_window";
 
 const PACKET_NAME = "data_mirror";
 const INITIAL_HIDDEN_PROPERTIES = ["aml", "world"];
@@ -155,30 +156,32 @@ function Statistic(props) {
   );
 
   return (
-    <div className="content_body">
-      <div className="bar">
-        <label>{`Last sync: ${state_last_sync}`}</label>
-      </div>
-      <Creatable
-        styles={react_select_custom_styles}
-        value={hook_select_selected_option}
-        placeholder={`Select to show/hide, enter to add prop [${
-          Object.keys(hook_select_options).length
-        }]`}
-        onChange={hook_select_fn.on_change}
-        options={hook_select_options.sort((a, b) =>
-          a.value.id.localeCompare(b.value.id)
-        )}
-        isClearable={true}
-        maxMenuHeight={150}
-      />
-      <ObjectInspector
-        expandLevel={10}
-        theme="chromeDark"
-        data={state_show_data}
-        nodeRenderer={react_inspector_node_renderer}
-      />
-    </div>
+    <ModuleWindow
+      bar={<label>{`Last sync: ${state_last_sync}`}</label>}
+      content={
+        <React.Fragment>
+          <Creatable
+            styles={react_select_custom_styles}
+            value={hook_select_selected_option}
+            placeholder={`Select to show/hide, enter to add prop [${
+              Object.keys(hook_select_options).length
+            }]`}
+            onChange={hook_select_fn.on_change}
+            options={hook_select_options.sort((a, b) =>
+              a.value.id.localeCompare(b.value.id)
+            )}
+            isClearable={true}
+            maxMenuHeight={150}
+          />
+          <ObjectInspector
+            expandLevel={10}
+            theme="chromeDark"
+            data={state_show_data}
+            nodeRenderer={react_inspector_node_renderer}
+          />
+        </React.Fragment>
+      }
+    />
   );
 }
 

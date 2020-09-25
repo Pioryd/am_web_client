@@ -29,19 +29,27 @@
 .lm_header {
   height: 20px;
   user-select: none;
+  background: #000000;
+  border: 1px solid #ffffff;
 }
 .lm_header.lm_selectable {
   cursor: pointer;
 }
+.lm_header .lm_left {
+  background-color: #ffffff;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  outline: 1px solid #ffffff;
+}
 .lm_header .lm_tab {
   font-family: Arial, sans-serif;
   font-size: 12px;
-  color: #999999;
-  background: #2d2d2d;
-  box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.3);
-  margin-right: 2px;
-  padding-bottom: 2px;
-  padding-top: 2px;
+  color: #ffffff;
+  background: #000000;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  margin-right: 0px;
 }
 .lm_header .lm_tab .lm_close_tab {
   width: 11px;
@@ -57,12 +65,22 @@
   opacity: 1;
 }
 .lm_header .lm_tab.lm_active {
+  box-shadow: none;
   border-bottom: none;
-  box-shadow: 0 -2px 2px #000000;
-  padding-bottom: 3px;
+  background-color: #ffffff;
+  color: #000000;
+  height: 100%;
+  margin: 0px;
 }
+
+.lm_header .lm_close_tab {
+  opacity: 1;
+  background-color: #000000;
+}
+
 .lm_header .lm_tab.lm_active .lm_close_tab {
   opacity: 1;
+  background-color: #000000;
 }
 .lm_dragProxy.lm_bottom .lm_header .lm_tab,
 .lm_stack.lm_bottom .lm_header .lm_tab {
@@ -130,3 +148,15 @@
 .lm_popin:hover .lm_icon {
   opacity: 1;
 } /*# sourceMappingURL=goldenlayout-dark-theme.css.map */
+
+/*
+ * Custom 
+ */
+
+.gl-main-container {
+  /* display: inline-block; */
+  position: relative;
+  height: calc(100% - 3px);
+  width: 100%;
+  overflow: none;
+}

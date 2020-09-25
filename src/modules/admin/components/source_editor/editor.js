@@ -124,17 +124,17 @@ function Editor(props) {
   return (
     <div onKeyDown={on_key_down}>
       {state_draft_mode === true && (
-        <div className="bar" style={{ color: "red" }}>
+        <div className="mU9_bar" style={{ color: "red" }}>
           Editor: (Draft mode). To leave draft mode press [ctrl + s].
         </div>
       )}
       {state_last_log !== "" && (
-        <div className="bar" style={{ color: "red" }}>
+        <div className="mU9_bar" style={{ color: "red" }}>
           Editor: {state_last_log}
         </div>
       )}
-      <div className="bar">
-        <div className="element">
+      <div className="mU9_bar">
+        <div className="mU9_element">
           <label>Show gutter:</label>
           <input
             name="show gutter"
@@ -143,7 +143,7 @@ function Editor(props) {
             onChange={(e) => set_state_ace_show_gutter(e.target.checked)}
           />
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Show print margin:</label>
           <input
             name="show print margin"
@@ -152,7 +152,7 @@ function Editor(props) {
             onChange={(e) => set_state_ace_show_print_margin(e.target.checked)}
           />
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Highlight active line:</label>
           <input
             name="highlight active line"
@@ -163,7 +163,7 @@ function Editor(props) {
             }
           />
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Show line numbers:</label>
           <input
             name="show line numbers"
@@ -172,7 +172,7 @@ function Editor(props) {
             onChange={(e) => set_state_ace_show_line_numbers(e.target.checked)}
           />
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Font size:</label>
           <input
             className="input_value"
@@ -190,7 +190,7 @@ function Editor(props) {
             }}
           />
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Tab size:</label>
           <input
             className="input_value"
@@ -208,7 +208,7 @@ function Editor(props) {
             }}
           />
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Theme:</label>
           <select
             name="Theme"
@@ -222,7 +222,7 @@ function Editor(props) {
             ))}
           </select>
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Highlight:</label>
           <select
             name="ParseMode"
@@ -236,7 +236,7 @@ function Editor(props) {
             ))}
           </select>
         </div>
-        <div className="element">
+        <div className="mU9_element">
           <label>Validate/Parse (ctrl + s)</label>
         </div>
       </div>

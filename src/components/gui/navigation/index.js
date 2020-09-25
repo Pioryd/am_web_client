@@ -2,11 +2,9 @@ import React from "react";
 import Tooltip from "./tooltip";
 import { v4 as uuidv4 } from "uuid";
 
-import "./index.css";
-
 function Navigation({ buttons = [] }) {
   return (
-    <div id="main_navigation" className="main-window-bar">
+    <div className="navigation">
       {buttons.map(({ float, name, type, component }) => {
         const element =
           type === "tooltip" ? (

@@ -1,0 +1,28 @@
+.main-window {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  overflow: none;
+}
+
+.main-window .navigation {
+  height: 15px;
+  font-size: 12px;
+  text-align: left;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background-color: purple;
+  color: white;
+  position: relative;
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%;
+  z-index: 10000;
+}
+
+.main-window .content {
+  position: relative;
+  height: calc(100% - 15px);
+  width: calc(100% - 15px);
+  overflow: none;
+  display: inline-block;
+}

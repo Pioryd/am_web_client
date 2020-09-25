@@ -1,9 +1,3 @@
-.main-window-content {
-  position: fixed;
-  height: calc(100% - 15px);
-  overflow: auto;
-}
-
 .form-panel {
   width: 100%;
   height: 100%;
@@ -46,10 +40,9 @@
 
 .form-panel .edit_data {
   width: 100%;
-  height: calc(100% - 20px - 1px);
-  min-height: calc(100% - 20px - 1px);
+  height: calc(100% - 20px - 5px);
   border-radius: 10px;
-  overflow: auto;
+  overflow: none;
 }
 
 /**/

@@ -110,7 +110,7 @@ function ServerScripts() {
   }, [context_connection_packets_data]);
 
   return (
-    <div className="content_body">
+    <div className="mU9_window">
       <FormattedLogs.List
         hook_formatted_logs={hook_formatted_logs}
         hook_formatted_logs_fn={hook_formatted_logs_fn}
@@ -121,7 +121,7 @@ function ServerScripts() {
         refresh={false}
         clear={true}
       />
-      <div className="bar">
+      <div className="mU9_bar">
         <button
           key="admin_send_scripts_list_button"
           className="process"
@@ -133,7 +133,7 @@ function ServerScripts() {
           {"last sync: " + state_last_sync}
         </label>
       </div>
-      <div className="bar">
+      <div className="mU9_bar">
         <input
           className="input_value"
           key="interval_value"
@@ -144,7 +144,7 @@ function ServerScripts() {
         />
       </div>
       <div>{state_buttons}</div>
-      <div className="bar">
+      <div className="mU9_bar">
         <button className="process" onClick={execute_script}>
           execute
         </button>

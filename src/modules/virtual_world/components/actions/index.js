@@ -2,6 +2,7 @@ import React from "react";
 import Table from "./table";
 import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
+import ModuleWindow from "../../../../components/module_window";
 
 import "./index.css";
 
@@ -41,22 +42,28 @@ function Actions(props) {
   React.useEffect(() => parse_packet(), [context_connection_packets_data]);
 
   return (
-    <div className="action-window">
-      <div className="bar">
-        <label>{`Last sync: ${state_last_sync}`}</label>
-        <label>
-          Legend:[<span className="time">Time </span>
-          <span className="area">Area </span>
-          <span className="object">ObjectID </span>
-          <span className="api">API</span>]
-        </label>
-      </div>
-      {state_data.length > 0 ? (
-        <Table data={state_data} />
-      ) : (
-        <div className="no-data">No data</div>
-      )}
-    </div>
+    <ModuleWindow
+      bar={
+        <React.Fragment>
+          <label>{`Last sync: ${state_last_sync}`}</label>
+          <label>
+            Legend:[<span className="time">Time </span>
+            <span className="area">Area </span>
+            <span className="object">ObjectID </span>
+            <span className="api">API</span>]
+          </label>
+        </React.Fragment>
+      }
+      content={
+        <React.Fragment>
+          {state_data.length > 0 ? (
+            <Table data={state_data} />
+          ) : (
+            <div className="no-data">No data</div>
+          )}
+        </React.Fragment>
+      }
+    />
   );
 }
 

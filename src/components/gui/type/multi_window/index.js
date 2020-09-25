@@ -11,8 +11,6 @@ import Settings from "../../../windows/settings";
 import Sync from "../../../buttons/sync";
 import ChangeDisplay from "../../../buttons/gl_change_display";
 
-import "./index.css";
-
 const get_view_mode = (is_big_screen) => (is_big_screen ? "desktop" : "mobile");
 
 function Gui_MultiWindow(props) {
@@ -48,8 +46,10 @@ function Gui_MultiWindow(props) {
 
   React.useEffect(
     () =>
-      context_app_fn.update_session({
+      context_app_fn.override_session({
+        ...context_app_session_data,
         root: {
+          ...context_app_session_data.root,
           golden_layout: { ...hook_golden_layout_settings }
         }
       }),
@@ -106,7 +106,7 @@ function Gui_MultiWindow(props) {
           }
         ]}
       />
-      <div className="main-window-content">
+      <div className="content">
         <GoldenLayout
           key={hook_golden_layout_instance_key}
           golden_layout_fn={hook_golden_layout_fn}

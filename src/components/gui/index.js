@@ -9,6 +9,8 @@ import Grid from "./type/grid";
 import Modules from "../../modules";
 import { AppContext } from "../../context/app";
 
+import "./index.css";
+
 function Gui(props) {
   const { context_app_session_data } = React.useContext(AppContext);
 
@@ -32,18 +34,20 @@ function Gui(props) {
       <Helmet>
         <title>{state_title}</title>
       </Helmet>
-      {state_type === "multi_window" && (
-        <MultiWindow
-          module_data={state_module_data}
-          is_desktop_or_laptop={hook_is_desktop_or_laptop}
-        />
-      )}
-      {state_type === "grid" && (
-        <Grid
-          module_data={state_module_data}
-          is_desktop_or_laptop={hook_is_desktop_or_laptop}
-        />
-      )}
+      <div className="main-window">
+        {state_type === "multi_window" && (
+          <MultiWindow
+            module_data={state_module_data}
+            is_desktop_or_laptop={hook_is_desktop_or_laptop}
+          />
+        )}
+        {state_type === "grid" && (
+          <Grid
+            module_data={state_module_data}
+            is_desktop_or_laptop={hook_is_desktop_or_laptop}
+          />
+        )}
+      </div>
     </React.Fragment>
   );
 }

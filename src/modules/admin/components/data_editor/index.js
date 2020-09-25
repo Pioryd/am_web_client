@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 import useSelectHook from "../../../../hooks/select_hook";
 import { ConnectionContext } from "../../../../context/connection";
+import ModuleWindow from "../../../../components/module_window";
 
 import EditorScript from "./editor_script";
 import EditorJS from "./editor_js";
@@ -81,38 +82,47 @@ function DataEditor(props) {
   }, []);
 
   return (
-    <React.Fragment>
-      <Select
-        styles={{
-          // Fixes the overlapping problem of the component
-          menu: (provided) => ({ ...provided, zIndex: 9999 })
-        }}
-        value={hook_select_selected_option}
-        placeholder={`Select login data... [${
-          Object.keys(hook_select_options).length
-        }]`}
-        onChange={hook_select_fn.on_change}
-        options={hook_select_options}
-        isClearable={false}
-        isLoading={state_data_config === ""}
-      />
-      {state_data_type === "script" &&
-        hook_select_current_value.value != null && (
-          <EditorScript type={hook_select_current_value.id} />
-        )}
-      {state_data_type === "js" && hook_select_current_value.value != null && (
-        <EditorJS type={hook_select_current_value.id} />
-      )}
-      {state_data_type === "json" && hook_select_current_value.value != null && (
+    <ModuleWindow
+      bar={
+        <Select
+          styles={{
+            menu: (provided) => ({ ...provided, zIndex: 9999 })
+          }}
+          value={hook_select_selected_option}
+          placeholder={`Select login data... [${
+            Object.keys(hook_select_options).length
+          }]`}
+          onChange={hook_select_fn.on_change}
+          options={hook_select_options}
+          isClearable={false}
+          isLoading={state_data_config === ""}
+          menuPortalTarget={document.body}
+          maxMenuHeight={150}
+        />
+      }
+      content={
         <React.Fragment>
-          {/* <EditorJSON */}
-          <EditorYAML
-            rules={hook_select_current_value.value.validate}
-            type={hook_select_current_value.id}
-          />
+          {state_data_type === "script" &&
+            hook_select_current_value.value != null && (
+              <EditorScript type={hook_select_current_value.id} />
+            )}
+          {state_data_type === "js" &&
+            hook_select_current_value.value != null && (
+              <EditorJS type={hook_select_current_value.id} />
+            )}
+          {state_data_type === "json" &&
+            hook_select_current_value.value != null && (
+              <React.Fragment>
+                {/* <EditorJSON */}
+                <EditorYAML
+                  rules={hook_select_current_value.value.validate}
+                  type={hook_select_current_value.id}
+                />
+              </React.Fragment>
+            )}
         </React.Fragment>
-      )}
-    </React.Fragment>
+      }
+    />
   );
 }
 

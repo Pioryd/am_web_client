@@ -12,7 +12,7 @@ function List(props) {
     CONSOLE_LOGS_HEIGHT
   );
 
-  const update_displayed_log = messages => {
+  const update_displayed_log = (messages) => {
     const display_logs = [];
 
     for (let i = 0; i < messages.length; i++) {
@@ -51,13 +51,13 @@ function List(props) {
 
   return (
     <React.Fragment>
-      <div className="bar">
+      <div className="mU9_bar">
         <button onClick={props.hook_formatted_logs_fn.clear}>clear</button>
         <button onClick={resize_logs}>resize</button>
         <button onClick={show_hide}>show/hide</button>
       </div>
       <div
-        className="bar"
+        className="mU9_bar"
         style={{ height: state_logs_height, overflow: "auto" }}
       >
         {state_logs}

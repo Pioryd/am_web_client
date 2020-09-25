@@ -132,11 +132,12 @@ function AmEditor(props) {
   React.useEffect(() => {
     set_state_source_changed(false);
 
-    let current_object = null;
+    let current_label = null;
     for (const object of hook_protocol_objects_list)
-      if (object.id === state_current_object.id) current_object = object;
+      if (object.id === state_current_object.id)
+        current_label = props.create_label(object);
 
-    hook_select_fn.update(hook_protocol_objects_list, current_object);
+    hook_select_fn.update(hook_protocol_objects_list, current_label);
   }, [hook_protocol_objects_list]);
 
   React.useEffect(() => set_state_source_changed(true), [state_draft_mode]);
@@ -148,26 +149,25 @@ function AmEditor(props) {
   React.useEffect(reset, [props.protocol_ext_name]);
 
   return (
-    <div className="editor_content_body">
-      <div className="content_body">
-        <div className="bar">
-          <label>Actions:</label>
-          <button onClick={button.refresh}>refresh</button>
-          <button onClick={button.new}>new</button>
-          <button onClick={button.save}>save</button>
-          <button onClick={button.remove}>remove</button>
-          <button onClick={button.process}>process</button>
-          <button onClick={button.replace_id}>replace id</button>
-          <label>New ID:</label>
-          <input
-            className="input_value"
-            key="new_id"
-            name="new_id"
-            type="text"
-            value={state_new_id}
-            onChange={(e) => set_state_new_id(e.target.value)}
-          />
-        </div>
+    <div className="mU9_window">
+      <div className="mU9_bar">
+        <label>Actions:</label>
+        <button onClick={button.refresh}>refresh</button>
+        <button onClick={button.new}>new</button>
+        <button onClick={button.save}>save</button>
+        <button onClick={button.remove}>remove</button>
+        <button onClick={button.process}>process</button>
+        <button onClick={button.replace_id}>replace id</button>
+        <label>New ID:</label>
+        <input
+          className="input_value"
+          key="new_id"
+          name="new_id"
+          type="text"
+          value={state_new_id}
+          onChange={(e) => set_state_new_id(e.target.value)}
+        />
+
         <Select
           styles={{
             // Fixes the overlapping problem of the component
@@ -180,11 +180,15 @@ function AmEditor(props) {
           onChange={hook_select_fn.on_change}
           options={hook_select_options}
           isClearable={true}
+          menuPortalTarget={document.body}
+          maxMenuHeight={150}
         />
         <FormattedLogs.List
           hook_formatted_logs={hook_formatted_logs}
           hook_formatted_logs_fn={hook_formatted_logs_fn}
         />
+      </div>
+      <div className="mU9_content">
         <div className="am_source_editor">
           {hook_protocol_action_id !== "" ? (
             <div className="error_box">
@@ -201,7 +205,7 @@ function AmEditor(props) {
                 {state_source_changed === true &&
                   hook_select_selected_option !== "" &&
                   state_draft_mode === false && (
-                    <div className="bar">
+                    <div className="mU9_bar">
                       <label style={{ color: "red" }}>
                         Save to apply changes
                       </label>
@@ -220,7 +224,7 @@ function AmEditor(props) {
               </React.Fragment>
             )
           )}
-        </div>{" "}
+        </div>
       </div>
     </div>
   );

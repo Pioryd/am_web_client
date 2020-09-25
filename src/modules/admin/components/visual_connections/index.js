@@ -7,6 +7,7 @@ import Diagram from "beautiful-react-diagrams";
 import useSelectHook from "../../../../hooks/select_hook";
 import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
+import ModuleWindow from "../../../../components/module_window";
 
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-json";
@@ -323,12 +324,12 @@ const VisualConnections = () => {
   }, [hook_select_current_value]);
 
   return (
-    <div className="connections_area">
-      <div className="bar">
+    <ModuleWindow
+      bar={
         <div className="bar_area">
           <button
             key="switch_to_source_or_visual"
-            className="button"
+            className="bar_area_button"
             onClick={() => {
               state_mode === "visual" ? switch_to_source() : switch_to_visual();
             }}
@@ -336,46 +337,53 @@ const VisualConnections = () => {
             {state_mode === "visual" ? "Switch to source" : "Switch to visual"}
           </button>
           <label>Last sync: {state_last_sync}</label>
-          <button key="refresh_source" className="button" onClick={refresh}>
+          <button
+            key="refresh_source"
+            className="bar_area_button"
+            onClick={refresh}
+          >
             refresh
           </button>
-          <div className="select_area">
-            <Select
-              styles={react_select_custom_styles}
-              value={hook_select_selected_option}
-              placeholder={`Select to add/remove module [${
-                Object.keys(hook_select_options).length
-              }]`}
-              onChange={hook_select_fn.on_change}
-              options={hook_select_options.sort((a, b) =>
-                a.value.id.localeCompare(b.value.id)
-              )}
-              isClearable={true}
-              maxMenuHeight={150}
+          <Select
+            styles={react_select_custom_styles}
+            value={hook_select_selected_option}
+            placeholder={`Select to add/remove module [${
+              Object.keys(hook_select_options).length
+            }]`}
+            onChange={hook_select_fn.on_change}
+            options={hook_select_options.sort((a, b) =>
+              a.value.id.localeCompare(b.value.id)
+            )}
+            isClearable={true}
+            maxMenuHeight={150}
+            menuPortalTarget={document.body}
+          />
+        </div>
+      }
+      content={
+        <React.Fragment>
+          {state_error !== "" && (
+            <React.Fragment>
+              <p className="error_box_text">{state_error}</p>
+              <button onClick={() => set_state_error("")}>OK</button>
+            </React.Fragment>
+          )}
+          {state_mode === "visual" ? (
+            <Diagram schema={state_schema} onChange={set_state_schema} />
+          ) : (
+            <AceEditor
+              width="100%"
+              height="100%"
+              mode="json"
+              theme="monokai"
+              name="editor_name"
+              onChange={set_state_source}
+              value={state_source}
             />
-          </div>
-        </div>
-      </div>
-      {state_error !== "" && (
-        <div className="error_box">
-          <p className="text">{state_error}</p>
-          <button onClick={() => set_state_error("")}>OK</button>
-        </div>
-      )}
-      {state_mode === "visual" ? (
-        <Diagram schema={state_schema} onChange={set_state_schema} />
-      ) : (
-        <AceEditor
-          width="100%"
-          height="100%"
-          mode="json"
-          theme="monokai"
-          name="editor_name"
-          onChange={set_state_source}
-          value={state_source}
-        />
-      )}
-    </div>
+          )}
+        </React.Fragment>
+      }
+    />
   );
 };
 

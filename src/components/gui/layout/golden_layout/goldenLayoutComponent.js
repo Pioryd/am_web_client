@@ -14,7 +14,7 @@ export class GoldenLayoutComponent extends React.Component {
   render() {
     let panels = Array.from(this.state.renderPanels || []);
     return (
-      <div ref={this.containerRef} {...this.props.htmlAttrs}>
+      <div className="gl-main-container" ref={this.containerRef}>
         {panels.map((panel, index) => {
           return ReactDOM.createPortal(
             panel._getReactComponent(),

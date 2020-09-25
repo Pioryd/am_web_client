@@ -13,13 +13,7 @@
   stroke-dasharray: 2;
 }
 
-/* connections_area */
-.connections_area {
-  height: 100%;
-  width: 100%;
-}
-
-.connections_area .error_box .text {
+.error_box_text {
   margin: 0px;
   padding: 0px;
   text-align: center;
@@ -63,17 +57,8 @@
   z-index: 100;
 }
 
-/* Bar */
-.bar_area {
-  display: flex;
-}
-
-.bar_area .button {
+.bar_area_button {
   border: solid 1px #ffffff;
   height: auto;
   margin: 0px 2px 2px 2px;
-}
-
-.bar_area .select_area {
-  width: 100%;
 }

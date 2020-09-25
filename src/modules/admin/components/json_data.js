@@ -2,6 +2,7 @@ import React from "react";
 import ReactJson from "react-json-view";
 import { ConnectionContext } from "../../../context/connection";
 import Util from "../../../framework/util";
+import ModuleWindow from "../../../components/module_window";
 
 const DEFAULT_INTERVAL = 1000;
 const MIN_INTERVAL = 10;
@@ -34,7 +35,7 @@ function JsonData(props) {
   };
 
   React.useEffect(() => {
-    const packets = context_connection_fn.pop(props.packet_name);
+    const packets = context_connection_fn.peek(props.packet_name);
     if (packets.length === 0) return;
 
     const packet = packets.pop();
@@ -71,53 +72,59 @@ function JsonData(props) {
   }, [state_sync_interval, state_auto_sync]);
 
   return (
-    <React.Fragment>
-      <div className="bar">
-        {props.auto_sync === true && (
-          <React.Fragment>
-            <input
-              name="auto_sync"
-              type="checkbox"
-              checked={state_auto_sync}
-              onChange={(e) => set_state_auto_sync(e.target.checked)}
-            />
-            <input
-              className="input_value"
-              key="interval_value"
-              name="interval_value"
-              type="number"
-              value={state_sync_interval}
-              min={MIN_INTERVAL}
-              max={MAX_INTERVAL}
-              step={100}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (value >= MIN_INTERVAL && value <= MAX_INTERVAL)
-                  set_state_sync_interval(value);
-              }}
-            />
-          </React.Fragment>
-        )}
-        {props.refresh === true && (
-          <button className="process" onClick={refresh_json_data}>
-            refresh
-          </button>
-        )}
-        <label>{`Last sync: ${state_last_sync}`}</label>
-        {props.clear === true && (
-          <button className="process" onClick={clear_json_data}>
-            clear
-          </button>
-        )}
-      </div>
-      <ReactJson
-        name="JsonData"
-        src={state_json_data}
-        theme="bright:inverted"
-        indentWidth={2}
-        collapsed={true} // Not collapsed big data is lagging
-      />
-    </React.Fragment>
+    <ModuleWindow
+      bar={
+        <React.Fragment>
+          {props.auto_sync === true && (
+            <React.Fragment key="bar">
+              <input
+                name="auto_sync"
+                type="checkbox"
+                checked={state_auto_sync}
+                onChange={(e) => set_state_auto_sync(e.target.checked)}
+              />
+              <input
+                className="input_value"
+                key="interval_value"
+                name="interval_value"
+                type="number"
+                value={state_sync_interval}
+                min={MIN_INTERVAL}
+                max={MAX_INTERVAL}
+                step={100}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value >= MIN_INTERVAL && value <= MAX_INTERVAL)
+                    set_state_sync_interval(value);
+                }}
+              />
+            </React.Fragment>
+          )}
+          {props.refresh === true && (
+            <button className="process" onClick={refresh_json_data}>
+              refresh
+            </button>
+          )}
+          <label>{`Last sync: ${state_last_sync}`}</label>
+          {props.clear === true && (
+            <button className="process" onClick={clear_json_data}>
+              clear
+            </button>
+          )}
+        </React.Fragment>
+      }
+      content={
+        <React.Fragment key="content">
+          <ReactJson
+            name="JsonData"
+            src={state_json_data}
+            theme="bright:inverted"
+            indentWidth={2}
+            collapsed={true} // Not collapsed big data is lagging
+          />
+        </React.Fragment>
+      }
+    />
   );
 }
 
