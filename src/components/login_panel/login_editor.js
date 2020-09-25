@@ -8,10 +8,13 @@ import Util from "../../framework/util";
 import { AppContext } from "../../context/app";
 import Modules from "../../modules";
 
-import "./index.css";
+import "ace-builds/webpack-resolver";
+import "ace-builds/src-noconflict/theme-textmate";
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-min-noconflict/ext-searchbox";
+import "ace-builds/src-min-noconflict/ext-language_tools";
 
-require(`ace-builds/src-noconflict/theme-monokai`);
-require(`ace-builds/src-noconflict/mode-json`);
+import "./index.css";
 
 const create_label = (object) => `${object.name} @ ${object.id}`;
 
@@ -200,21 +203,14 @@ function LoginEditor(props) {
             {
               <AceEditor
                 mode="json"
-                theme="bright:inverted"
+                theme="textmate"
                 name="editor_name"
                 onChange={update_session}
                 value={state_current_session_data}
-                fontSize={14}
-                showPrintMargin={true}
-                showGutter={true}
-                highlightActiveLine={true}
                 setOptions={{
-                  useWorker: false,
-                  enableBasicAutocompletion: false,
-                  enableLiveAutocompletion: false,
-                  enableSnippets: false,
-                  showLineNumbers: true,
-                  tabSize: 2
+                  useSoftTabs: false,
+                  tabSize: 2,
+                  fontSize: 14
                 }}
               />
             }

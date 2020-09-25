@@ -1,8 +1,10 @@
 import React from "react";
-import AceEditor from "react-ace";
+import ResizableAceEditor from "../../../../packages/resizable_ace_editor";
+import ModuleWindow from "../../../../components/module_window";
 
 import Util from "../../../../framework/util";
 
+import "ace-builds/webpack-resolver";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 
@@ -104,6 +106,7 @@ function Editor(props) {
       enableBasicAutocompletion: false,
       enableLiveAutocompletion: false,
       enableSnippets: false,
+      useSoftTabs: false,
       showLineNumbers: state_ace_show_line_numbers,
       tabSize: state_ace_tab_size
     });
@@ -122,137 +125,150 @@ function Editor(props) {
   }, [state_draft_mode]);
 
   return (
-    <div onKeyDown={on_key_down}>
-      {state_draft_mode === true && (
-        <div className="mU9_bar" style={{ color: "red" }}>
-          Editor: (Draft mode). To leave draft mode press [ctrl + s].
-        </div>
-      )}
-      {state_last_log !== "" && (
-        <div className="mU9_bar" style={{ color: "red" }}>
-          Editor: {state_last_log}
-        </div>
-      )}
-      <div className="mU9_bar">
-        <div className="mU9_element">
-          <label>Show gutter:</label>
-          <input
-            name="show gutter"
-            type="checkbox"
-            checked={state_ace_show_gutter}
-            onChange={(e) => set_state_ace_show_gutter(e.target.checked)}
-          />
-        </div>
-        <div className="mU9_element">
-          <label>Show print margin:</label>
-          <input
-            name="show print margin"
-            type="checkbox"
-            checked={state_ace_show_print_margin}
-            onChange={(e) => set_state_ace_show_print_margin(e.target.checked)}
-          />
-        </div>
-        <div className="mU9_element">
-          <label>Highlight active line:</label>
-          <input
-            name="highlight active line"
-            type="checkbox"
-            checked={state_ace_highlight_active_line}
-            onChange={(e) =>
-              set_state_ace_highlight_active_line(e.target.checked)
-            }
-          />
-        </div>
-        <div className="mU9_element">
-          <label>Show line numbers:</label>
-          <input
-            name="show line numbers"
-            type="checkbox"
-            checked={state_ace_show_line_numbers}
-            onChange={(e) => set_state_ace_show_line_numbers(e.target.checked)}
-          />
-        </div>
-        <div className="mU9_element">
-          <label>Font size:</label>
-          <input
-            key="font size"
-            name="font size"
-            type="number"
-            value={state_ace_font_size}
-            min={1}
-            max={30}
-            step={1}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value >= 1 && value <= 30)
-                set_state_ace_font_size(parseInt(value));
-            }}
-          />
-        </div>
-        <div className="mU9_element">
-          <label>Tab size:</label>
-          <input
-            key="tab size"
-            name="tab size"
-            type="number"
-            value={state_ace_tab_size}
-            min={1}
-            max={30}
-            step={1}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value >= 1 && value <= 30)
-                set_state_ace_tab_size(parseInt(value));
-            }}
-          />
-        </div>
-        <div className="mU9_element">
-          <label>Theme:</label>
-          <select
-            name="Theme"
-            onChange={(e) => set_state_ace_theme(e.target.value)}
-            value={state_ace_theme}
-          >
-            {themes.map((theme) => (
-              <option key={theme} value={theme}>
-                {theme}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mU9_element">
-          <label>Highlight:</label>
-          <select
-            name="ParseMode"
-            onChange={(e) => set_state_ace_mode(e.target.value)}
-            value={state_ace_mode}
-          >
-            {props.ace_modes.map((mode) => (
-              <option key={mode} value={mode}>
-                {mode}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mU9_element">
-          <label>Validate/Parse (ctrl + s)</label>
-        </div>
-      </div>
-      <div className="E5m_source_editor">
-        <AceEditor
-          width={"100%"}
-          mode={state_ace_mode}
-          theme={state_ace_theme}
-          name="editor_name"
-          onChange={on_change}
-          value={state_source}
-          fontSize={state_ace_font_size}
-          showPrintMargin={state_ace_show_print_margin}
-          showGutter={state_ace_show_gutter}
-          highlightActiveLine={state_ace_highlight_active_line}
-          setOptions={state_ace_options}
-        />
-      </div>
+    <div className="E5m_am_source_editor" onKeyDown={on_key_down}>
+      <ModuleWindow
+        bar={
+          <React.Fragment>
+            {state_draft_mode === true && (
+              <div className="mU9_bar" style={{ color: "red" }}>
+                Editor: (Draft mode). To leave draft mode press [ctrl + s].
+              </div>
+            )}
+            {state_last_log !== "" && (
+              <div className="mU9_bar" style={{ color: "red" }}>
+                Editor: {state_last_log}
+              </div>
+            )}
+            <div className="mU9_bar">
+              <div className="mU9_element">
+                <label>Show gutter:</label>
+                <input
+                  name="show gutter"
+                  type="checkbox"
+                  checked={state_ace_show_gutter}
+                  onChange={(e) => set_state_ace_show_gutter(e.target.checked)}
+                />
+              </div>
+              <div className="mU9_element">
+                <label>Show print margin:</label>
+                <input
+                  name="show print margin"
+                  type="checkbox"
+                  checked={state_ace_show_print_margin}
+                  onChange={(e) =>
+                    set_state_ace_show_print_margin(e.target.checked)
+                  }
+                />
+              </div>
+              <div className="mU9_element">
+                <label>Highlight active line:</label>
+                <input
+                  name="highlight active line"
+                  type="checkbox"
+                  checked={state_ace_highlight_active_line}
+                  onChange={(e) =>
+                    set_state_ace_highlight_active_line(e.target.checked)
+                  }
+                />
+              </div>
+              <div className="mU9_element">
+                <label>Show line numbers:</label>
+                <input
+                  name="show line numbers"
+                  type="checkbox"
+                  checked={state_ace_show_line_numbers}
+                  onChange={(e) =>
+                    set_state_ace_show_line_numbers(e.target.checked)
+                  }
+                />
+              </div>
+              <div className="mU9_element">
+                <label>Font size:</label>
+                <input
+                  key="font size"
+                  name="font size"
+                  type="number"
+                  value={state_ace_font_size}
+                  min={1}
+                  max={30}
+                  step={1}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value >= 1 && value <= 30)
+                      set_state_ace_font_size(parseInt(value));
+                  }}
+                />
+              </div>
+              <div className="mU9_element">
+                <label>Tab size:</label>
+                <input
+                  key="tab size"
+                  name="tab size"
+                  type="number"
+                  value={state_ace_tab_size}
+                  min={1}
+                  max={30}
+                  step={1}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value >= 1 && value <= 30)
+                      set_state_ace_tab_size(parseInt(value));
+                  }}
+                />
+              </div>
+              <div className="mU9_element">
+                <label>Theme:</label>
+                <select
+                  name="Theme"
+                  onChange={(e) => set_state_ace_theme(e.target.value)}
+                  value={state_ace_theme}
+                >
+                  {themes.map((theme) => (
+                    <option key={theme} value={theme}>
+                      {theme}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mU9_element">
+                <label>Highlight:</label>
+                <select
+                  name="ParseMode"
+                  onChange={(e) => set_state_ace_mode(e.target.value)}
+                  value={state_ace_mode}
+                >
+                  {props.ace_modes.map((mode) => (
+                    <option key={mode} value={mode}>
+                      {mode}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mU9_element">
+                <label>Validate/Parse (ctrl + s)</label>
+              </div>
+            </div>
+          </React.Fragment>
+        }
+        content={
+          <React.Fragment key="content">
+            {/* <div className="E5m_source_editor"> */}
+            <ResizableAceEditor
+              mode={state_ace_mode}
+              theme={state_ace_theme}
+              name="editor_name"
+              onChange={on_change}
+              value={state_source}
+              fontSize={state_ace_font_size}
+              showPrintMargin={state_ace_show_print_margin}
+              showGutter={state_ace_show_gutter}
+              highlightActiveLine={state_ace_highlight_active_line}
+              setOptions={state_ace_options}
+            />
+            {/* </div> */}
+          </React.Fragment>
+        }
+      />
     </div>
   );
 }

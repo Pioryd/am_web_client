@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import AceEditor from "react-ace";
+import ResizableAceEditor from "../../../../packages/resizable_ace_editor";
 import useSelectHook from "../../../../hooks/select_hook";
 import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
@@ -49,7 +49,10 @@ function Api(props) {
   );
   const [state_source, set_state_source] = React.useState("");
   const [state_validate_error, set_state_validate_error] = React.useState("");
-
+  const [state_editor_size_px, set_state_editor_size_px] = React.useState({
+    width: "100px",
+    height: "100px"
+  });
   const parse_packet = () => {
     const packets = context_connection_fn.peek(PACKET_NAME);
     if (packets.length === 0) return;
@@ -170,17 +173,18 @@ function Api(props) {
             <label className="E5m_error">{state_validate_error}</label>
           )}
           <div className="E5m_editor">
-            <div className="E5m_area">
-              <AceEditor
-                width="100%"
-                height="100%"
-                mode="json"
-                theme="monokai"
-                name="editor_name"
-                onChange={on_change}
-                value={state_source}
-              />
-            </div>
+            <ResizableAceEditor
+              mode="json"
+              theme="monokai"
+              name="editor_name"
+              onChange={on_change}
+              value={state_source}
+              setOptions={{
+                useSoftTabs: false,
+                tabSize: 2,
+                fontSize: 14
+              }}
+            />
           </div>
         </React.Fragment>
       }

@@ -1,6 +1,7 @@
 import React from "react";
 
-import AceEditor from "react-ace";
+import ResizableAceEditor from "../../../../packages/resizable_ace_editor";
+
 import _ from "lodash";
 import Select from "react-select";
 import Diagram from "beautiful-react-diagrams";
@@ -9,6 +10,7 @@ import { ConnectionContext } from "../../../../context/connection";
 import Util from "../../../../framework/util";
 import ModuleWindow from "../../../../components/module_window";
 
+import "ace-builds/webpack-resolver";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-min-noconflict/ext-searchbox";
@@ -16,7 +18,7 @@ import "ace-builds/src-min-noconflict/ext-language_tools";
 
 import "beautiful-react-diagrams/styles.css";
 
-require("./index.css");
+import "./index.css";
 
 const react_select_custom_styles = {
   menu: (provided, state) => {
@@ -367,14 +369,17 @@ const VisualConnections = () => {
           {state_mode === "visual" ? (
             <Diagram schema={state_schema} onChange={set_state_schema} />
           ) : (
-            <AceEditor
-              width="100%"
-              height="100%"
+            <ResizableAceEditor
               mode="json"
               theme="monokai"
               name="editor_name"
               onChange={set_state_source}
               value={state_source}
+              setOptions={{
+                useSoftTabs: false,
+                tabSize: 2,
+                fontSize: 14
+              }}
             />
           )}
         </React.Fragment>

@@ -2,10 +2,13 @@ import React from "react";
 import AceEditor from "react-ace";
 import { AppContext } from "../../context/app";
 
-import "./index.css";
+import "ace-builds/webpack-resolver";
+import "ace-builds/src-noconflict/theme-textmate";
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-min-noconflict/ext-searchbox";
+import "ace-builds/src-min-noconflict/ext-language_tools";
 
-require(`ace-builds/src-noconflict/theme-monokai`);
-require(`ace-builds/src-noconflict/mode-json`);
+import "./index.css";
 
 function EditJson(props) {
   const { context_app_fn } = React.useContext(AppContext);
@@ -55,21 +58,14 @@ function EditJson(props) {
       <div className="A8t_source-editor">
         <AceEditor
           mode="json"
-          theme="bright:inverted"
+          theme="textmate"
           name="editor_name"
           onChange={set_state_source_as_string}
           value={state_source_as_string}
-          fontSize={14}
-          showPrintMargin={true}
-          showGutter={true}
-          highlightActiveLine={true}
           setOptions={{
-            useWorker: false,
-            enableBasicAutocompletion: false,
-            enableLiveAutocompletion: false,
-            enableSnippets: false,
-            showLineNumbers: true,
-            tabSize: 2
+            useSoftTabs: false,
+            tabSize: 2,
+            fontSize: 14
           }}
         />
       </div>

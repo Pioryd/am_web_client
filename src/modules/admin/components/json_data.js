@@ -76,7 +76,7 @@ function JsonData(props) {
       bar={
         <React.Fragment>
           {props.auto_sync === true && (
-            <React.Fragment key="bar">
+            <React.Fragment>
               <input
                 name="auto_sync"
                 type="checkbox"
@@ -109,7 +109,7 @@ function JsonData(props) {
         </React.Fragment>
       }
       content={
-        <React.Fragment key="content">
+        <React.Fragment>
           <ReactJson
             name="JsonData"
             src={state_json_data}

@@ -1,7 +1,9 @@
-.E5m_source_editor {
+.E5m_am_source_editor {
   height: 100%;
   width: 100%;
   position: relative;
+  margin: 0px;
+  padding: 0px;
 }
 
 .E5m_am_source_editor .E5m_error_box {

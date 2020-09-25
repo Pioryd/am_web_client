@@ -5,6 +5,7 @@ import FormattedLogs from "../formatted_logs";
 
 import useProtocolHook from "./protocol_hook";
 import useSelectHook from "../../../../hooks/select_hook";
+import ModuleWindow from "../../../../components/module_window";
 
 import "./index.css";
 
@@ -149,45 +150,47 @@ function AmEditor(props) {
   React.useEffect(reset, [props.protocol_ext_name]);
 
   return (
-    <div className="mU9_window">
-      <div className="mU9_bar">
-        <label>Actions:</label>
-        <button onClick={button.refresh}>refresh</button>
-        <button onClick={button.new}>new</button>
-        <button onClick={button.save}>save</button>
-        <button onClick={button.remove}>remove</button>
-        <button onClick={button.process}>process</button>
-        <button onClick={button.replace_id}>replace id</button>
-        <label>New ID:</label>
-        <input
-          key="new_id"
-          name="new_id"
-          type="text"
-          value={state_new_id}
-          onChange={(e) => set_state_new_id(e.target.value)}
-        />
+    <ModuleWindow
+      bar={
+        <React.Fragment>
+          <label>Actions:</label>
+          <button onClick={button.refresh}>refresh</button>
+          <button onClick={button.new}>new</button>
+          <button onClick={button.save}>save</button>
+          <button onClick={button.remove}>remove</button>
+          <button onClick={button.process}>process</button>
+          <button onClick={button.replace_id}>replace id</button>
+          <label>New ID:</label>
+          <input
+            key="new_id"
+            name="new_id"
+            type="text"
+            value={state_new_id}
+            onChange={(e) => set_state_new_id(e.target.value)}
+          />
 
-        <Select
-          styles={{
-            menu: (provided) => ({ ...provided, zIndex: 9999 })
-          }}
-          value={hook_select_selected_option}
-          placeholder={`Select script data... [${
-            Object.keys(hook_select_options).length
-          }]`}
-          onChange={hook_select_fn.on_change}
-          options={hook_select_options}
-          isClearable={true}
-          menuPortalTarget={document.body}
-          maxMenuHeight={150}
-        />
-        <FormattedLogs.List
-          hook_formatted_logs={hook_formatted_logs}
-          hook_formatted_logs_fn={hook_formatted_logs_fn}
-        />
-      </div>
-      <div className="mU9_content">
-        <div className="E5m_am_source_editor">
+          <Select
+            styles={{
+              menu: (provided) => ({ ...provided, zIndex: 9999 })
+            }}
+            value={hook_select_selected_option}
+            placeholder={`Select script data... [${
+              Object.keys(hook_select_options).length
+            }]`}
+            onChange={hook_select_fn.on_change}
+            options={hook_select_options}
+            isClearable={true}
+            menuPortalTarget={document.body}
+            maxMenuHeight={150}
+          />
+          <FormattedLogs.List
+            hook_formatted_logs={hook_formatted_logs}
+            hook_formatted_logs_fn={hook_formatted_logs_fn}
+          />
+        </React.Fragment>
+      }
+      content={
+        <React.Fragment>
           {hook_protocol_action_id !== "" ? (
             <div className="E5m_error_box">
               <label>
@@ -222,9 +225,9 @@ function AmEditor(props) {
               </React.Fragment>
             )
           )}
-        </div>
-      </div>
-    </div>
+        </React.Fragment>
+      }
+    />
   );
 }
 
