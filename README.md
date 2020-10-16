@@ -43,7 +43,8 @@ When adding, take an example from existing ones.
 ### Add new module
 
 1. Create module folder named as module name in [`src/modules`] on the example of existing components.
-2. Add module to [`ModuleWindowsMap`] in [`src/components/gui/index.js`] on the example of existing components.
+2. Create [`index.js`] on the example of existing components.
+3. Import module to [`src/modules/index.js`].
 
 #### Add general component
 
@@ -51,12 +52,7 @@ Add component to [`src/modules/module_name/components`] on the example of existi
 
 #### Add window (component)
 
-1. Add component to [`src/modules/module_name/windows`] on the example of existing windows.
-2. Add component(window) to [`src/modules/module_name/index.js`] on the example of existing windows.
-
-#### Add protocol
-
-1. Create [`src/modules/module_name/hooks/parse_packet.js`], example: [`src/modules/admin/hooks/parse_packet.js`]
-2. Add this protocol to [`src/context/protocol.js`] on the example of existing modules.
+1. Add pure component to [`src/modules/module_name/windows`] on the example of existing windows.
+2. Import component(window) to [`src/modules/module_name/index.js`] on the example of existing windows.
 
 ## More informations at [Artificial Mind](https://www.artificialmind.dev/)
