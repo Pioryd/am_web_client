@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function useHandler(props) {
   const [state_messages, set_state_messages] = React.useState([]);
@@ -9,13 +10,16 @@ function useHandler(props) {
       add: ({ type, text, date = new Date() }) => {
         const messages = [...state_messages];
 
-        messages.push({ type, text, date });
-        messages.sort(function(a, b) {
+        const key = uuidv4();
+        messages.push({ key, type, text, date });
+        messages.sort(function (a, b) {
           return b.date - a.date;
         });
 
         set_state_messages(messages);
       },
+      remove_message: (key) =>
+        set_state_messages([...state_messages.filter((el) => el.key !== key)]),
       clear: () => set_state_messages([])
     }
   };

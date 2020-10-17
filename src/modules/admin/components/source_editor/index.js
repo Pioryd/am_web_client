@@ -119,6 +119,9 @@ function AmEditor(props) {
         hook_protocol_fn.replace_id(state_current_object.id, state_new_id);
         set_state_new_id("");
       }
+    },
+    clear_logs() {
+      hook_formatted_logs_fn.clear();
     }
   };
 
@@ -168,6 +171,7 @@ function AmEditor(props) {
             value={state_new_id}
             onChange={(e) => set_state_new_id(e.target.value)}
           />
+          <button onClick={button.clear_logs}>clear logs</button>
 
           <Select
             styles={{

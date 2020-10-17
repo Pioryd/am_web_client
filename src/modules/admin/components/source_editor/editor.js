@@ -39,6 +39,7 @@ function Editor(props) {
   const [state_source, set_state_source] = React.useState("");
   const [state_draft_mode, set_state_draft_mode] = React.useState(true);
   const [state_last_log, set_state_last_log] = React.useState("");
+  const [state_menu_visible, set_state_menu_visible] = React.useState(false);
 
   const [state_ace_theme, set_state_ace_theme] = React.useState("textmate");
   const [state_ace_mode, set_state_ace_mode] = React.useState(
@@ -140,119 +141,129 @@ function Editor(props) {
               </div>
             )}
             <div className="mU9_bar">
-              <div className="mU9_element">
-                <label>Show gutter:</label>
-                <input
-                  name="show gutter"
-                  type="checkbox"
-                  checked={state_ace_show_gutter}
-                  onChange={(e) => set_state_ace_show_gutter(e.target.checked)}
-                />
-              </div>
-              <div className="mU9_element">
-                <label>Show print margin:</label>
-                <input
-                  name="show print margin"
-                  type="checkbox"
-                  checked={state_ace_show_print_margin}
-                  onChange={(e) =>
-                    set_state_ace_show_print_margin(e.target.checked)
-                  }
-                />
-              </div>
-              <div className="mU9_element">
-                <label>Highlight active line:</label>
-                <input
-                  name="highlight active line"
-                  type="checkbox"
-                  checked={state_ace_highlight_active_line}
-                  onChange={(e) =>
-                    set_state_ace_highlight_active_line(e.target.checked)
-                  }
-                />
-              </div>
-              <div className="mU9_element">
-                <label>Show line numbers:</label>
-                <input
-                  name="show line numbers"
-                  type="checkbox"
-                  checked={state_ace_show_line_numbers}
-                  onChange={(e) =>
-                    set_state_ace_show_line_numbers(e.target.checked)
-                  }
-                />
-              </div>
-              <div className="mU9_element">
-                <label>Font size:</label>
-                <input
-                  key="font size"
-                  name="font size"
-                  type="number"
-                  value={state_ace_font_size}
-                  min={1}
-                  max={30}
-                  step={1}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value >= 1 && value <= 30)
-                      set_state_ace_font_size(parseInt(value));
-                  }}
-                />
-              </div>
-              <div className="mU9_element">
-                <label>Tab size:</label>
-                <input
-                  key="tab size"
-                  name="tab size"
-                  type="number"
-                  value={state_ace_tab_size}
-                  min={1}
-                  max={30}
-                  step={1}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value >= 1 && value <= 30)
-                      set_state_ace_tab_size(parseInt(value));
-                  }}
-                />
-              </div>
-              <div className="mU9_element">
-                <label>Theme:</label>
-                <select
-                  name="Theme"
-                  onChange={(e) => set_state_ace_theme(e.target.value)}
-                  value={state_ace_theme}
-                >
-                  {themes.map((theme) => (
-                    <option key={theme} value={theme}>
-                      {theme}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="mU9_element">
-                <label>Highlight:</label>
-                <select
-                  name="ParseMode"
-                  onChange={(e) => set_state_ace_mode(e.target.value)}
-                  value={state_ace_mode}
-                >
-                  {props.ace_modes.map((mode) => (
-                    <option key={mode} value={mode}>
-                      {mode}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="mU9_element">
-                <label>Validate/Parse (ctrl + s)</label>
-              </div>
+              <button
+                onClick={() => set_state_menu_visible(!state_menu_visible)}
+              >
+                {state_menu_visible ? "hide" : "show menu"}
+              </button>
+              {state_menu_visible && (
+                <React.Fragment>
+                  <div className="mU9_element">
+                    <label>Show gutter:</label>
+                    <input
+                      name="show gutter"
+                      type="checkbox"
+                      checked={state_ace_show_gutter}
+                      onChange={(e) =>
+                        set_state_ace_show_gutter(e.target.checked)
+                      }
+                    />
+                  </div>
+                  <div className="mU9_element">
+                    <label>Show print margin:</label>
+                    <input
+                      name="show print margin"
+                      type="checkbox"
+                      checked={state_ace_show_print_margin}
+                      onChange={(e) =>
+                        set_state_ace_show_print_margin(e.target.checked)
+                      }
+                    />
+                  </div>
+                  <div className="mU9_element">
+                    <label>Highlight active line:</label>
+                    <input
+                      name="highlight active line"
+                      type="checkbox"
+                      checked={state_ace_highlight_active_line}
+                      onChange={(e) =>
+                        set_state_ace_highlight_active_line(e.target.checked)
+                      }
+                    />
+                  </div>
+                  <div className="mU9_element">
+                    <label>Show line numbers:</label>
+                    <input
+                      name="show line numbers"
+                      type="checkbox"
+                      checked={state_ace_show_line_numbers}
+                      onChange={(e) =>
+                        set_state_ace_show_line_numbers(e.target.checked)
+                      }
+                    />
+                  </div>
+                  <div className="mU9_element">
+                    <label>Font size:</label>
+                    <input
+                      key="font size"
+                      name="font size"
+                      type="number"
+                      value={state_ace_font_size}
+                      min={1}
+                      max={30}
+                      step={1}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value >= 1 && value <= 30)
+                          set_state_ace_font_size(parseInt(value));
+                      }}
+                    />
+                  </div>
+                  <div className="mU9_element">
+                    <label>Tab size:</label>
+                    <input
+                      key="tab size"
+                      name="tab size"
+                      type="number"
+                      value={state_ace_tab_size}
+                      min={1}
+                      max={30}
+                      step={1}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value >= 1 && value <= 30)
+                          set_state_ace_tab_size(parseInt(value));
+                      }}
+                    />
+                  </div>
+                  <div className="mU9_element">
+                    <label>Theme:</label>
+                    <select
+                      name="Theme"
+                      onChange={(e) => set_state_ace_theme(e.target.value)}
+                      value={state_ace_theme}
+                    >
+                      {themes.map((theme) => (
+                        <option key={theme} value={theme}>
+                          {theme}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mU9_element">
+                    <label>Highlight:</label>
+                    <select
+                      name="ParseMode"
+                      onChange={(e) => set_state_ace_mode(e.target.value)}
+                      value={state_ace_mode}
+                    >
+                      {props.ace_modes.map((mode) => (
+                        <option key={mode} value={mode}>
+                          {mode}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mU9_element">
+                    <label>Validate/Parse (ctrl + s)</label>
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </React.Fragment>
         }
         content={
-          <React.Fragment key="content">
-            {/* <div className="E5m_source_editor"> */}
+          <React.Fragment>
             <ResizableAceEditor
               mode={state_ace_mode}
               theme={state_ace_theme}
@@ -265,7 +276,6 @@ function Editor(props) {
               highlightActiveLine={state_ace_highlight_active_line}
               setOptions={state_ace_options}
             />
-            {/* </div> */}
           </React.Fragment>
         }
       />

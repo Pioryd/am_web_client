@@ -1,10 +1,24 @@
+.Y4l_resizable {
+  resize: vertical;
+  overflow: auto;
+  max-width: 100%;
+}
+
 .Y4l_log_element {
   background-color: #ffffff;
   border: 1px solid #000000;
   white-space: pre-line;
+  display: flex;
+}
+
+.Y4l_log_element .Y4l_remove_button {
+  color: #000000;
+  float: right;
+  margin-right: 0px;
 }
 
 .Y4l_log_element pre {
+  width: 100%;
   padding: 1px 1px 1px 1px;
   margin: 1px 1px 1px 1px;
 }
