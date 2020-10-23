@@ -37,11 +37,7 @@ function List(props) {
 
   return (
     <React.Fragment>
-      <div className="Y4l_resizable">
-        <div className="mU9_bar" style={{ overflow: "auto" }}>
-          {state_logs}
-        </div>
-      </div>
+      <div className="Y4l_resizable">{state_logs}</div>
     </React.Fragment>
   );
 }
